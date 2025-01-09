@@ -438,7 +438,7 @@ class EventFilterViewSet(generics.GenericAPIView):
         if name:
             queryset = EventBooking.objects.filter(name__icontains=name)
         else:
-            queryset = EventBooking.objects.filter(date=filter_date)
+            queryset = EventBooking.objects.filter(event_date=filter_date)
         
         serializer = EventBookingSerializer(queryset, many=True)
         return Response(
