@@ -104,7 +104,7 @@ class CategoryGetViewSet(generics.GenericAPIView):
         try:
             category = Category.objects.get(pk=pk)
             serializer = CategorySerializer(category, data=request.data)
-            if serializer.is_valid():
+            if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(
                     {
@@ -194,7 +194,7 @@ class ItemViewSet(generics.GenericAPIView):
                 status=status.HTTP_200_OK,
             )
         serializer = ItemSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(
                 {
@@ -233,7 +233,7 @@ class ItemGetViewSet(generics.GenericAPIView):
         try:
             item = Item.objects.get(pk=pk)
             serializer = ItemSerializer(item, data=request.data)
-            if serializer.is_valid():
+            if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(
                     {
@@ -314,7 +314,7 @@ class EventBookingViewSet(generics.GenericAPIView):
 
     def post(self, request):
         serializer = EventBookingSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(
                 {
@@ -353,7 +353,7 @@ class EventBookingGetViewSet(generics.GenericAPIView):
         try:
             eventbooking = EventBooking.objects.get(pk=pk)
             serializer = EventBookingSerializer(eventbooking, data=request.data)
-            if serializer.is_valid():
+            if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(
                     {

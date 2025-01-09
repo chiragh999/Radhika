@@ -82,6 +82,10 @@ class EventBooking(models.Model):
     def formatted_event_date(self):
         return self.event_date.strftime("%d-%m-%Y")
     
+    @property
+    def formatted_date(self):
+        return self.event_date.strftime("%d-%m-%Y")
+    
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)

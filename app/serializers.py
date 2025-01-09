@@ -18,6 +18,15 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'items']
 
 class EventBookingSerializer(serializers.ModelSerializer):
+    event_date = serializers.DateField(
+        input_formats=['%d-%m-%Y'],  # Accept DD-MM-YYYY in the payload
+        format='%d-%m-%Y'           # Return DD-MM-YYYY in the response
+    )
+    date = serializers.DateField(
+        format='%d-%m-%Y',  # Format for response
+        read_only=True
+    )
+
     class Meta:
         model = EventBooking
         fields = [
@@ -34,6 +43,4 @@ class EventBookingSerializer(serializers.ModelSerializer):
             'estimated_persons',
             'selected_items',
             'description',
-            'created_at',
-            'updated_at'
         ]
