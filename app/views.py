@@ -434,9 +434,7 @@ class EventFilterViewSet(generics.GenericAPIView):
     def post(self, request):
         filter_date = request.data.get("date", None)
         name = request.data.get("name",None)
-        print(filter_date,'#'*100,request.data)
         if name:
-            print("aaasssss")
             queryset = EventBooking.objects.filter(name__icontains=name)
             serializer = EventBookingSerializer(queryset, many=True)
         elif filter_date:
