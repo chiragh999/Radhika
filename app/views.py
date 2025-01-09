@@ -3,7 +3,7 @@ from rest_framework import status, generics
 from django.contrib.auth import authenticate
 from .models import Category, Item, EventBooking
 from .serializers import *
-from datetime import date
+from datetime import date, datetime
 
 
 # --------------------    LoginViewSet    --------------------
@@ -432,15 +432,27 @@ class EventFilterViewSet(generics.GenericAPIView):
     serializer_class = EventBookingSerializer
 
     def post(self, request):
-        filter_date = request.data.get("date", date.today())
-        name = request.data.get("name")
-        
+        filter_date = request.data.get("date", None)
+        name = request.data.get("name",None)
+        print(filter_date,'#'*100,request.data)
         if name:
+            print("aaasssss")
             queryset = EventBooking.objects.filter(name__icontains=name)
+            serializer = EventBookingSerializer(queryset, many=True)
+        elif filter_date:
+            date_object = datetime.strptime(filter_date, "%d-%m-%Y")
+            output_date = date_object.strftime("%Y-%m-%d")
+            queryset = EventBooking.objects.filter(event_date=output_date)
+            serializer = EventBookingSerializer(queryset, many=True)
         else:
-            queryset = EventBooking.objects.filter(event_date=filter_date)
-        
-        serializer = EventBookingSerializer(queryset, many=True)
+            return Response(
+            {
+                "status": True,
+                "message": "No Any EventBooking list",
+                "data": {},
+            },
+            status=status.HTTP_200_OK,
+        )
         return Response(
             {
                 "status": True,
