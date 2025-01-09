@@ -317,12 +317,12 @@ class EventBookingViewSet(generics.GenericAPIView):
         converted_payload = {key: {"name": value[0]} for key, value in request.data.get("selected_items").items()}
         request.data['selected_items'] = converted_payload
         if serializer.is_valid(raise_exception=True):
-            # serializer.save()
+            serializer.save()
             return Response(
                 {
                     "status": True,
                     "message": "EventBooking created successfully",
-                    "data": "serializer.data",
+                    "data": serializer.data,
                 },
                 status=status.HTTP_200_OK,
             )
