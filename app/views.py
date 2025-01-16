@@ -354,6 +354,8 @@ class EventBookingGetViewSet(generics.GenericAPIView):
     def put(self, request, pk=None):
         try:
             eventbooking = EventBooking.objects.get(pk=pk)
+            converted_payload = {key: {"name": value[0]} for key, value in request.data.get("selected_items").items()}
+            request.data['selected_items'] = converted_payload
             serializer = EventBookingSerializer(eventbooking, data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
