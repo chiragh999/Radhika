@@ -313,9 +313,16 @@ class EventBookingViewSet(generics.GenericAPIView):
     serializer_class = EventBookingSerializer
 
     def post(self, request):
+        # Convert the selected_items payload
+        selected_items = request.data.get("selected_items", {})
+        converted_payload = {
+            key: [{"name": item} for item in value] for key, value in selected_items.items()
+        }
+        request.data["selected_items"] = converted_payload
+
+        # converted_payload = {key: {"name": value[0]} for key, value in request.data.get("selected_items").items()}
+        # request.data['selected_items'] = converted_payload
         serializer = EventBookingSerializer(data=request.data)
-        converted_payload = {key: {"name": value[0]} for key, value in request.data.get("selected_items").items()}
-        request.data['selected_items'] = converted_payload
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(
@@ -354,8 +361,13 @@ class EventBookingGetViewSet(generics.GenericAPIView):
     def put(self, request, pk=None):
         try:
             eventbooking = EventBooking.objects.get(pk=pk)
-            converted_payload = {key: {"name": value[0]} for key, value in request.data.get("selected_items").items()}
-            request.data['selected_items'] = converted_payload
+            selected_items = request.data.get("selected_items", {})
+            converted_payload = {
+                key: [{"name": item} for item in value] for key, value in selected_items.items()
+            }
+            request.data["selected_items"] = converted_payload
+            # converted_payload = {key: {"name": value[0]} for key, value in request.data.get("selected_items").items()}
+            # request.data['selected_items'] = converted_payload
             serializer = EventBookingSerializer(eventbooking, data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
