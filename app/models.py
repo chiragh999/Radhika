@@ -89,3 +89,7 @@ class EventBooking(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
+
+class StokeMangeModel(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='stokemange')
+    
