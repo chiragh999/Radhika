@@ -90,6 +90,6 @@ class EventBooking(models.Model):
         self.full_clean()
         super().save(*args, **kwargs)
 
-class StokeMangeModel(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='stokemange')
+# class StokeMangeModel(models.Model):
+#     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='stokemange')
     
