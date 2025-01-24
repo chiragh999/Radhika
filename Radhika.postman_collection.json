@@ -1,0 +1,358 @@
+{
+	"info": {
+		"_postman_id": "69d1a8fa-db96-4f55-a376-76d8bcc009c1",
+		"name": "Radhika",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "40162854"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"pm.environment.set(\"token\", response.data.tokens.access);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"Admin\",\n    \"password\" : \"Admin@123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/login/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "categories",
+			"item": [
+				{
+					"name": "all-categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseurl}}/categories/"
+					},
+					"response": []
+				},
+				{
+					"name": "add-categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"પાણી\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/categories/"
+					},
+					"response": []
+				},
+				{
+					"name": "categories-by-ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseurl}}/categories/2/"
+					},
+					"response": []
+				},
+				{
+					"name": "delete-categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{baseurl}}/categories/1/"
+					},
+					"response": []
+				},
+				{
+					"name": "update-categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/categories/2/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Items",
+			"item": [
+				{
+					"name": "all-items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseurl}}/items/"
+					},
+					"response": []
+				},
+				{
+					"name": "add-items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"500 મિલી\",\n    \"category\": \"2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/items/"
+					},
+					"response": []
+				},
+				{
+					"name": "update-items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Manchow\",\n    \"category\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/items/1/"
+					},
+					"response": []
+				},
+				{
+					"name": "items-by-ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseurl}}/items/1/"
+					},
+					"response": []
+				},
+				{
+					"name": "delete-items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{baseurl}}/items/6/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "event-bookings",
+			"item": [
+				{
+					"name": "all-event-bookings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseurl}}/event-bookings/"
+					},
+					"response": []
+				},
+				{
+					"name": "add-event-bookings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"રાજુભાઈ\",\n    \"mobile_no\": \"998867025\",\n    \"reference\": \"ચિરાગ\",\n    \"event_date\": \"25-01-2025\",\n    // \"event_date\": \"2025-01-20\",\n    \"event_time\": \"10:00\",\n    \"event_address\": \"સુદામા ચોક\",\n    \"advance_amount\": \"1000\",\n    \"per_dish_amount\": \"200\",\n    \"estimated_persons\": \"500\",\n    // \"selected_items\" : {\"Water\": {\"name\": \"200 ml\"}}\n    \"selected_items\" : {\"સૂપ\": [\"મનચાઉ\",\"ટામેટા\"],\"પાણી\" : [\"200 મિલી\",\"500 મિલી\"]}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/event-bookings/"
+					},
+					"response": []
+				},
+				{
+					"name": "event-bookings-by-ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseurl}}/event-bookings/1/"
+					},
+					"response": []
+				},
+				{
+					"name": "delete-event-bookings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{baseurl}}/event-bookings/10/"
+					},
+					"response": []
+				},
+				{
+					"name": "update-event-bookings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"rajubhai\",\n    \"mobile_no\": \"998867025\",\n    \"reference\": \"chirag\",\n    \"event_date\": \"25-01-2025\",\n    // \"event_date\": \"2025-01-20\",\n    \"event_time\": \"10:00\",\n    \"event_address\": \"sudamachowk\",\n    \"advance_amount\": \"1000\",\n    \"per_dish_amount\": \"200\",\n    \"estimated_persons\": \"500\",\n    // \"selected_items\" : {\"Water\": {\"name\": \"200 ml\"}}\n    \"selected_items\" : {\"Water\": [\"200 ml\"]}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/event-bookings/6/"
+					},
+					"response": []
+				},
+				{
+					"name": "eventfilter",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"date\" : \"20-01-2025\"\n    // \"name\" : \"rajubhai\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/eventfilter/"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
