@@ -92,4 +92,11 @@ class EventBooking(models.Model):
 
 # class StokeMangeModel(models.Model):
 #     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='stokemange')
-    
+
+class StokeItem(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+    quantity = models.DecimalField(max_digits=10, decimal_places=2)
+    alert = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name} - {self.quantity} {self.alert}"

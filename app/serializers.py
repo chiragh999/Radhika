@@ -44,3 +44,8 @@ class EventBookingSerializer(serializers.ModelSerializer):
             'selected_items',
             'description',
         ]
+
+class StokeItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StokeItem
+        fields = ['id', 'name', 'quantity', "alert"]

@@ -475,3 +475,131 @@ class EventFilterViewSet(generics.GenericAPIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+# --------------------    StokeItemViewSet    --------------------
+
+
+class StokeItemViewSet(generics.GenericAPIView):
+    serializer_class = StokeItemSerializer
+
+    def get(self, request):
+        queryset = StokeItem.objects.all()
+        serializer = StokeItemSerializer(queryset, many=True)
+        return Response(
+            {
+                "status": True,
+                "message": "StokeItem list",
+                "data": serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
+    
+    def post(self, request):
+        if StokeItem.objects.filter(name=request.data.get("name")).exists():
+            return Response(
+                {
+                    "status": False,
+                    "message": "StokeItem already exists",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+        serializer = StokeItemSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(
+                {
+                    "status": True,
+                    "message": "StokeItem created successfully",
+                    "data": serializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {
+                "status": False,
+                "message": "Something went wrong",
+                "data": {},
+            },
+            status=status.HTTP_200_OK,
+        )
+
+class EditStokeItemViewSet(generics.GenericAPIView):
+    serializer_class = StokeItemSerializer
+
+    def get(self, request, pk=None):
+        try:
+            stokeitem = StokeItem.objects.get(pk=pk)
+            serializer = StokeItemSerializer(stokeitem)
+            return Response(
+                {
+                    "status": True,
+                    "message": "StokeItem retrieved successfully",
+                    "data": serializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
+        except StokeItem.DoesNotExist:
+            return Response(
+                {
+                    "status": False,
+                    "message": "StokeItem not found",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+    
+    def put(self, request, pk=None):
+        try:
+            stokeitem = StokeItem.objects.get(pk=pk)
+            serializer = StokeItemSerializer(stokeitem, data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(
+                    {
+                        "status": True,
+                        "message": "StokeItem updated successfully",
+                        "data": serializer.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+            return Response(
+                {
+                    "status": False,
+                    "message": "Something went wrong",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+        except StokeItem.DoesNotExist:
+            return Response(
+                {
+                    "status": False,
+                    "message": "StokeItem not found",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+    
+    def delete(self, request, pk=None):
+        try:
+            stokeitem = StokeItem.objects.get(pk=pk)
+            stokeitem.delete()
+            return Response(
+                {
+                    "status": True,
+                    "message": "StokeItem deleted successfully",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+        except StokeItem.DoesNotExist:
+            return Response(
+                {
+                    "status": False,
+                    "message": "StokeItem not found",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            ) 

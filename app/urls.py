@@ -9,5 +9,7 @@ urlpatterns = [
      path("event-bookings/",EventBookingViewSet.as_view()),
      path("event-bookings/<int:pk>/",EventBookingGetViewSet.as_view()),
      path("eventfilter/",EventFilterViewSet.as_view()),
-     
+     path("stoke-items/",StokeItemViewSet.as_view()),
+     path("stoke-items/<int:pk>/",EditStokeItemViewSet.as_view()),
+
 ]
