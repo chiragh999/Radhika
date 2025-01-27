@@ -316,7 +316,8 @@ class EventBookingViewSet(generics.GenericAPIView):
         # Convert the selected_items payload
         selected_items = request.data.get("selected_items", {})
         converted_payload = {
-            key: [{"name": item} for item in value] for key, value in selected_items.items()
+            key: [{"name": item} for item in value]
+            for key, value in selected_items.items()
         }
         request.data["selected_items"] = converted_payload
 
@@ -363,7 +364,8 @@ class EventBookingGetViewSet(generics.GenericAPIView):
             eventbooking = EventBooking.objects.get(pk=pk)
             selected_items = request.data.get("selected_items", {})
             converted_payload = {
-                key: [{"name": item} for item in value] for key, value in selected_items.items()
+                key: [{"name": item} for item in value]
+                for key, value in selected_items.items()
             }
             request.data["selected_items"] = converted_payload
             # converted_payload = {key: {"name": value[0]} for key, value in request.data.get("selected_items").items()}
@@ -444,12 +446,13 @@ class EventBookingGetViewSet(generics.GenericAPIView):
 
 # --------------------    EventFilter    --------------------
 
+
 class EventFilterViewSet(generics.GenericAPIView):
     serializer_class = EventBookingSerializer
 
     def post(self, request):
         filter_date = request.data.get("date", None)
-        name = request.data.get("name",None)
+        name = request.data.get("name", None)
         if name:
             queryset = EventBooking.objects.filter(name__icontains=name)
             serializer = EventBookingSerializer(queryset, many=True)
@@ -460,13 +463,13 @@ class EventFilterViewSet(generics.GenericAPIView):
             serializer = EventBookingSerializer(queryset, many=True)
         else:
             return Response(
-            {
-                "status": True,
-                "message": "No Any EventBooking list",
-                "data": {},
-            },
-            status=status.HTTP_200_OK,
-        )
+                {
+                    "status": True,
+                    "message": "No Any EventBooking list",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
         return Response(
             {
                 "status": True,
@@ -494,7 +497,7 @@ class StokeItemViewSet(generics.GenericAPIView):
             },
             status=status.HTTP_200_OK,
         )
-    
+
     def post(self, request):
         if StokeItem.objects.filter(name=request.data.get("name")).exists():
             return Response(
@@ -525,6 +528,7 @@ class StokeItemViewSet(generics.GenericAPIView):
             status=status.HTTP_200_OK,
         )
 
+
 class EditStokeItemViewSet(generics.GenericAPIView):
     serializer_class = StokeItemSerializer
 
@@ -549,7 +553,7 @@ class EditStokeItemViewSet(generics.GenericAPIView):
                 },
                 status=status.HTTP_200_OK,
             )
-    
+
     def put(self, request, pk=None):
         try:
             stokeitem = StokeItem.objects.get(pk=pk)
@@ -581,7 +585,7 @@ class EditStokeItemViewSet(generics.GenericAPIView):
                 },
                 status=status.HTTP_200_OK,
             )
-    
+
     def delete(self, request, pk=None):
         try:
             stokeitem = StokeItem.objects.get(pk=pk)
@@ -602,4 +606,4 @@ class EditStokeItemViewSet(generics.GenericAPIView):
                     "data": {},
                 },
                 status=status.HTTP_200_OK,
-            ) 
+            )
