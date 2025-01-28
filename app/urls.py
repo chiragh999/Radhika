@@ -11,5 +11,6 @@ urlpatterns = [
      path("eventfilter/",EventFilterViewSet.as_view()),
      path("stoke-items/",StokeItemViewSet.as_view()),
      path("stoke-items/<int:pk>/",EditStokeItemViewSet.as_view()),
+     path("add-stoke-item/",AddRemoveStokeItemViewSet.as_view()),
 
 ]

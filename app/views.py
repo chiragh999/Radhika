@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 from .models import Category, Item, EventBooking
 from .serializers import *
 from datetime import date, datetime
+from decimal import Decimal
 
 
 # --------------------    LoginViewSet    --------------------
@@ -607,3 +608,57 @@ class EditStokeItemViewSet(generics.GenericAPIView):
                 },
                 status=status.HTTP_200_OK,
             )
+
+
+# --------------------    AddRemoveStokeItemViewSet    --------------------
+
+
+class AddRemoveStokeItemViewSet(generics.GenericAPIView):
+
+    def post(self, request):
+        if not StokeItem.objects.filter(id = request.data.get("id") ,name=request.data.get("name")).exists():
+            return Response(
+                {
+                    "status": False,
+                    "message": "StokeItem is not exists",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+        quantity = request.data.get("quantity")
+        stoke_item = StokeItem.objects.get(id = request.data.get("id") ,name=request.data.get("name"))
+        result = stoke_item.quantity - Decimal(quantity)
+        stoke_item.quantity = result
+        stoke_item.save()
+        return Response(
+            {
+                "status": True,
+                "message": "StokeItem Quantity Remove successfully",
+                "data": {},
+            },
+            status=status.HTTP_200_OK,
+        )
+    
+    def put(self, request):
+        if not StokeItem.objects.filter(id = request.data.get("id") ,name=request.data.get("name")).exists():
+            return Response(
+                {
+                    "status": False,
+                    "message": "StokeItem is not exists",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+        quantity = request.data.get("quantity")
+        stoke_item = StokeItem.objects.get(id = request.data.get("id") ,name=request.data.get("name"))
+        result = stoke_item.quantity + Decimal(quantity)
+        stoke_item.quantity = result
+        stoke_item.save()
+        return Response(
+            {
+                "status": True,
+                "message": "StokeItem Quantity Added successfully",
+                "data": {},
+            },
+            status=status.HTTP_200_OK,
+        )
