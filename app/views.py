@@ -662,3 +662,29 @@ class AddRemoveStokeItemViewSet(generics.GenericAPIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+# --------------------    AddRemoveStokeItemViewSet    --------------------
+
+class AlertstokeItemViewSet(generics.GenericAPIView):
+
+    def get(self,request):
+        alerts_list = []
+        all_stoke_itmes = StokeItem.objects.all()
+        for stokes in all_stoke_itmes:
+            if stokes.type == "KG":
+                value_in_kilograms = stokes.quantity / Decimal('1000')
+                print(value_in_kilograms)
+                if str(value_in_kilograms) <= stokes.alert:
+                    alerts_list.append(stokes)
+        
+        serializer = StokeItemSerializer(alerts_list, many=True)
+
+        return Response(
+            {
+                "status": True,
+                "message": "StokeItem Quantity Added successfully",
+                "data": serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )

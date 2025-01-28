@@ -100,8 +100,8 @@ class StokeItem(models.Model):
     ]
 
     name = models.CharField(max_length=200, unique=True)
-    quantity = models.DecimalField(max_digits=10, decimal_places=2)
-    alert = models.CharField(max_length=50)
+    quantity = models.DecimalField(max_digits=100,decimal_places = 0)
+    alert = models.CharField(max_length=500)
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
 
     def __str__(self):
