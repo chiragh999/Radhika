@@ -673,13 +673,13 @@ class AlertstokeItemViewSet(generics.GenericAPIView):
         all_stoke_itmes = StokeItem.objects.all()
         for stokes in all_stoke_itmes:
             if stokes.type == "KG":
-                value_in_kilograms = stokes.quantity / Decimal('1000')
-                if value_in_kilograms <= Decimal(stokes.alert.split(" ")[0]):
+                # value_in_kilograms = stokes.quantity / Decimal('1000')
+                if stokes.quantity <= Decimal(stokes.alert.split(" ")[0]):
                     alerts_list.append(stokes)
             
             if stokes.type == "L":
-                liters = stokes.quantity / 1000
-                if liters <= Decimal(stokes.alert.split(" ")[0]):
+                # liters = stokes.quantity / 1000
+                if stokes.quantity <= Decimal(stokes.alert.split(" ")[0]):
                     alerts_list.append(stokes)
             
             if stokes.type == "QTY":
