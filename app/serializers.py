@@ -56,8 +56,8 @@ class StokeItemSerializer(serializers.ModelSerializer):
 
 
 class StokeCategorySerializer(serializers.ModelSerializer):
-    items = StokeItemSerializer(many=True, read_only=True)
+    stokeitem = StokeItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = StokeCategory
-        fields = ["id", "name", "items"]
+        fields = ["id", "name", "stokeitem"]
