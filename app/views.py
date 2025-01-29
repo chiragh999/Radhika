@@ -445,42 +445,6 @@ class EventBookingGetViewSet(generics.GenericAPIView):
             )
 
 
-# --------------------    EventFilter    --------------------
-
-
-class EventFilterViewSet(generics.GenericAPIView):
-    serializer_class = EventBookingSerializer
-
-    def post(self, request):
-        filter_date = request.data.get("date", None)
-        name = request.data.get("name", None)
-        if name:
-            queryset = EventBooking.objects.filter(name__icontains=name)
-            serializer = EventBookingSerializer(queryset, many=True)
-        elif filter_date:
-            date_object = datetime.strptime(filter_date, "%d-%m-%Y")
-            output_date = date_object.strftime("%Y-%m-%d")
-            queryset = EventBooking.objects.filter(event_date=output_date)
-            serializer = EventBookingSerializer(queryset, many=True)
-        else:
-            return Response(
-                {
-                    "status": True,
-                    "message": "No Any EventBooking list",
-                    "data": {},
-                },
-                status=status.HTTP_200_OK,
-            )
-        return Response(
-            {
-                "status": True,
-                "message": "EventBooking list",
-                "data": serializer.data,
-            },
-            status=status.HTTP_200_OK,
-        )
-
-
 # --------------------    StokeItemViewSet    --------------------
 
 
@@ -696,3 +660,134 @@ class AlertstokeItemViewSet(generics.GenericAPIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+# --------------------    StokeCategoryViewSet    --------------------
+
+
+class StokeCategoryViewSet(generics.GenericAPIView):
+    serializer_class = StokeCategorySerializer
+
+    def post(self, request):
+        if StokeCategory.objects.filter(name=request.data.get("name")).exists():
+            return Response(
+                {
+                    "status": False,
+                    "message": "Category already exists",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+        serializer = StokeCategorySerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(
+                {
+                    "status": True,
+                    "message": "Category created successfully",
+                    "data": serializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {
+                "status": False,
+                "message": "Something went wrong",
+                "data": {},
+            },
+            status=status.HTTP_200_OK,
+        )
+
+    def get(self, request):
+        queryset = StokeCategory.objects.all()
+        serializer = StokeCategorySerializer(queryset, many=True)
+        return Response(
+            {
+                "status": True,
+                "message": "Category list",
+                "data": serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+class EditeStokeCategoryViewSet(generics.GenericAPIView):
+    serializer_class = StokeCategorySerializer
+
+    def put(self, request, pk=None):
+        try:
+            category = StokeCategory.objects.get(pk=pk)
+            serializer = StokeCategorySerializer(category, data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(
+                    {
+                        "status": True,
+                        "message": "Category updated successfully",
+                        "data": serializer.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+            return Response(
+                {
+                    "status": False,
+                    "message": "Something went wrong",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+        except StokeCategory.DoesNotExist:
+            return Response(
+                {
+                    "status": False,
+                    "message": "Category not found",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+
+    def delete(self, request, pk=None):
+        try:
+            category = StokeCategory.objects.get(pk=pk)
+            category.delete()
+            return Response(
+                {
+                    "status": True,
+                    "message": "Category deleted successfully",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+        except StokeCategory.DoesNotExist:
+            return Response(
+                {
+                    "status": False,
+                    "message": "Category not found",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+
+    def get(self, request, pk=None):
+        try:
+            category = StokeCategory.objects.get(pk=pk)
+            serializer = StokeCategorySerializer(category)
+            return Response(
+                {
+                    "status": True,
+                    "message": "Category retrieved successfully",
+                    "data": serializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
+        except StokeCategory.DoesNotExist:
+            return Response(
+                {
+                    "status": False,
+                    "message": "Category not found",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+
+
