@@ -53,7 +53,17 @@ class EventBookingSerializer(serializers.ModelSerializer):
 class StokeItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = StokeItem
-        fields = ["id", "name", "category", "quantity", "alert", "type", "nte_price", "total_price"]
+        fields = [
+            "id",
+            "name",
+            "category",
+            "quantity",
+            "alert",
+            "type",
+            "nte_price",
+            "total_price",
+        ]
+
 
 class StokeCategorySerializer(serializers.ModelSerializer):
     stokeitem = StokeItemSerializer(many=True, read_only=True)
@@ -61,3 +71,28 @@ class StokeCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = StokeCategory
         fields = ["id", "name", "stokeitem"]
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    billed_to_details = EventBookingSerializer(source="billed_to", read_only=True)
+    payment_date = serializers.DateField(
+        input_formats=["%d-%m-%Y"],  # Accept DD-MM-YYYY in the payload
+        format="%d-%m-%Y",  # Return DD-MM-YYYY in the response
+    )
+
+    class Meta:
+        model = Payment
+        fields = [
+            "bill_no",
+            "billed_to",
+            "total_amount",
+            "pending_amount",
+            "payment_date",
+            "transaction_amount",
+            "payment_mode",
+            "settlement_amount",
+            "note",
+            "created_at",
+            "updated_at",
+            "billed_to_details",
+        ]

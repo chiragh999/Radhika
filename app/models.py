@@ -129,3 +129,30 @@ class StokeItem(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.quantity} {self.alert}"
+
+class Payment(models.Model):
+    PAYMENT_MODE_CHOICES = [
+        ('CASH', 'Cash'),
+        ('CARD', 'Card'),
+        ('UPI', 'UPI'),
+        ('BANK_TRANSFER', 'Bank Transfer'),
+    ]
+
+    bill_no = models.AutoField(primary_key=True)
+    billed_to = models.ForeignKey(EventBooking, on_delete=models.CASCADE, related_name='payments')
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    pending_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateField()
+    transaction_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_mode = models.CharField(max_length=20, choices=PAYMENT_MODE_CHOICES)
+    settlement_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    note = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Payment {self.bill_no} - {self.billed_to.name}"
+
+    @property
+    def formatted_event_date(self):
+        return self.payment_date.strftime("%d-%m-%Y")
