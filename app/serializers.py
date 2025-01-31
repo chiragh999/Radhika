@@ -91,6 +91,7 @@ class PaymentSerializer(serializers.ModelSerializer):
             "transaction_amount",
             "payment_mode",
             "settlement_amount",
+            "payment_status",
             "note",
             "created_at",
             "updated_at",

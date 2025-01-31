@@ -138,6 +138,12 @@ class Payment(models.Model):
         ('BANK_TRANSFER', 'Bank Transfer'),
     ]
 
+    PAYMENT_STATUS_CHOICES = [
+        ('PARTIAL', 'Partial'),
+        ('UNPAID', 'Unpaid'),
+        ('PAID', 'Paid'),
+    ]
+
     bill_no = models.AutoField(primary_key=True)
     billed_to = models.ForeignKey(
         EventBooking, 
@@ -151,6 +157,11 @@ class Payment(models.Model):
     transaction_amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_mode = models.CharField(max_length=20, choices=PAYMENT_MODE_CHOICES)
     settlement_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    payment_status = models.CharField(
+        max_length=10,
+        choices=PAYMENT_STATUS_CHOICES,
+        default='UNPAID'
+    )
     note = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
