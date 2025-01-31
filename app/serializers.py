@@ -40,6 +40,7 @@ class EventBookingSerializer(serializers.ModelSerializer):
             "reference",
             "event_date",
             "event_time",
+            "status",
             "event_address",
             "advance_amount",
             "per_dish_amount",
@@ -52,8 +53,7 @@ class EventBookingSerializer(serializers.ModelSerializer):
 class StokeItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = StokeItem
-        fields = ["id", "name", "category", "quantity", "alert", "type"]
-
+        fields = ["id", "name", "category", "quantity", "alert", "type", "nte_price", "total_price"]
 
 class StokeCategorySerializer(serializers.ModelSerializer):
     stokeitem = StokeItemSerializer(many=True, read_only=True)

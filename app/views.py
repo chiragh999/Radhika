@@ -522,6 +522,9 @@ class EditStokeItemViewSet(generics.GenericAPIView):
     def put(self, request, pk=None):
         try:
             stokeitem = StokeItem.objects.get(pk=pk)
+            request.data["quantity"] = str(int(request.data["quantity"]) + int(stokeitem.quantity))
+            request.data["total_price"] = str(int(request.data["total_price"]) + int(stokeitem.total_price))
+            request.data["nte_price"] = str(int(int(request.data["total_price"]) / int(request.data["quantity"])))
             serializer = StokeItemSerializer(stokeitem, data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
@@ -590,8 +593,16 @@ class AddRemoveStokeItemViewSet(generics.GenericAPIView):
                 status=status.HTTP_200_OK,
             )
         quantity = request.data.get("quantity")
+        nte_price = request.data.get("nte_price")
+        total_price = request.data.get("total_price",None)
+        price = ""
         stoke_item = StokeItem.objects.get(id = request.data.get("id") ,name=request.data.get("name"))
         result = stoke_item.quantity - Decimal(quantity)
+        if total_price:
+            price = total_price
+        else:
+            price = str(int(quantity) * int(nte_price))
+        stoke_item.total_price = str(int(stoke_item.total_price) - int(price))
         stoke_item.quantity = result
         stoke_item.save()
         return Response(
@@ -614,9 +625,17 @@ class AddRemoveStokeItemViewSet(generics.GenericAPIView):
                 status=status.HTTP_200_OK,
             )
         quantity = request.data.get("quantity")
+        total_price = request.data.get("total_price",None)
         stoke_item = StokeItem.objects.get(id = request.data.get("id") ,name=request.data.get("name"))
         result = stoke_item.quantity + Decimal(quantity)
         stoke_item.quantity = result
+        if total_price:
+            stoke_item.total_price = str(int(stoke_item.total_price) + int(total_price))
+            stoke_item.nte_price = str(int(int(stoke_item.total_price) / int(stoke_item.quantity)))
+        else:
+            total_price = str(int(quantity) * int(stoke_item.nte_price))
+            stoke_item.total_price = int(int(stoke_item.total_price) + int(total_price))
+            stoke_item.nte_price = str(int(int(stoke_item.total_price) / int(stoke_item.quantity)))
         stoke_item.save()
         return Response(
             {

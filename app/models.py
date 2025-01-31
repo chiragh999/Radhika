@@ -43,6 +43,14 @@ class EventBooking(models.Model):
         regex=r"^\+?1?\d{9,15}$",
         message="Mobile number must be entered in the format: '+999999999'. Up to 15 digits allowed.",
     )
+    # Status choices
+    STATUS_CHOICES = [
+        ("pending", "Pending"),
+        ("confirmed", "Confirmed"),
+        ("completed", "Completed"),
+        ("cancelled", "Cancelled"),
+        ("done", "Done"),
+    ]
     # listfild [cat->itme multipul]
     selected_items = models.JSONField(default=dict)
     # Basic information
@@ -50,7 +58,6 @@ class EventBooking(models.Model):
     mobile_no = models.CharField(validators=[phone_regex], max_length=17)
     date = models.DateField(default=timezone.now)  # Booking creation date
     reference = models.CharField(max_length=50, unique=False)
-
     # Event details
     event_date = models.DateField()
     event_time = models.CharField(max_length=100)
@@ -64,10 +71,12 @@ class EventBooking(models.Model):
     estimated_persons = models.CharField(
         max_length=150,  # Adjust length as needed
     )
-
     # Additional details
     description = models.TextField(blank=True)
-
+    # Status field
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default="pending"
+    )
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -112,6 +121,8 @@ class StokeItem(models.Model):
     category = models.ForeignKey(
         StokeCategory, on_delete=models.CASCADE, related_name="stokeitem"
     )
+    nte_price = models.CharField(max_length=250)
+    total_price = models.CharField(max_length=250)
     quantity = models.DecimalField(max_digits=100, decimal_places=0)
     alert = models.CharField(max_length=500)
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
