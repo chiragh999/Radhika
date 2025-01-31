@@ -139,7 +139,12 @@ class Payment(models.Model):
     ]
 
     bill_no = models.AutoField(primary_key=True)
-    billed_to = models.ForeignKey(EventBooking, on_delete=models.CASCADE, related_name='payments')
+    billed_to = models.ForeignKey(
+        EventBooking, 
+        on_delete=models.CASCADE, 
+        related_name='payments',
+        unique=True  # This will cause an error, use Meta class instead
+    )
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     pending_amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_date = models.DateField()
@@ -150,9 +155,15 @@ class Payment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['billed_to'], name='unique_billed_to')
+        ]
+
     def __str__(self):
         return f"Payment {self.bill_no} - {self.billed_to.name}"
 
     @property
     def formatted_event_date(self):
         return self.payment_date.strftime("%d-%m-%Y")
+
