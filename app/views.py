@@ -844,147 +844,147 @@ class EditeStokeCategoryViewSet(generics.GenericAPIView):
 # --------------------    PaymentViewSet    --------------------
 
 
-class PaymentViewSet(generics.GenericAPIView):
-    serializer_class = PaymentSerializer
+# class PaymentViewSet(generics.GenericAPIView):
+#     serializer_class = PaymentSerializer
 
-    def get(self, request):
-        queryset = Payment.objects.select_related("billed_to").all()
-        serializer = PaymentSerializer(queryset, many=True)
-        return Response(
-            {
-                "status": True,
-                "message": "Payment list retrieved successfully",
-                "data": serializer.data,
-            },
-            status=status.HTTP_200_OK,
-        )
+#     def get(self, request):
+#         queryset = Payment.objects.select_related("billed_to").all()
+#         serializer = PaymentSerializer(queryset, many=True)
+#         return Response(
+#             {
+#                 "status": True,
+#                 "message": "Payment list retrieved successfully",
+#                 "data": serializer.data,
+#             },
+#             status=status.HTTP_200_OK,
+#         )
 
-    def post(self, request):
-        if Payment.objects.filter(bill_no=request.data.get("bill_no")).exists():
-            return Response(
-                {
-                    "status": False,
-                    "message": "Payment with this bill number already exists",
-                    "data": {},
-                },
-                status=status.HTTP_200_OK,
-            )
+#     def post(self, request):
+#         if Payment.objects.filter(bill_no=request.data.get("bill_no")).exists():
+#             return Response(
+#                 {
+#                     "status": False,
+#                     "message": "Payment with this bill number already exists",
+#                     "data": {},
+#                 },
+#                 status=status.HTTP_200_OK,
+#             )
 
-        serializer = PaymentSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(
-                {
-                    "status": True,
-                    "message": "Payment created successfully",
-                    "data": serializer.data,
-                },
-                status=status.HTTP_200_OK,
-            )
-        return Response(
-            {
-                "status": False,
-                "message": "Something went wrong",
-                "data": {},
-            },
-            status=status.HTTP_200_OK,
-        )
+#         serializer = PaymentSerializer(data=request.data)
+#         if serializer.is_valid(raise_exception=True):
+#             serializer.save()
+#             return Response(
+#                 {
+#                     "status": True,
+#                     "message": "Payment created successfully",
+#                     "data": serializer.data,
+#                 },
+#                 status=status.HTTP_200_OK,
+#             )
+#         return Response(
+#             {
+#                 "status": False,
+#                 "message": "Something went wrong",
+#                 "data": {},
+#             },
+#             status=status.HTTP_200_OK,
+#         )
 
 
-class EditPaymentViewSet(generics.GenericAPIView):
-    serializer_class = PaymentSerializer
+# class EditPaymentViewSet(generics.GenericAPIView):
+#     serializer_class = PaymentSerializer
 
-    def get(self, request, pk=None):
-        try:
-            payment = Payment.objects.select_related("billed_to").get(pk=pk)
-            serializer = PaymentSerializer(payment)
-            return Response(
-                {
-                    "status": True,
-                    "message": "Payment retrieved successfully",
-                    "data": serializer.data,
-                },
-                status=status.HTTP_200_OK,
-            )
-        except Payment.DoesNotExist:
-            return Response(
-                {
-                    "status": False,
-                    "message": "Payment not found",
-                    "data": {},
-                },
-                status=status.HTTP_200_OK,
-            )
+#     def get(self, request, pk=None):
+#         try:
+#             payment = Payment.objects.select_related("billed_to").get(pk=pk)
+#             serializer = PaymentSerializer(payment)
+#             return Response(
+#                 {
+#                     "status": True,
+#                     "message": "Payment retrieved successfully",
+#                     "data": serializer.data,
+#                 },
+#                 status=status.HTTP_200_OK,
+#             )
+#         except Payment.DoesNotExist:
+#             return Response(
+#                 {
+#                     "status": False,
+#                     "message": "Payment not found",
+#                     "data": {},
+#                 },
+#                 status=status.HTTP_200_OK,
+#             )
 
-    def put(self, request, pk=None):
-        try:
-            payment = Payment.objects.get(pk=pk)
+#     def put(self, request, pk=None):
+#         try:
+#             payment = Payment.objects.get(pk=pk)
 
-            # Update pending amount based on new transaction
-            new_transaction_amount = float(request.data.get("transaction_amount", 0))
-            current_pending = float(payment.pending_amount)
+#             # Update pending amount based on new transaction
+#             new_transaction_amount = float(request.data.get("transaction_amount", 0))
+#             current_pending = float(payment.pending_amount)
 
-            if new_transaction_amount > current_pending:
-                return Response(
-                    {
-                        "status": False,
-                        "message": "Transaction amount cannot exceed pending amount",
-                        "data": {},
-                    },
-                    status=status.HTTP_200_OK,
-                )
+#             if new_transaction_amount > current_pending:
+#                 return Response(
+#                     {
+#                         "status": False,
+#                         "message": "Transaction amount cannot exceed pending amount",
+#                         "data": {},
+#                     },
+#                     status=status.HTTP_200_OK,
+#                 )
 
-            request.data["pending_amount"] = str(
-                current_pending - new_transaction_amount
-            )
+#             request.data["pending_amount"] = str(
+#                 current_pending - new_transaction_amount
+#             )
 
-            serializer = PaymentSerializer(payment, data=request.data)
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return Response(
-                    {
-                        "status": True,
-                        "message": "Payment updated successfully",
-                        "data": serializer.data,
-                    },
-                    status=status.HTTP_200_OK,
-                )
-            return Response(
-                {
-                    "status": False,
-                    "message": "Something went wrong",
-                    "data": {},
-                },
-                status=status.HTTP_200_OK,
-            )
-        except Payment.DoesNotExist:
-            return Response(
-                {
-                    "status": False,
-                    "message": "Payment not found",
-                    "data": {},
-                },
-                status=status.HTTP_200_OK,
-            )
+#             serializer = PaymentSerializer(payment, data=request.data)
+#             if serializer.is_valid(raise_exception=True):
+#                 serializer.save()
+#                 return Response(
+#                     {
+#                         "status": True,
+#                         "message": "Payment updated successfully",
+#                         "data": serializer.data,
+#                     },
+#                     status=status.HTTP_200_OK,
+#                 )
+#             return Response(
+#                 {
+#                     "status": False,
+#                     "message": "Something went wrong",
+#                     "data": {},
+#                 },
+#                 status=status.HTTP_200_OK,
+#             )
+#         except Payment.DoesNotExist:
+#             return Response(
+#                 {
+#                     "status": False,
+#                     "message": "Payment not found",
+#                     "data": {},
+#                 },
+#                 status=status.HTTP_200_OK,
+#             )
 
-    def delete(self, request, pk=None):
-        try:
-            payment = Payment.objects.get(pk=pk)
-            payment.delete()
-            return Response(
-                {
-                    "status": True,
-                    "message": "Payment deleted successfully",
-                    "data": {},
-                },
-                status=status.HTTP_200_OK,
-            )
-        except Payment.DoesNotExist:
-            return Response(
-                {
-                    "status": False,
-                    "message": "Payment not found",
-                    "data": {},
-                },
-                status=status.HTTP_200_OK,
-            )
+#     def delete(self, request, pk=None):
+#         try:
+#             payment = Payment.objects.get(pk=pk)
+#             payment.delete()
+#             return Response(
+#                 {
+#                     "status": True,
+#                     "message": "Payment deleted successfully",
+#                     "data": {},
+#                 },
+#                 status=status.HTTP_200_OK,
+#             )
+#         except Payment.DoesNotExist:
+#             return Response(
+#                 {
+#                     "status": False,
+#                     "message": "Payment not found",
+#                     "data": {},
+#                 },
+#                 status=status.HTTP_200_OK,
+#             )
