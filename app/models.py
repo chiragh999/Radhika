@@ -54,7 +54,7 @@ class EventBooking(models.Model):
     # Status choices
     STATUS_CHOICES = [
         ("pending", "Pending"),
-        ("confirmed", "Confirmed"),
+        ("confirm", "Confirm"),
         ("completed", "Completed"),
         ("cancelled", "Cancelled"),
         ("done", "Done"),

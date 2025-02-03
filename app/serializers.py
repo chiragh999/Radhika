@@ -22,6 +22,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class EventBookingSerializer(serializers.ModelSerializer):
+    advance_amount = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    advance_payment_mode = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     event_date = serializers.DateField(
         input_formats=["%d-%m-%Y"],  # Accept DD-MM-YYYY in the payload
         format="%d-%m-%Y",  # Return DD-MM-YYYY in the response
