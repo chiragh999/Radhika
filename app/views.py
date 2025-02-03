@@ -984,3 +984,21 @@ class EditPaymentViewSet(generics.GenericAPIView):
                 },
                 status=status.HTTP_200_OK,
             )
+
+
+# --------------------    PendingEventBookingViewSet    --------------------
+
+
+class PendingEventBookingViewSet(generics.GenericAPIView):
+    serializer_class = EventBookingSerializer
+    def get(self, request):
+        queryset = EventBooking.objects.all().filter(status = "pending")
+        serializer = EventBookingSerializer(queryset, many=True)
+        return Response(
+            {
+                "status": True,
+                "message": "EventBooking list",
+                "data": serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
