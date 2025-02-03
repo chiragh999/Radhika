@@ -151,12 +151,12 @@ class Payment(models.Model):
         related_name='payments',
         unique=True  # This will cause an error, use Meta class instead
     )
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    pending_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=0)
+    pending_amount = models.DecimalField(max_digits=10, decimal_places=0)
     payment_date = models.DateField()
-    transaction_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    transaction_amount = models.DecimalField(max_digits=10, decimal_places=0)
     payment_mode = models.CharField(max_length=20, choices=PAYMENT_MODE_CHOICES)
-    settlement_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    settlement_amount = models.DecimalField(max_digits=10, decimal_places=0, null=True, blank=True)
     payment_status = models.CharField(
         max_length=10,
         choices=PAYMENT_STATUS_CHOICES,
