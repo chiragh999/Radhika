@@ -152,6 +152,7 @@ class Payment(models.Model):
         unique=True  # This will cause an error, use Meta class instead
     )
     total_amount = models.DecimalField(max_digits=10, decimal_places=0)
+    advance_amount = models.DecimalField(max_digits=10, decimal_places=0)
     pending_amount = models.DecimalField(max_digits=10, decimal_places=0,null=True, blank=True)
     payment_date = models.DateField()
     transaction_amount = models.DecimalField(max_digits=10, decimal_places=0)
