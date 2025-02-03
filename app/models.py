@@ -38,6 +38,14 @@ class Item(models.Model):
 
 
 class EventBooking(models.Model):
+    ADVANCE_PAYMENT_MODE_CHOICES = [
+        ('CASH', 'CASH'),
+        ('CHEQUE', 'CHEQUE'),
+        ('BANK_TRANSFER', 'BANK TRANSFER'),
+        ('ONLINE', 'ONLINE'),
+        ('OTHER', 'OTHER'),
+    ]
+
     # Phone number validation
     phone_regex = RegexValidator(
         regex=r"^\+?1?\d{9,15}$",
@@ -65,6 +73,7 @@ class EventBooking(models.Model):
     advance_amount = models.CharField(
         max_length=150,  # Adjust length as needed
     )
+    advance_payment_mode = models.CharField(max_length=20, choices=ADVANCE_PAYMENT_MODE_CHOICES)
     per_dish_amount = models.CharField(
         max_length=150,  # Adjust length as needed
     )
@@ -132,10 +141,11 @@ class StokeItem(models.Model):
 
 class Payment(models.Model):
     PAYMENT_MODE_CHOICES = [
-        ('CASH', 'Cash'),
-        ('CARD', 'Card'),
-        ('UPI', 'UPI'),
-        ('BANK_TRANSFER', 'Bank Transfer'),
+        ('CASH', 'CASH'),
+        ('CHEQUE', 'CHEQUE'),
+        ('BANK_TRANSFER', 'BANK TRANSFER'),
+        ('ONLINE', 'ONLINE'),
+        ('OTHER', 'OTHER'),
     ]
 
     PAYMENT_STATUS_CHOICES = [
