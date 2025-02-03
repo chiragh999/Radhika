@@ -70,10 +70,15 @@ class EventBooking(models.Model):
     event_date = models.DateField()
     event_time = models.CharField(max_length=100)
     event_address = models.TextField()
+    
+    # Advance payment fields (now nullable)
     advance_amount = models.CharField(
-        max_length=150,  # Adjust length as needed
+        max_length=150, null=True, blank=True  # Allows NULL values in the database
     )
-    advance_payment_mode = models.CharField(max_length=20, choices=ADVANCE_PAYMENT_MODE_CHOICES)
+    advance_payment_mode = models.CharField(
+        max_length=20, choices=ADVANCE_PAYMENT_MODE_CHOICES, null=True, blank=True
+    )
+    
     per_dish_amount = models.CharField(
         max_length=150,  # Adjust length as needed
     )
