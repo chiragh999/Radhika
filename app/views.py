@@ -345,7 +345,7 @@ class EventBookingViewSet(generics.GenericAPIView):
         )
 
     def get(self, request):
-        queryset = EventBooking.objects.all()
+        queryset = EventBooking.objects.all().filter(status__in=['confirm', 'completed'])
         serializer = EventBookingSerializer(queryset, many=True)
         return Response(
             {
