@@ -1002,3 +1002,22 @@ class PendingEventBookingViewSet(generics.GenericAPIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+# --------------------    PendingEventBookingViewSet    --------------------
+
+
+class StatusChangeEventBookingViewSet(generics.GenericAPIView):
+    serializer_class = EventBookingSerializer
+    def post(self, request, pk=None):
+        queryset = EventBooking.objects.get(pk=pk)
+        queryset.status = request.data.get("status")
+        queryset.save()
+        return Response(
+            {
+                "status": True,
+                "message": "EventBooking list",
+                "data": {},
+            },
+            status=status.HTTP_200_OK,
+        )

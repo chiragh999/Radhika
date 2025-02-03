@@ -8,6 +8,7 @@ urlpatterns = [
      path("items/<int:pk>/",ItemGetViewSet.as_view()),
      path("event-bookings/",EventBookingViewSet.as_view()),
      path("event-bookings/<int:pk>/",EventBookingGetViewSet.as_view()),
+     path("status-change-event-bookings/<int:pk>/",StatusChangeEventBookingViewSet.as_view()),
      path("pending-event-bookings/",PendingEventBookingViewSet.as_view()),
      path("stoke-categories/",StokeCategoryViewSet.as_view()),
      path("stoke-categories/<int:pk>/",EditeStokeCategoryViewSet.as_view()),
