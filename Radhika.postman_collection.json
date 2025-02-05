@@ -73,7 +73,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"પાણી\"\n}",
+							"raw": "{\n    \"name\": \"સૂપ\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -171,7 +171,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"500 મિલી\",\n    \"category\": \"2\"\n}",
+							"raw": "{\n    \"name\": \"ટામેટા\",\n    \"category\": \"2\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -269,7 +269,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"રાજુભાઈ\",\n    \"mobile_no\": \"998867025\",\n    \"reference\": \"ચિરાગ\",\n    \"event_date\": \"25-01-2025\",\n    // \"event_date\": \"2025-01-20\",\n    \"event_time\": \"10:00\",\n    \"event_address\": \"સુદામા ચોક\",\n    \"advance_amount\": \"1000\",\n    \"per_dish_amount\": \"200\",\n    \"estimated_persons\": \"500\",\n    // \"selected_items\" : {\"Water\": {\"name\": \"200 ml\"}}\n    \"selected_items\" : {\"સૂપ\": [\"મનચાઉ\",\"ટામેટા\"],\"પાણી\" : [\"200 મિલી\",\"500 મિલી\"]}\n}",
+							"raw": "{\n    \"name\": \"રાજુભાઈ\",\n    \"mobile_no\": \"998867025\",\n    \"date\": \"22-01-2025\",\n    \"reference\": \"ચિરાગ\",\n    \"event_date\": \"25-01-2025\",\n    \"event_time\": \"10:00\",\n    \"status\": \"done\",\n    \"event_address\": \"સુદામા ચોક\",\n    \"per_dish_amount\": \"200\",\n    \"estimated_persons\": \"500\",\n    \"selected_items\": {\n        \"સૂપ\": [\n            \"મનચાઉ\"\n        ],\n        \"પાણી\": [\n            \"200 મિલી\"\n        ]\n    },\n    \"description\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -323,14 +323,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"rajubhai\",\n    \"mobile_no\": \"998867025\",\n    \"reference\": \"chirag\",\n    \"event_date\": \"25-01-2025\",\n    // \"event_date\": \"2025-01-20\",\n    \"event_time\": \"10:00\",\n    \"event_address\": \"sudamachowk\",\n    \"advance_amount\": \"1000\",\n    \"per_dish_amount\": \"200\",\n    \"estimated_persons\": \"500\",\n    // \"selected_items\" : {\"Water\": {\"name\": \"200 ml\"}}\n    \"selected_items\" : {\"Water\": [\"200 ml\"]}\n}",
+							"raw": "{\n    \"name\": \"રાજુભાઈ\",\n    \"mobile_no\": \"998867025\",\n    \"date\": \"03-02-2025\",\n    \"reference\": \"ચિરાગ\",\n    \"event_date\": \"25-01-2025\",\n    \"event_time\": \"10:00\",\n    \"status\": \"confirm\",\n    \"event_address\": \"સુદામા ચોક\",\n    \"advance_amount\": \"\",\n    \"advance_payment_mode\": \"\",\n    \"per_dish_amount\": \"200\",\n    \"estimated_persons\": \"500\",\n    \"selected_items\": {\n        \"Water\": [\n            \"200 ml\"\n        ]\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{baseurl}}/event-bookings/6/"
+						"url": "{{baseurl}}/event-bookings/2/"
 					},
 					"response": []
 				},
@@ -349,6 +349,261 @@
 							}
 						},
 						"url": "{{baseurl}}/eventfilter/"
+					},
+					"response": []
+				},
+				{
+					"name": "get-pending-event-bookings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseurl}}/pending-event-bookings/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "StockManagement",
+			"item": [
+				{
+					"name": "Items",
+					"item": [
+						{
+							"name": "get-all-stoke-items",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{baseurl}}/stoke-items/"
+							},
+							"response": []
+						},
+						{
+							"name": "stoke-items",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"category\" : \"1\",\n    \"name\": \"દૂધ\",\n    \"quantity\": \"200\",\n    \"alert\": \"10 L\",\n    \"type\": \"L\",\n    \"nte_price\": \"80\",\n    \"total_price\": \"16000\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseurl}}/stoke-items/"
+							},
+							"response": []
+						},
+						{
+							"name": "update-stoke-items",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"દૂધ\",\n    \"category\": 1,\n    \"quantity\": \"200\",\n    \"alert\": \"10 L\",\n    \"type\": \"L\",\n    \"nte_price\": \"60\",\n    \"total_price\": \"12000\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseurl}}/stoke-items/3/"
+							},
+							"response": []
+						},
+						{
+							"name": "delete-stoke-items",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "{{baseurl}}/stoke-items/2/"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Add Remove Items",
+					"item": [
+						{
+							"name": "remove-stoke-item",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"3\",\n    \"name\": \"દૂધ\",\n    \"quantity\": \"100\",\n    \"nte_price\": \"70\",\n    \"total_price\": \"7000\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseurl}}/add-stoke-item/"
+							},
+							"response": []
+						},
+						{
+							"name": "add-stoke-item",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 4,\n    \"name\": \"Water\",\n    \"quantity\": \"1\",\n    \"nte_price\": \"500\",\n    \"total_price\": \"500\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseurl}}/add-stoke-item/"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Alert",
+					"item": [
+						{
+							"name": "alert-stoke-item",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{baseurl}}/alert-stoke-item/"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Categories",
+					"item": [
+						{
+							"name": "get-stoke-categories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{baseurl}}/stoke-categories/"
+							},
+							"response": []
+						},
+						{
+							"name": "add-stoke-categories",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"કરિયાણું\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseurl}}/stoke-categories/"
+							},
+							"response": []
+						},
+						{
+							"name": "update-stoke-categories",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\" : \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseurl}}/stoke-categories/3/"
+							},
+							"response": []
+						},
+						{
+							"name": "get-by-id-stoke-categories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{baseurl}}/stoke-categories/1/"
+							},
+							"response": []
+						},
+						{
+							"name": "delete-stoke-categories",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "{{baseurl}}/stoke-categories/1/"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "payments",
+			"item": [
+				{
+					"name": "all-payments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseurl}}/payments/"
+					},
+					"response": []
+				},
+				{
+					"name": "add-payments",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"billed_to\": \"1\",\n    \"total_amount\": \"5000\",\n    \"pending_amount\": \"4000\",\n    \"advance_amount\": \"1000\",\n    \"payment_date\": \"03-02-2025\",\n    \"transaction_amount\": \"0\",\n    \"settlement_amount\": \"0\"\n    // \"payment_mode\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/payments/"
+					},
+					"response": []
+				},
+				{
+					"name": "update-payments",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"billed_to\": \"2\",\n    \"total_amount\": \"5000\",\n    \"pending_amount\": \"0\",\n    \"payment_date\": \"31-01-2025\",\n    \"transaction_amount\": \"0\",\n    \"settlement_amount\" : \"\",\n    \"payment_status\": \"PAID\",\n    \"payment_mode\": \"CASH\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/payments/1/"
+					},
+					"response": []
+				},
+				{
+					"name": "delete-payments",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{baseurl}}/payments/5/"
 					},
 					"response": []
 				}
