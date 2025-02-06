@@ -848,31 +848,79 @@ class PaymentViewSet(generics.GenericAPIView):
     serializer_class = PaymentSerializer
 
     def get(self, request):
-        queryset = Payment.objects.select_related("billed_to").all()
-        serializer = PaymentSerializer(queryset, many=True)
+        payments = Payment.objects.all()
+        serializer = PaymentSerializer(payments,many=True)
         return Response(
-            {
-                "status": True,
-                "message": "Payment list retrieved successfully",
-                "data": serializer.data,
-            },
-            status=status.HTTP_200_OK,
-        )
-
-    def post(self, request):
-        if Payment.objects.filter(bill_no=request.data.get("bill_no")).exists():
-            return Response(
                 {
-                    "status": False,
-                    "message": "Payment with this bill number already exists",
-                    "data": {},
+                    "status": True,
+                    "message": "Payment list retrieved successfully",
+                    "data": serializer.data,
                 },
                 status=status.HTTP_200_OK,
             )
 
+    def post(self, request):
+        # Validate the input using the serializer
         serializer = PaymentSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            data = serializer.validated_data
+            billed_to_ids = data.get("billed_to_ids", [])
+            total_amount = data.get("total_amount", 0)
+            advance_amount = data.get("advance_amount", 0)
+            
+            # Initialize lists
+            event_booking_name_list = []
+            event_booking_mobile_no_list = []
+            
+            # Populate lists based on billed_to_ids
+            if billed_to_ids:
+                for bill_id in billed_to_ids:
+                    try:
+                        event_booking = EventBooking.objects.get(id=bill_id)
+                        event_booking_name_list.append(event_booking.name)
+                        event_booking_mobile_no_list.append(event_booking.mobile_no)
+                    except EventBooking.DoesNotExist:
+                        return Response(
+                            {
+                                "status": False,
+                                "message": f"EventBooking with ID {bill_id} does not exist.",
+                                "data": {},
+                            },
+                            status=status.HTTP_400_BAD_REQUEST,
+                        )
+            
+            # Check Payments and update/create logic
+            payments = Payment.objects.all()
+            payment_found = False
+
+            for payment in payments:
+                event_bookings = EventBooking.objects.filter(id__in=payment.billed_to_ids)
+                for event_booking in event_bookings:
+                    if (
+                        event_booking.name in event_booking_name_list
+                        and event_booking.mobile_no in event_booking_mobile_no_list
+                    ):
+                        # Update the existing payments
+                        payment.billed_to_ids.extend(billed_to_ids)
+                        payment.total_amount += total_amount
+                        payment.advance_amount += advance_amount
+                        payment.pending_amount = payment.total_amount - payment.advance_amount
+                        payment.save()
+                        payment_found = True
+                        break
+
+            if not payment_found:
+                # Create a new payment
+                serializer.save()
+                return Response(
+                    {
+                        "status": True,
+                        "message": "Payment created successfully",
+                        "data": serializer.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+            
             return Response(
                 {
                     "status": True,
@@ -881,6 +929,7 @@ class PaymentViewSet(generics.GenericAPIView):
                 },
                 status=status.HTTP_200_OK,
             )
+        
         return Response(
             {
                 "status": False,
