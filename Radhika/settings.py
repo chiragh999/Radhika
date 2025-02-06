@@ -28,6 +28,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# Allow specific origins
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
+
+# Allow specific HTTP methods
+CORS_ALLOW_METHODS = [
+    "*",
+]
+
+# Allow specific headers
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "authorization",
+]
 
 # Application definition
 
@@ -39,11 +54,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'rest_framework.authtoken',
     'app'
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
