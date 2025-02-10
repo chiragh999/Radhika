@@ -345,7 +345,9 @@ class EventBookingViewSet(generics.GenericAPIView):
         )
 
     def get(self, request):
-        queryset = EventBooking.objects.all().filter(status__in=['confirm', 'completed'])
+        queryset = EventBooking.objects.all().filter(
+            status__in=["confirm", "completed"]
+        )
         serializer = EventBookingSerializer(queryset, many=True)
         return Response(
             {
@@ -849,15 +851,15 @@ class PaymentViewSet(generics.GenericAPIView):
 
     def get(self, request):
         payments = Payment.objects.all()
-        serializer = PaymentSerializer(payments,many=True)
+        serializer = PaymentSerializer(payments, many=True)
         return Response(
-                {
-                    "status": True,
-                    "message": "Payment list retrieved successfully",
-                    "data": serializer.data,
-                },
-                status=status.HTTP_200_OK,
-            )
+            {
+                "status": True,
+                "message": "Payment list retrieved successfully",
+                "data": serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
 
     def post(self, request):
         # Validate the input using the serializer
@@ -867,11 +869,11 @@ class PaymentViewSet(generics.GenericAPIView):
             billed_to_ids = data.get("billed_to_ids", [])
             total_amount = data.get("total_amount", 0)
             advance_amount = data.get("advance_amount", 0)
-            
+
             # Initialize lists
             event_booking_name_list = []
             event_booking_mobile_no_list = []
-            
+
             # Populate lists based on billed_to_ids
             if billed_to_ids:
                 for bill_id in billed_to_ids:
@@ -888,13 +890,15 @@ class PaymentViewSet(generics.GenericAPIView):
                             },
                             status=status.HTTP_400_BAD_REQUEST,
                         )
-            
+
             # Check Payments and update/create logic
             payments = Payment.objects.all()
             payment_found = False
 
             for payment in payments:
-                event_bookings = EventBooking.objects.filter(id__in=payment.billed_to_ids)
+                event_bookings = EventBooking.objects.filter(
+                    id__in=payment.billed_to_ids
+                )
                 for event_booking in event_bookings:
                     if (
                         event_booking.name in event_booking_name_list
@@ -904,7 +908,9 @@ class PaymentViewSet(generics.GenericAPIView):
                         payment.billed_to_ids.extend(billed_to_ids)
                         payment.total_amount += total_amount
                         payment.advance_amount += advance_amount
-                        payment.pending_amount = payment.total_amount - payment.advance_amount
+                        payment.pending_amount = (
+                            payment.total_amount - payment.advance_amount
+                        )
                         payment.save()
                         payment_found = True
                         break
@@ -920,7 +926,7 @@ class PaymentViewSet(generics.GenericAPIView):
                     },
                     status=status.HTTP_200_OK,
                 )
-            
+
             return Response(
                 {
                     "status": True,
@@ -929,7 +935,7 @@ class PaymentViewSet(generics.GenericAPIView):
                 },
                 status=status.HTTP_200_OK,
             )
-        
+
         return Response(
             {
                 "status": False,
@@ -1040,8 +1046,9 @@ class EditPaymentViewSet(generics.GenericAPIView):
 
 class PendingEventBookingViewSet(generics.GenericAPIView):
     serializer_class = EventBookingSerializer
+
     def get(self, request):
-        queryset = EventBooking.objects.all().filter(status = "pending")
+        queryset = EventBooking.objects.all().filter(status="pending")
         serializer = EventBookingSerializer(queryset, many=True)
         return Response(
             {
@@ -1058,6 +1065,7 @@ class PendingEventBookingViewSet(generics.GenericAPIView):
 
 class StatusChangeEventBookingViewSet(generics.GenericAPIView):
     serializer_class = EventBookingSerializer
+
     def post(self, request, pk=None):
         queryset = EventBooking.objects.get(pk=pk)
         queryset.status = request.data.get("status")
