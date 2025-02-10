@@ -179,7 +179,12 @@ class PaymentSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        billed_ids = instance.billed_to_ids  # List of billed IDs from the Payment model
+        if isinstance(instance, dict):
+            billed_ids = instance.get("billed_to_ids", [])  # Extract billed_to_ids from the dict
+        else:
+            # For model instances, fetch billed_to_ids as an attribute
+            billed_ids = instance.billed_to_ids
+
 
         # Fetch event booking details for all billed IDs
         detailed_bookings = []
