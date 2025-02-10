@@ -3,6 +3,7 @@ from rest_framework import status, generics
 from django.contrib.auth import authenticate
 from .models import Category, Item, EventBooking
 from .serializers import *
+from django.db.models import Q
 from datetime import date, datetime
 from decimal import Decimal
 
@@ -892,7 +893,7 @@ class PaymentViewSet(generics.GenericAPIView):
                         )
 
             # Check Payments and update/create logic
-            payments = Payment.objects.all()
+            payments = Payment.objects.all().filter(payment_status__in = ["PARTIAL", "UNPAID"])
             payment_found = False
 
             for payment in payments:
