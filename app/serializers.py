@@ -128,7 +128,7 @@ class PaymentSerializer(serializers.ModelSerializer):
         """
         Validate that all provided booking IDs exist
         """
-        print("validate_billed_to_ids")
+
         if not isinstance(value, list):
             raise serializers.ValidationError("billed_to_ids must be a list")
 
@@ -150,8 +150,9 @@ class PaymentSerializer(serializers.ModelSerializer):
         """
         Custom validation for the entire Payment
         """
-        print("validate")
+
         # Validate amounts
+        pending_amount = data.get("pending_amount", 0)
         total_amount = data.get("total_amount", 0)
         advance_amount = data.get("advance_amount", 0)
         transaction_amount = data.get("transaction_amount", 0)
@@ -164,19 +165,6 @@ class PaymentSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Transaction amount cannot be greater than total amount"
             )
-
-        # Calculate pending amount
-        pending_amount = total_amount - advance_amount
-        data["pending_amount"] = pending_amount
-
-        # Automatically set payment status based on amounts
-        if pending_amount == 0:
-            data["payment_status"] = "PAID"
-        elif advance_amount > 0:
-            data["payment_status"] = "PARTIAL"
-        else:
-            data["payment_status"] = "UNPAID"
-
         return data
 
     def to_representation(self, instance):
