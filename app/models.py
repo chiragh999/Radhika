@@ -90,6 +90,7 @@ class EventBooking(models.Model):
     # Status field
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
     # extraservice
+    extra_service_amount = models.CharField(max_length=250,blank=True, null= True)
     extra_service = models.JSONField()
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)

@@ -49,6 +49,7 @@ class EventBookingSerializer(serializers.ModelSerializer):
             "event_time",
             "status",
             "event_address",
+            "extra_service_amount",
             "advance_amount",
             "advance_payment_mode",
             "per_dish_amount",
