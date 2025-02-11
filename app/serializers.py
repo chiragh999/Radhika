@@ -96,6 +96,7 @@ class PaymentSerializer(serializers.ModelSerializer):
             "bill_no",
             "total_amount",
             "advance_amount",
+            "total_extra_amount",
             "pending_amount",
             "payment_date",
             "transaction_amount",

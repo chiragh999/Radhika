@@ -167,6 +167,7 @@ class Payment(models.Model):
         default=list, help_text="List of EventBooking IDs this Payment is billed to"
     )
     total_amount = models.DecimalField(max_digits=100, decimal_places=0)
+    total_extra_amount = models.DecimalField(max_digits=250, decimal_places=0)
     advance_amount = models.DecimalField(max_digits=100, decimal_places=0)
     pending_amount = models.DecimalField(
         max_digits=100, decimal_places=0, null=True, blank=True

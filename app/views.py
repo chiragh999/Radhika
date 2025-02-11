@@ -874,6 +874,7 @@ class PaymentViewSet(generics.GenericAPIView):
             billed_to_ids = data.get("billed_to_ids", [])
             total_amount = data.get("total_amount", 0)
             advance_amount = data.get("advance_amount", 0)
+            total_extra_amount = data.get("total_extra_amount", 0)
 
             # Initialize lists
             event_booking_name_list = []
@@ -916,6 +917,7 @@ class PaymentViewSet(generics.GenericAPIView):
                         payment.pending_amount = (
                             payment.total_amount - payment.advance_amount
                         )
+                        payment.total_extra_amount += total_extra_amount
                         payment.save()
                         payment_found = True
                         break
