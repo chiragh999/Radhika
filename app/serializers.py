@@ -211,6 +211,7 @@ class PaymentSerializer(serializers.ModelSerializer):
                     "advance_payment_mode": event_booking.advance_payment_mode,
                     "per_dish_amount": str(event_booking.per_dish_amount),
                     "estimated_persons": event_booking.estimated_persons,
+                    "extra_service_amount" : event_booking.extra_service_amount,
                     "extra_service" : event_booking.extra_service,
                     "selected_items": event_booking.selected_items,
                     "description": event_booking.description,
