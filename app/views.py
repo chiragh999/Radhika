@@ -324,7 +324,10 @@ class EventBookingViewSet(generics.GenericAPIView):
         request.data["selected_items"] = converted_payload
         amount = 0
         for extra_service in request.data["extra_service"]:
-            amount = amount + int(extra_service.get("amount"))
+            if extra_service.get("amount"):
+                amount = amount + int(extra_service.get("amount"))
+            else: 
+                amount = 0
         request.data["extra_service_amount"] = str(amount)
 
         # converted_payload = {key: {"name": value[0]} for key, value in request.data.get("selected_items").items()}
