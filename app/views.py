@@ -984,7 +984,7 @@ class EditPaymentViewSet(generics.GenericAPIView):
     def put(self, request, pk=None):
         try:
             payment = Payment.objects.get(pk=pk)
-            request.data["advance_amount"] = str(int(request.data.get("advance_amount")) + payment.transaction_amount)
+            request.data["advance_amount"] = str(int(request.data.get("transaction_amount")) + payment.advance_amount)
             # request.data["transaction_amount"] = str(int(request.data.get("transaction_amount")) + payment.transaction_amount)
             serializer = PaymentSerializer(payment, data=request.data)
             if serializer.is_valid(raise_exception=True):
