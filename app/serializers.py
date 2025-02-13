@@ -113,7 +113,7 @@ class PaymentSerializer(serializers.ModelSerializer):
         """
         Returns the details of all associated event bookings
         """
-        print("get_event_bookings")
+
         bookings = EventBooking.objects.filter(id__in=obj.billed_to_ids)
         return [
             {
@@ -146,26 +146,6 @@ class PaymentSerializer(serializers.ModelSerializer):
 
         return value
 
-    def validate(self, data):
-        """
-        Custom validation for the entire Payment
-        """
-
-        # Validate amounts
-        pending_amount = data.get("pending_amount", 0)
-        total_amount = data.get("total_amount", 0)
-        advance_amount = data.get("advance_amount", 0)
-        transaction_amount = data.get("transaction_amount", 0)
-        if advance_amount > total_amount:
-            raise serializers.ValidationError(
-                "Advance amount cannot be greater than total amount"
-            )
-
-        if transaction_amount > total_amount:
-            raise serializers.ValidationError(
-                "Transaction amount cannot be greater than total amount"
-            )
-        return data
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

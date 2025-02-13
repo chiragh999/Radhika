@@ -961,7 +961,7 @@ class EditPaymentViewSet(generics.GenericAPIView):
 
     def get(self, request, pk=None):
         try:
-            payment = Payment.objects.select_related("billed_to").get(pk=pk)
+            payment = Payment.objects.get(pk=pk)
             serializer = PaymentSerializer(payment)
             return Response(
                 {
@@ -984,21 +984,8 @@ class EditPaymentViewSet(generics.GenericAPIView):
     def put(self, request, pk=None):
         try:
             payment = Payment.objects.get(pk=pk)
-
-            # Update pending amount based on new transaction
-            new_transaction_amount = float(request.data.get("transaction_amount", 0))
-            current_pending = float(payment.pending_amount)
             request.data["advance_amount"] = payment.advance_amount
-            if new_transaction_amount > current_pending:
-                return Response(
-                    {
-                        "status": False,
-                        "message": "Transaction amount cannot exceed pending amount",
-                        "data": {},
-                    },
-                    status=status.HTTP_200_OK,
-                )
-
+            request.data["transaction_amount"] = str(int(request.data.get("transaction_amount")) + payment.transaction_amount)
             serializer = PaymentSerializer(payment, data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
