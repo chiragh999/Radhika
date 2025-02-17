@@ -69,7 +69,7 @@ class CategoryViewSet(generics.GenericAPIView):
         last_category = Category.objects.order_by('-positions').first()
         last_positions = last_category.positions if last_category else 1
 
-        request.data["positions"] = last_positions
+        request.data["positions"] = last_positions + 1
         serializer = CategorySerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
