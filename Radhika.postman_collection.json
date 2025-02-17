@@ -269,7 +269,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"ધર્મેશ\",\n    \"mobile_no\": \"9998533013\",\n    \"date\": \"06-02-2025\",\n    \"reference\": \"શેરૂ\",\n    \"event_date\": \"16-02-2025\",\n    \"event_time\": \"સાંજે\",\n    \"status\": \"confirm\",\n    \"event_address\": \"રાજકોટ\",\n    \"advance_amount\": \"150000\",\n    \"advance_payment_mode\": \"\",\n    \"per_dish_amount\": \"550\",\n    \"estimated_persons\": \"1500\",\n    \"selected_items\": {\n        \"સૂપ\": [\n            \"બ્રોકલી\",\n            \"સરગવા\"\n        ],\n        \"પાણી\": [\n            \"200 મિલી\",\n            \"500 મિલી\",\n            \"1 લિટર\"\n        ],\n        \"સલાડ\": [\n            \"લીલા ચના\",\n            \"ગાજર અને કાચી-કેરી\",\n            \"પંચરંગી\"\n        ],\n        \"મીઠાઈ\": [\n            \"ગાજર નો હલવો\",\n            \"ત્રિરંગી બરફી\",\n            \"બરફી\",\n            \"ગુલાબ જાંબુ\"\n        ],\n        \"વેલકમ ડ્રિંક્સ\": [\n            \"મિન્ટ લેમન\",\n            \"સ્ટ્રોબેરી શોટ\"\n        ],\n        \"ફરસાણ\": [\n            \"ખમણ\",\n            \"ખાંડવી/ પાટુડી\",\n            \"સમોસા\"\n        ],\n        \"શાક\": [\n            \"ગ્રીન ઊંધ્યું\",\n            \"કાજુ કરી\"\n        ],\n        \"તંદૂર\": [\n            \"સાધુ રોટલી\",\n            \"પુરી\",\n            \"સાદા પરાઠા\"\n        ],\n        \"રાઈસ\": [\n            \"જીરા રાઈસ\",\n            \"હાંડી બિરયાની\",\n            \"દાળ ખીચડી\"\n        ],\n        \"દાળ-કઢી\": [\n            \"દાળ ફ્રાય\",\n            \"કાઢી\"\n        ]\n    },\n    \"extra_service\": [\n        {\n            \"extra\": \"xxxx\",\n            \"amount\": \"100000\"\n        },\n        {\n            \"extra\": \"aaaa\",\n            \"amount\": \"200000\"\n        },\n        {\n            \"extra\": \"bbbb\",\n            \"amount\": \"300000\"\n        }\n    ],\n    \"description\": \"લેટર ૫\"\n}",
+							"raw": "{\n    \"name\": \"ધર્મેશ\",\n    \"mobile_no\": \"9998533013\",\n    \"date\": \"06-02-2025\",\n    \"reference\": \"શેરૂ\",\n    \"event_date\": \"16-02-2025\",\n    \"event_time\": \"સાંજે\",\n    // \"status\": \"confirm\",\n    \"event_address\": \"રાજકોટ\",\n    \"advance_amount\": \"150000\",\n    \"advance_payment_mode\": \"\",\n    \"per_dish_amount\": \"550\",\n    \"estimated_persons\": \"1500\",\n    \"selected_items\": {\n        \"સૂપ\": [\n            \"બ્રોકલી\",\n            \"સરગવા\"\n        ],\n        \"પાણી\": [\n            \"200 મિલી\",\n            \"500 મિલી\",\n            \"1 લિટર\"\n        ],\n        \"સલાડ\": [\n            \"લીલા ચના\",\n            \"ગાજર અને કાચી-કેરી\",\n            \"પંચરંગી\"\n        ],\n        \"મીઠાઈ\": [\n            \"ગાજર નો હલવો\",\n            \"ત્રિરંગી બરફી\",\n            \"બરફી\",\n            \"ગુલાબ જાંબુ\"\n        ],\n        \"વેલકમ ડ્રિંક્સ\": [\n            \"મિન્ટ લેમન\",\n            \"સ્ટ્રોબેરી શોટ\"\n        ],\n        \"ફરસાણ\": [\n            \"ખમણ\",\n            \"ખાંડવી/ પાટુડી\",\n            \"સમોસા\"\n        ],\n        \"શાક\": [\n            \"ગ્રીન ઊંધ્યું\",\n            \"કાજુ કરી\"\n        ],\n        \"તંદૂર\": [\n            \"સાધુ રોટલી\",\n            \"પુરી\",\n            \"સાદા પરાઠા\"\n        ],\n        \"રાઈસ\": [\n            \"જીરા રાઈસ\",\n            \"હાંડી બિરયાની\",\n            \"દાળ ખીચડી\"\n        ],\n        \"દાળ-કઢી\": [\n            \"દાળ ફ્રાય\",\n            \"કાઢી\"\n        ]\n    },\n    \"extra_service\": [\n        {\n            \"extra\": \"xxxx\",\n            \"amount\": \"100000\"\n        },\n        {\n            \"extra\": \"aaaa\",\n            \"amount\": \"200000\"\n        },\n        {\n            \"extra\": \"bbbb\",\n            \"amount\": \"300000\"\n        }\n    ],\n    \"description\": \"લેટર ૫\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -335,20 +335,20 @@
 					"response": []
 				},
 				{
-					"name": "eventfilter",
+					"name": "status-change-event-bookings",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"date\" : \"20-01-2025\"\n    // \"name\" : \"rajubhai\"\n}",
+							"raw": "{\n   \"status\": \"done\"\n}\n\n//  STATUS_CHOICES = [\n//         (\"pending\", \"Pending\"),\n//         (\"confirm\", \"Confirm\"),\n//         (\"completed\", \"Completed\"),\n//         (\"cancelled\", \"Cancelled\"),\n//         (\"done\", \"Done\"),\n//     ]",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{baseurl}}/eventfilter/"
+						"url": "{{baseurl}}/status-change-event-bookings/27/"
 					},
 					"response": []
 				},
