@@ -355,7 +355,7 @@ class EventBookingViewSet(generics.GenericAPIView):
     def get(self, request):
         queryset = EventBooking.objects.all().filter(
             status__in=["confirm", "completed"]
-        )
+        ).order_by("-event_date")
         serializer = EventBookingSerializer(queryset, many=True)
         return Response(
             {
@@ -858,7 +858,7 @@ class PaymentViewSet(generics.GenericAPIView):
     serializer_class = PaymentSerializer
 
     def get(self, request):
-        payments = Payment.objects.all()
+        payments = Payment.objects.all().order_by("-payment_date")
         serializer = PaymentSerializer(payments, many=True)
         return Response(
             {
@@ -1045,7 +1045,7 @@ class PendingEventBookingViewSet(generics.GenericAPIView):
     serializer_class = EventBookingSerializer
 
     def get(self, request):
-        queryset = EventBooking.objects.all().filter(status="pending")
+        queryset = EventBooking.objects.all().filter(status="pending").order_by("-date")
         serializer = EventBookingSerializer(queryset, many=True)
         return Response(
             {
