@@ -3,8 +3,7 @@ from rest_framework import status, generics
 from django.contrib.auth import authenticate
 from .models import Category, Item, EventBooking
 from .serializers import *
-from django.db.models import Q
-from datetime import date, datetime
+from django.shortcuts import get_object_or_404
 from decimal import Decimal
 
 
@@ -179,6 +178,56 @@ class CategoryGetViewSet(generics.GenericAPIView):
             )
 
 
+class CategoryPositionsChangesViewSet(generics.GenericAPIView):
+    serializer_class = CategoryPositionsChangesSerializer
+
+    def post(self, request, pk):
+        try:
+            new_positions = request.data.get("positions")
+
+            # Get the category whose position is being updated
+            category = get_object_or_404(Category, pk=pk)
+            old_positions = category.positions
+
+            if old_positions == new_positions:
+                return Response(
+                    {
+                        "status": False,
+                        "message": "No changes needed, position is the same.",
+                    },
+                    status=200,
+                )
+
+            # If moving up (better position, smaller number)
+            if new_positions < old_positions:
+                # Shift all employees between new_position and old_position down by 1
+                Category.objects.filter(
+                    positions__gte=new_positions, positions__lt=old_positions
+                ).update(positions=models.F("positions") + 1)
+
+            # If moving down (worse position, larger number)
+            elif new_positions > old_positions:
+                # Shift all employees between old_position and new_position up by 1
+                Category.objects.filter(
+                    positions__gt=old_positions, positions__lte=new_positions
+                ).update(positions=models.F("positions") - 1)
+
+            # Assign the new position to the employee
+            category.positions = new_positions
+            category.save()
+
+            return Response(
+                {
+                    "status": True,
+                    "message": f"{category.name} moved to position {new_positions}",
+                },
+                status=200,
+            )
+
+        except Exception as e:
+            return Response({"status": True, "message": str(e)}, status=500)
+
+
 # --------------------    ItemViewSet    --------------------
 
 
@@ -326,7 +375,7 @@ class EventBookingViewSet(generics.GenericAPIView):
         for extra_service in request.data["extra_service"]:
             if extra_service.get("amount"):
                 amount = amount + int(extra_service.get("amount"))
-            else: 
+            else:
                 amount = 0
         request.data["extra_service_amount"] = str(amount)
 
@@ -353,9 +402,11 @@ class EventBookingViewSet(generics.GenericAPIView):
         )
 
     def get(self, request):
-        queryset = EventBooking.objects.all().filter(
-            status__in=["confirm", "completed"]
-        ).order_by("-event_date")
+        queryset = (
+            EventBooking.objects.all()
+            .filter(status__in=["confirm", "completed"])
+            .order_by("-event_date")
+        )
         serializer = EventBookingSerializer(queryset, many=True)
         return Response(
             {
@@ -901,7 +952,9 @@ class PaymentViewSet(generics.GenericAPIView):
                         )
 
             # Check Payments and update/create logic
-            payments = Payment.objects.all().filter(payment_status__in = ["PARTIAL", "UNPAID"])
+            payments = Payment.objects.all().filter(
+                payment_status__in=["PARTIAL", "UNPAID"]
+            )
             payment_found = False
 
             for payment in payments:
@@ -984,7 +1037,9 @@ class EditPaymentViewSet(generics.GenericAPIView):
     def put(self, request, pk=None):
         try:
             payment = Payment.objects.get(pk=pk)
-            request.data["advance_amount"] = str(int(request.data.get("transaction_amount")) + payment.advance_amount)
+            request.data["advance_amount"] = str(
+                int(request.data.get("transaction_amount")) + payment.advance_amount
+            )
             # request.data["transaction_amount"] = str(int(request.data.get("transaction_amount")) + payment.transaction_amount)
             serializer = PaymentSerializer(payment, data=request.data)
             if serializer.is_valid(raise_exception=True):

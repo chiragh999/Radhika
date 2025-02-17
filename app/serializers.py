@@ -19,7 +19,12 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ["id", "name", "items"]
+        fields = [
+            "id",
+            "name",
+            "positions",
+            "items",
+        ]
 
 
 class EventBookingSerializer(serializers.ModelSerializer):
@@ -146,15 +151,15 @@ class PaymentSerializer(serializers.ModelSerializer):
 
         return value
 
-
     def to_representation(self, instance):
         data = super().to_representation(instance)
         if isinstance(instance, dict):
-            billed_ids = instance.get("billed_to_ids", [])  # Extract billed_to_ids from the dict
+            billed_ids = instance.get(
+                "billed_to_ids", []
+            )  # Extract billed_to_ids from the dict
         else:
             # For model instances, fetch billed_to_ids as an attribute
             billed_ids = instance.billed_to_ids
-
 
         # Fetch event booking details for all billed IDs
         detailed_bookings = []
@@ -179,8 +184,8 @@ class PaymentSerializer(serializers.ModelSerializer):
                     "advance_payment_mode": event_booking.advance_payment_mode,
                     "per_dish_amount": str(event_booking.per_dish_amount),
                     "estimated_persons": event_booking.estimated_persons,
-                    "extra_service_amount" : event_booking.extra_service_amount,
-                    "extra_service" : event_booking.extra_service,
+                    "extra_service_amount": event_booking.extra_service_amount,
+                    "extra_service": event_booking.extra_service,
                     "selected_items": event_booking.selected_items,
                     "description": event_booking.description,
                 }
@@ -201,4 +206,11 @@ class PaymentSerializer(serializers.ModelSerializer):
             if data.get(field) is not None:
                 data[field] = str(Decimal(data[field]))
 
+        return data
+
+class CategoryPositionsChangesSerializer(serializers.Serializer):
+    positions = serializers.CharField(required=True)
+
+    def validate_positions(self, data):
+        print(data,'aaaaaaaaaaaaaaaaaaaaaaa',self)
         return data

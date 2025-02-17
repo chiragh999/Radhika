@@ -23,4 +23,6 @@ urlpatterns = [
     path("payments/", PaymentViewSet.as_view()),
     path("payments/<int:pk>/", EditPaymentViewSet.as_view()),
     path("all-transaction/", AllTransactionViewSet.as_view()),
+    path("category-positions-changes/<int:pk>/",CategoryPositionsChangesViewSet.as_view())
+
 ]

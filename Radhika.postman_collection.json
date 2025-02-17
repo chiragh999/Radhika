@@ -306,7 +306,7 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "{{baseurl}}/event-bookings/1/"
+						"url": "{{baseurl}}/event-bookings/13/"
 					},
 					"response": []
 				},
