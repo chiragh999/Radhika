@@ -587,14 +587,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// {\n//     \"billed_to\": [],\n//     \"total_amount\": \"5000\",\n//     \"pending_amount\": \"0\",\n//     \"payment_date\": \"31-01-2025\",\n//     \"transaction_amount\": \"0\",\n//     \"settlement_amount\" : \"\",\n//     \"payment_status\": \"PAID\",\n//     \"payment_mode\": \"CASH\"\n// }\n\n{\n    \"billed_to\": [12],\n    \"total_amount\": 1130000,\n    \"pending_amount\": 0,\n    \"payment_date\": \"11-02-2025\",\n    \"transaction_amount\": 1100000,\n    \"settlement_amount\": 20000,\n    \"payment_mode\": \"CASH\",\n    \"payment_status\": \"PAID\",\n    \"total_extra_amount\": 30000\n}",
+							"raw": "// {\n//     \"billed_to\": [],\n//     \"total_amount\": \"5000\",\n//     \"pending_amount\": \"0\",\n//     \"payment_date\": \"31-01-2025\",\n//     \"transaction_amount\": \"0\",\n//     \"settlement_amount\" : \"\",\n//     \"payment_status\": \"PAID\",\n//     \"payment_mode\": \"CASH\"\n// }\n\n{\n    \"billed_to\": [24,25],\n    \"total_amount\": 344000,\n    \"pending_amount\": 300000,\n    \"payment_date\": \"11-02-2025\",\n    \"transaction_amount\": 14000,\n    \"settlement_amount\": 0,\n    \"payment_mode\": \"CASH\",\n    \"payment_status\": \"PAID\",\n    \"total_extra_amount\": 13400\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{baseurl}}/payments/10/"
+						"url": "{{baseurl}}/payments/15/"
 					},
 					"response": []
 				},
@@ -604,6 +604,20 @@
 						"method": "DELETE",
 						"header": [],
 						"url": "{{baseurl}}/payments/11/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "all-transaction",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseurl}}/all-transaction/"
 					},
 					"response": []
 				}

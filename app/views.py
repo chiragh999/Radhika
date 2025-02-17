@@ -1075,3 +1075,49 @@ class StatusChangeEventBookingViewSet(generics.GenericAPIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+# --------------------    LoginViewSet    --------------------
+
+
+class AllTransactionViewSet(generics.GenericAPIView):
+    """
+    User Login ViewSet
+    """
+
+    def get(self, request):
+        payments = Payment.objects.all()
+        if not payments.exists():
+            return Response(
+                {
+                    "status": False,
+                    "message": "No transactions found",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+        net_amount = 0
+        total_paid_amount = 0
+        total_unpaid_amount = 0
+        total_settlement_amount = 0
+        final_response = {}
+        for payment in payments:
+            if payment.payment_status == "PAID":
+                total_paid_amount += payment.total_amount
+            elif payment.payment_status in ["UNPAID", "PARTIAL"]:
+                total_unpaid_amount += payment.pending_amount
+                total_paid_amount += payment.advance_amount
+            total_settlement_amount += payment.settlement_amount
+            net_amount += payment.total_amount
+        final_response["net_amount"] = net_amount
+        final_response["total_paid_amount"] = total_paid_amount
+        final_response["total_unpaid_amount"] = total_unpaid_amount
+        final_response["total_settlement_amount"] = total_settlement_amount
+        return Response(
+            {
+                "status": True,
+                "message": "Transaction list",
+                "data": final_response,
+            },
+            status=status.HTTP_200_OK,
+        )
