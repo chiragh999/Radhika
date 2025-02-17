@@ -1109,10 +1109,11 @@ class AllTransactionViewSet(generics.GenericAPIView):
                 total_paid_amount += payment.advance_amount
             total_settlement_amount += payment.settlement_amount
             net_amount += payment.total_amount
-        final_response["net_amount"] = net_amount
-        final_response["total_paid_amount"] = total_paid_amount
-        final_response["total_unpaid_amount"] = total_unpaid_amount
-        final_response["total_settlement_amount"] = total_settlement_amount
+
+        final_response["net_amount"] = int(net_amount)
+        final_response["total_paid_amount"] = int(total_paid_amount)
+        final_response["total_unpaid_amount"] = int(total_unpaid_amount)
+        final_response["total_settlement_amount"] = int(total_settlement_amount)
         return Response(
             {
                 "status": True,
