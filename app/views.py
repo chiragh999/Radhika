@@ -72,7 +72,7 @@ class CategoryViewSet(generics.GenericAPIView):
         request.data["positions"] = last_positions
         serializer = CategorySerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            # serializer.save()
+            serializer.save()
             return Response(
                 {
                     "status": True,
