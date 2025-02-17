@@ -66,11 +66,13 @@ class CategoryViewSet(generics.GenericAPIView):
                 },
                 status=status.HTTP_200_OK,
             )
-        last_positions = Category.objects.aggregate(max_positions=models.Max('positions'))['max_positions']
-        request.data["positions"] = last_positions + 1 
+        last_category = Category.objects.order_by('-positions').first()
+        last_positions = last_category.positions if last_category else 1
+
+        request.data["positions"] = last_positions
         serializer = CategorySerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            # serializer.save()
             return Response(
                 {
                     "status": True,
