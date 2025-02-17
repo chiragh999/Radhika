@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from django.contrib.auth import authenticate
 from .models import Category, Item, EventBooking
+from django.db import transaction
 from .serializers import *
 from django.shortcuts import get_object_or_404
 from decimal import Decimal
@@ -65,6 +66,8 @@ class CategoryViewSet(generics.GenericAPIView):
                 },
                 status=status.HTTP_200_OK,
             )
+        last_positions = Category.objects.aggregate(max_positions=models.Max('positions'))['max_positions']
+        request.data["positions"] = last_positions + 1 
         serializer = CategorySerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -135,25 +138,29 @@ class CategoryGetViewSet(generics.GenericAPIView):
 
     def delete(self, request, pk=None):
         try:
-            category = Category.objects.get(pk=pk)
-            category.delete()
-            return Response(
-                {
-                    "status": True,
-                    "message": "Category deleted successfully",
-                    "data": {},
-                },
-                status=status.HTTP_200_OK,
-            )
-        except Category.DoesNotExist:
-            return Response(
-                {
-                    "status": False,
-                    "message": "Category not found",
-                    "data": {},
-                },
-                status=status.HTTP_200_OK,
-            )
+            with transaction.atomic():
+                # Get the category to be deleted
+                category = get_object_or_404(Category, pk=pk)
+                deleted_position = category.positions
+
+                # Delete the category
+                category.delete()
+
+                # Update positions of all categories after the deleted one
+                Category.objects.filter(
+                    positions__gt=deleted_position
+                ).update(positions=models.F("positions") - 1)
+
+                return Response(
+                    {
+                        "status": True,
+                        "message": "Category deleted and positions updated successfully",
+                    },
+                    status=200,
+                )
+
+        except Exception as e:
+            return Response({"status": False, "message": str(e)}, status=500)
 
     def get(self, request, pk=None):
         try:

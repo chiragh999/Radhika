@@ -73,7 +73,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"દાળ-કઢી\"\n}",
+							"raw": "{\n    \"name\": \"demo2\",\n    \"positions\": 13\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -110,7 +110,7 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "{{baseurl}}/categories/1/"
+						"url": "{{baseurl}}/categories/27/"
 					},
 					"response": []
 				},
@@ -135,6 +135,24 @@
 							}
 						},
 						"url": "{{baseurl}}/categories/2/"
+					},
+					"response": []
+				},
+				{
+					"name": "category-positions-changes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"positions\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/category-positions-changes/27/"
 					},
 					"response": []
 				}
