@@ -9,3 +9,10 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
+
+class RecipeIngredient(models.Model):
+    item = models.OneToOneField(Item, related_name="recipe", on_delete=models.CASCADE)
+    ingredients = models.JSONField(default=dict)  # Stores ingredients as a JSON object
+
+    def __str__(self):
+        return f"Ingredients for {self.item.name}"
