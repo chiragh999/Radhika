@@ -165,6 +165,9 @@ class RecipeIngredientViewSet(generics.GenericAPIView):
     def get(self, request):
         recipe_ingredient = RecipeIngredient.objects.all()
         serializer = RecipeIngredientSerializer(recipe_ingredient,many=True)
+        for data in serializer.data:
+            item = Item.objects.filter(pk = data.get("item")).values().first()
+            data['item'] = item
         return Response(
             {
                 "status": True,
