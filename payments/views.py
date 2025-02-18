@@ -31,29 +31,51 @@ class PaymentViewSet(generics.GenericAPIView):
             advance_amount = data.get("advance_amount", 0)
             total_extra_amount = data.get("total_extra_amount", 0)
 
+            # Check if any of the billed_to_ids already have a completed payment
+            existing_payments = Payment.objects.filter(
+                billed_to_ids__overlap=billed_to_ids,
+                payment_status="PAID"
+            )
+            
+            if existing_payments.exists():
+                # Get the list of IDs that already have payments
+                duplicate_ids = []
+                for payment in existing_payments:
+                    duplicate_ids.extend(
+                        set(payment.billed_to_ids) & set(billed_to_ids)
+                    )
+                
+                return Response(
+                    {
+                        "status": False,
+                        "message": f"Payment already exists for booking IDs: {duplicate_ids}",
+                        "data": {},
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
             # Initialize lists
             event_booking_name_list = []
             event_booking_mobile_no_list = []
 
-            # Populate lists based on billed_to_ids
-            if billed_to_ids:
-                for bill_id in billed_to_ids:
-                    try:
-                        event_booking = EventBooking.objects.get(id=bill_id)
-                        event_booking_name_list.append(event_booking.name)
-                        event_booking_mobile_no_list.append(event_booking.mobile_no)
-                    except EventBooking.DoesNotExist:
-                        return Response(
-                            {
-                                "status": False,
-                                "message": f"EventBooking with ID {bill_id} does not exist.",
-                                "data": {},
-                            },
-                            status=status.HTTP_400_BAD_REQUEST,
-                        )
+            # Validate all event bookings exist
+            for bill_id in billed_to_ids:
+                try:
+                    event_booking = EventBooking.objects.get(id=bill_id)
+                    event_booking_name_list.append(event_booking.name)
+                    event_booking_mobile_no_list.append(event_booking.mobile_no)
+                except EventBooking.DoesNotExist:
+                    return Response(
+                        {
+                            "status": False,
+                            "message": f"EventBooking with ID {bill_id} does not exist.",
+                            "data": {},
+                        },
+                        status=status.HTTP_200_OK,
+                    )
 
-            # Check Payments and update/create logic
-            payments = Payment.objects.all().filter(
+            # Check for partial/unpaid payments and update if found
+            payments = Payment.objects.filter(
                 payment_status__in=["PARTIAL", "UNPAID"]
             )
             payment_found = False
@@ -67,7 +89,19 @@ class PaymentViewSet(generics.GenericAPIView):
                         event_booking.name in event_booking_name_list
                         and event_booking.mobile_no in event_booking_mobile_no_list
                     ):
-                        # Update the existing payments
+                        # Check for duplicate IDs in the existing payment
+                        duplicate_ids = set(payment.billed_to_ids) & set(billed_to_ids)
+                        if duplicate_ids:
+                            return Response(
+                                {
+                                    "status": False,
+                                    "message": f"Booking IDs is already exist in payment",
+                                    "data": {},
+                                },
+                                status=status.HTTP_200_OK
+                            )
+                        
+                        # Update the existing payment
                         payment.billed_to_ids.extend(billed_to_ids)
                         payment.total_amount += total_amount
                         payment.advance_amount += advance_amount
@@ -75,11 +109,27 @@ class PaymentViewSet(generics.GenericAPIView):
                             payment.total_amount - payment.advance_amount
                         )
                         payment.total_extra_amount += total_extra_amount
+                        
+                        # Update payment status based on pending amount
+                        if payment.pending_amount == 0:
+                            payment.payment_status = "PAID"
+                        else:
+                            payment.payment_status = "PARTIAL"
+                            
                         payment.save()
                         payment_found = True
                         break
 
             if not payment_found:
+                # Calculate pending amount for new payment
+                pending_amount = total_amount - advance_amount
+                
+                # Set payment status based on pending amount
+                if pending_amount == 0:
+                    data['payment_status'] = "PAID"
+                else:
+                    data['payment_status'] = "PARTIAL"
+                
                 # Create a new payment
                 serializer.save()
                 return Response(

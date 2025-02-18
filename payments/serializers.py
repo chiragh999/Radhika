@@ -29,26 +29,10 @@ class PaymentSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["bill_no", "created_at", "updated_at"]
 
-    def get_event_bookings(self, obj):
-        """
-        Returns the details of all associated event bookings
-        """
-
-        bookings = EventBooking.objects.filter(id__in=obj.billed_to_ids)
-        return [
-            {
-                "id": booking.id,
-                "name": booking.name,
-                # Add other fields you want to include
-            }
-            for booking in bookings
-        ]
-
     def validate_billed_to_ids(self, value):
         """
-        Validate that all provided booking IDs exist
+        Validate that all provided booking IDs exist and ensure each ID is used only once.
         """
-
         if not isinstance(value, list):
             raise serializers.ValidationError("billed_to_ids must be a list")
 
@@ -64,52 +48,53 @@ class PaymentSerializer(serializers.ModelSerializer):
                 f"Invalid booking IDs: {', '.join(map(str, invalid_ids))}"
             )
 
+        # Ensure each booking ID is used only once
+        already_billed_ids = set(
+            Payment.objects.filter(billed_to_ids__overlap=value).values_list("billed_to_ids", flat=True)
+        )
+        duplicate_ids = already_billed_ids.intersection(set(value))
+        if duplicate_ids:
+            raise serializers.ValidationError(
+                f"Payments have already been created for booking IDs: {', '.join(map(str, duplicate_ids))}"
+            )
+
         return value
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
         if isinstance(instance, dict):
-            billed_ids = instance.get(
-                "billed_to_ids", []
-            )  # Extract billed_to_ids from the dict
+            billed_ids = instance.get("billed_to_ids", [])
         else:
-            # For model instances, fetch billed_to_ids as an attribute
             billed_ids = instance.billed_to_ids
 
         # Fetch event booking details for all billed IDs
-        detailed_bookings = []
-        event_bookings = EventBooking.objects.filter(
-            id__in=billed_ids
-        )  # Optimize query
-        for event_booking in event_bookings:
-            detailed_bookings.append(
-                {
-                    "id": event_booking.id,
-                    "name": event_booking.name,
-                    "mobile_no": event_booking.mobile_no,
-                    "date": event_booking.date.strftime("%d-%m-%Y"),
-                    "reference": event_booking.reference,
-                    "event_date": event_booking.event_date.strftime("%d-%m-%Y"),
-                    "event_time": event_booking.event_time,
-                    "status": event_booking.status,
-                    "event_address": event_booking.event_address,
-                    "advance_amount": str(
-                        event_booking.advance_amount
-                    ),  # Ensure decimals are strings
-                    "advance_payment_mode": event_booking.advance_payment_mode,
-                    "per_dish_amount": str(event_booking.per_dish_amount),
-                    "estimated_persons": event_booking.estimated_persons,
-                    "extra_service_amount": event_booking.extra_service_amount,
-                    "extra_service": event_booking.extra_service,
-                    "selected_items": event_booking.selected_items,
-                    "description": event_booking.description,
-                }
-            )
+        event_bookings = EventBooking.objects.filter(id__in=billed_ids)
+        detailed_bookings = [
+            {
+                "id": booking.id,
+                "name": booking.name,
+                "mobile_no": booking.mobile_no,
+                "date": booking.date.strftime("%d-%m-%Y"),
+                "reference": booking.reference,
+                "event_date": booking.event_date.strftime("%d-%m-%Y"),
+                "event_time": booking.event_time,
+                "status": booking.status,
+                "event_address": booking.event_address,
+                "advance_amount": str(booking.advance_amount),
+                "advance_payment_mode": booking.advance_payment_mode,
+                "per_dish_amount": str(booking.per_dish_amount),
+                "estimated_persons": booking.estimated_persons,
+                "extra_service_amount": booking.extra_service_amount,
+                "extra_service": booking.extra_service,
+                "selected_items": booking.selected_items,
+                "description": booking.description,
+            }
+            for booking in event_bookings
+        ]
 
-        # Replace billed_to_ids with detailed booking data
         data["billed_to_ids"] = detailed_bookings
 
-        # Format decimal fields in the Payment
+        # Format decimal fields
         decimal_fields = [
             "total_amount",
             "advance_amount",
@@ -120,5 +105,9 @@ class PaymentSerializer(serializers.ModelSerializer):
         for field in decimal_fields:
             if data.get(field) is not None:
                 data[field] = str(Decimal(data[field]))
+
+        # Auto-set payment_status to "Paid" if pending_amount is 0
+        if Decimal(data.get("pending_amount", "0")) == Decimal("0"):
+            data["payment_status"] = "PAID"
 
         return data
