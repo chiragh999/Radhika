@@ -166,7 +166,7 @@ class RecipeIngredientViewSet(generics.GenericAPIView):
         recipe_ingredient = RecipeIngredient.objects.all()
         serializer = RecipeIngredientSerializer(recipe_ingredient,many=True)
         for data in serializer.data:
-            item = Item.objects.filter(pk = data.get("item")).values().first()
+            item = Item.objects.filter(pk = data.get("item")).values("name").first()
             data['item'] = item
         return Response(
             {
