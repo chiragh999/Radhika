@@ -7,6 +7,7 @@ class ItemSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "category"]
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):
+    item = ItemSerializer(read_only=True)
 
     class Meta:
         model = RecipeIngredient
