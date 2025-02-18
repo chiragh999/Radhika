@@ -11,3 +11,9 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeIngredient
         fields = ['id', 'item', 'ingredients']
+
+class EditRecipeIngredientSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = RecipeIngredient
+        fields = ['id', 'ingredients']

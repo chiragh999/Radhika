@@ -179,12 +179,12 @@ class RecipeIngredientViewSet(generics.GenericAPIView):
 
 
 class EditRecipeIngredientViewSet(generics.GenericAPIView):
-    serializer_class = RecipeIngredientSerializer
+    serializer_class = EditRecipeIngredientSerializer
 
     def put(self, request, pk=None):
         try:
             item = RecipeIngredient.objects.get(pk=pk)
-            serializer = RecipeIngredientSerializer(item, data=request.data)
+            serializer = EditRecipeIngredientSerializer(item, data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(

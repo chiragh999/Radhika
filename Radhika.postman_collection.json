@@ -640,6 +640,65 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "recipes",
+			"item": [
+				{
+					"name": "add-recipes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"item\": 10,\n    \"ingredients\": [\n        \"નાના રીંગણ\",\n        \"નાની બટેટી\",\n        \"નાની ડુંગળી\",\n        \"સુરતી પાપડી\",\n        \"કંદ\",\n        \"રતાળુ\",\n        \"કાચા કેળા\",\n        \"પાકા કેળા\",\n        \"લીલા વટાણા\",\n        \"તુવેર દાણા\",\n        \"વાલ ના દાણા\",\n        \"તેલ\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/recipes/"
+					},
+					"response": []
+				},
+				{
+					"name": "get-all-recipes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseurl}}/recipes/"
+					},
+					"response": []
+				},
+				{
+					"name": "update-recipes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ingredients\": [\n        \"નાના રીંગણ\",\n        \"નાની બટેટી\",\n        \"નાની ડુંગળી\",\n        \"સુરતી પાપડી\",\n        \"કંદ\",\n        \"રતાળુ\",\n        \"કાચા કેળા\",\n        \"પાકા કેળા\",\n        \"લીલા વટાણા\",\n        \"તુવેર દાણા\",\n        \"વાલ ના દાણા\",\n        \"ટામેટા\",\n        \"તેલ\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/recipes/3/"
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
