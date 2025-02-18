@@ -73,7 +73,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"demo2\",\n    \"positions\": 13\n}",
+							"raw": "{\n    \"name\": \"Salad & Side Dish\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -110,7 +110,7 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "{{baseurl}}/categories/27/"
+						"url": "{{baseurl}}/categories/31/"
 					},
 					"response": []
 				},
@@ -145,14 +145,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"positions\": 5\n}",
+							"raw": "{\n    \"positions\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{baseurl}}/category-positions-changes/27/"
+						"url": "{{baseurl}}/category-positions-changes/21/"
 					},
 					"response": []
 				}
@@ -309,7 +309,7 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{baseurl}}/event-bookings/1/"
+						"url": "{{baseurl}}/event-bookings/3/"
 					},
 					"response": []
 				},
@@ -587,7 +587,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// {\n//     \"billed_to\": [4],\n//     \"total_amount\": \"5000\",\n//     \"pending_amount\": \"4000\",\n//     \"advance_amount\": \"1000\",\n//     \"payment_date\": \"03-02-2025\",\n//     \"transaction_amount\": \"0\",\n//     \"settlement_amount\": \"0\"\n//     // \"payment_mode\": \"\"\n// }\n{\n    \"billed_to_ids\": [\n        11\n    ],\n    \"total_amount\": 825000,\n    \"pending_amount\": 675000,\n    \"advance_amount\": 150000,\n    \"payment_date\": \"10-02-2025\",\n    \"transaction_amount\": 0,\n    \"settlement_amount\": 0,\n    \"total_extra_amount\" : 0\n}",
+							"raw": "// {\n//     \"billed_to\": [4],\n//     \"total_amount\": \"5000\",\n//     \"pending_amount\": \"4000\",\n//     \"advance_amount\": \"1000\",\n//     \"payment_date\": \"03-02-2025\",\n//     \"transaction_amount\": \"0\",\n//     \"settlement_amount\": \"0\"\n//     // \"payment_mode\": \"\"\n// }\n{\n    \"billed_to_ids\": [\n        3\n    ],\n    \"total_amount\": 470000,\n    \"pending_amount\": 0,\n    \"advance_amount\": 470000,\n    \"payment_date\": \"10-02-2025\",\n    \"transaction_amount\": 0,\n    \"settlement_amount\": 0,\n    \"total_extra_amount\" : 50000\n}",
 							"options": {
 								"raw": {
 									"language": "json"
