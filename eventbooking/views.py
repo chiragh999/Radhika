@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework import status, generics
+from Radhika.Utils.permissions import *
 from .serializers import *
 
 # --------------------    EventBookingViewSet    --------------------
@@ -7,6 +8,7 @@ from .serializers import *
 
 class EventBookingViewSet(generics.GenericAPIView):
     serializer_class = EventBookingSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def post(self, request):
         # Convert the selected_items payload
@@ -65,6 +67,7 @@ class EventBookingViewSet(generics.GenericAPIView):
 
 class EventBookingGetViewSet(generics.GenericAPIView):
     serializer_class = EventBookingSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def put(self, request, pk=None):
         try:
@@ -156,6 +159,7 @@ class EventBookingGetViewSet(generics.GenericAPIView):
 
 class StatusChangeEventBookingViewSet(generics.GenericAPIView):
     serializer_class = EventBookingSerializer
+    permission_classes = [IsOwnerOrAdmin]
 
     def post(self, request, pk=None):
         queryset = EventBooking.objects.get(pk=pk)
@@ -176,6 +180,7 @@ class StatusChangeEventBookingViewSet(generics.GenericAPIView):
 
 class PendingEventBookingViewSet(generics.GenericAPIView):
     serializer_class = EventBookingSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def get(self, request):
         queryset = EventBooking.objects.all().filter(status="pending").order_by("-date")

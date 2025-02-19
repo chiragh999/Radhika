@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework import status, generics
+from Radhika.Utils.permissions import *
 from .models import Item
 from .serializers import *
 
@@ -11,6 +12,7 @@ from .serializers import *
 
 class ItemViewSet(generics.GenericAPIView):
     serializer_class = ItemSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def post(self, request):
         if Item.objects.filter(name=request.data.get("name")).exists():
@@ -64,6 +66,7 @@ class ItemViewSet(generics.GenericAPIView):
 
 class ItemGetViewSet(generics.GenericAPIView):
     serializer_class = ItemSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def put(self, request, pk=None):
         try:
@@ -147,6 +150,7 @@ class ItemGetViewSet(generics.GenericAPIView):
 
 class RecipeIngredientViewSet(generics.GenericAPIView):
     serializer_class = RecipeIngredientSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def post(self, request):
         serializer = RecipeIngredientSerializer(data=request.data)
@@ -187,6 +191,7 @@ class RecipeIngredientViewSet(generics.GenericAPIView):
 
 class EditRecipeIngredientViewSet(generics.GenericAPIView):
     serializer_class = EditRecipeIngredientSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def put(self, request, pk=None):
         try:

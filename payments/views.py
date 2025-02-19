@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework import status, generics
+from Radhika.Utils.permissions import *
 from .serializers import *
 
 
@@ -8,6 +9,7 @@ from .serializers import *
 
 class PaymentViewSet(generics.GenericAPIView):
     serializer_class = PaymentSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def get(self, request):
         payments = Payment.objects.all().order_by("-payment_date")
@@ -162,6 +164,7 @@ class PaymentViewSet(generics.GenericAPIView):
 
 class EditPaymentViewSet(generics.GenericAPIView):
     serializer_class = PaymentSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def get(self, request, pk=None):
         try:
@@ -245,6 +248,7 @@ class EditPaymentViewSet(generics.GenericAPIView):
 
 
 class AllTransactionViewSet(generics.GenericAPIView):
+    permission_classes = [IsAdminUserOrReadOnly]
     """
     User Login ViewSet
     """
