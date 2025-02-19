@@ -654,7 +654,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"item\": 4,\n    \"ingredients\": [\n        \"બ્રોકલી\",\n        \"બદામ\",\n        \"ઘી અથવા બટર\",\n        \"પાણી\",\n        \"દૂધ\",\n        \"મીઠું\",\n        \"મરી પાઉડર\",\n        \"ક્રીમ\",\n        \"લસણ અને ડુંગળી\"\n    ]\n}",
+							"raw": "{\n    \"item\": 7,\n    \"ingredients\": [\n        \"બ્રોકલી\",\n        \"બદામ\",\n        \"ઘી અથવા બટર\",\n        \"પાણી\",\n        \"દૂધ\",\n        \"મીઠું\",\n        \"મરી પાઉડર\",\n        \"ક્રીમ\",\n        \"લસણ અને ડુંગળી\"\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -695,6 +695,18 @@
 							}
 						},
 						"url": "{{baseurl}}/recipes/1/"
+					},
+					"response": []
+				},
+				{
+					"name": "delete-recipes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{baseurl}}/recipes/4/"
 					},
 					"response": []
 				}
