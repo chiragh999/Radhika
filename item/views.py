@@ -43,8 +43,15 @@ class ItemViewSet(generics.GenericAPIView):
         )
 
     def get(self, request):
-        queryset = Item.objects.all()
-        serializer = ItemSerializer(queryset, many=True)
+        # Get all item IDs that are already used in RecipeIngredient
+        used_item_ids = set(RecipeIngredient.objects.values_list('item__pk', flat=True))
+
+        # Exclude those items from the queryset
+        available_items = Item.objects.exclude(id__in=used_item_ids)
+
+        # Serialize the queryset
+        serializer = ItemSerializer(available_items, many=True)
+
         return Response(
             {
                 "status": True,
