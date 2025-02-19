@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import status, generics
 from django.db import transaction
+from Radhika.Utils.permissions import *
 from .serializers import *
 from django.shortcuts import get_object_or_404
 
@@ -10,6 +11,7 @@ from django.shortcuts import get_object_or_404
 
 class CategoryViewSet(generics.GenericAPIView):
     serializer_class = CategorySerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def post(self, request):
         if Category.objects.filter(name=request.data.get("name")).exists():
@@ -60,6 +62,7 @@ class CategoryViewSet(generics.GenericAPIView):
 
 class CategoryGetViewSet(generics.GenericAPIView):
     serializer_class = CategorySerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def put(self, request, pk=None):
         try:
@@ -144,6 +147,7 @@ class CategoryGetViewSet(generics.GenericAPIView):
 
 class CategoryPositionsChangesViewSet(generics.GenericAPIView):
     serializer_class = CategoryPositionsChangesSerializer
+    permission_classes = [IsOwnerOrAdmin]
 
     def post(self, request, pk):
         try:
