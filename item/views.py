@@ -313,8 +313,9 @@ class CommonIngredientsView(generics.GenericAPIView):
 
             # Get recipes and organize ingredients
             ingredient_to_dishes = defaultdict(list)
+            ingredient_frequency = defaultdict(int)
             
-            # First pass: collect all ingredients and their using dishes
+            # First pass: collect all ingredients and count their frequency
             for dish_name in selected_dishes:
                 ingredients = self.get_recipe_for_item(dish_name)
                 if ingredients:
@@ -323,34 +324,43 @@ class CommonIngredientsView(generics.GenericAPIView):
                         for ingredient in ingredients:
                             ingredient_to_dishes[ingredient].append({
                                 'item_name': dish_name,
-                                'quantity': ''  # You can add quantity logic here if needed
+                                'quantity': ''
                             })
+                            ingredient_frequency[ingredient] += 1
                     elif isinstance(ingredients, dict):
                         for ingredient in ingredients.keys():
                             ingredient_to_dishes[ingredient].append({
                                 'item_name': dish_name,
                                 'quantity': ingredients.get(ingredient, '')
                             })
+                            ingredient_frequency[ingredient] += 1
 
-            # Format response
+            # Format response and sort by frequency
             response_data = []
-            for ingredient, using_dishes in ingredient_to_dishes.items():
-                if len(using_dishes) > 1:  # Only include ingredients used in multiple dishes
-                    ingredient_data = {
-                        'item': ingredient,
-                        'quantity_type': '',  # You can add quantity type logic here
-                        'use_item': using_dishes,
-                        'total_quantity': '0'  # You can add total quantity calculation logic here
-                    }
-                    response_data.append(ingredient_data)
+            sorted_ingredients = sorted(
+                ingredient_to_dishes.items(),
+                key=lambda x: (-ingredient_frequency[x[0]], x[0])  # Sort by frequency desc, then name asc
+            )
 
-            # Sort response by number of using dishes (most used first)
-            response_data.sort(key=lambda x: len(x['use_item']), reverse=True)
+            for ingredient, using_dishes in sorted_ingredients:
+                ingredient_data = {
+                    'item': ingredient,
+                    'frequency': ingredient_frequency[ingredient],  # Added frequency count
+                    'quantity_type': '',
+                    'use_item': using_dishes,
+                    'total_quantity': '0',
+                    'is_common': ingredient_frequency[ingredient] > 1  # Flag for common ingredients
+                }
+                response_data.append(ingredient_data)
 
             return Response({
                 'status': True,
-                'message': 'Common ingredients analysis completed',
-                'data': response_data
+                'message': 'Ingredients analysis completed',
+                'data': response_data,
+                'summary': {
+                    'total_ingredients': len(response_data),
+                    'common_ingredients': sum(1 for item in response_data if item['is_common'])
+                }
             }, status=status.HTTP_200_OK)
 
         except Exception as e:
@@ -358,101 +368,3 @@ class CommonIngredientsView(generics.GenericAPIView):
                 'status': False,
                 'message': str(e)
             }, status=status.HTTP_200_OK)
-
-# class CommonIngredientsView(generics.GenericAPIView):
-#     permission_classes = [IsAdminUserOrReadOnly]
-#     def get_recipe_for_item(self, item_name):
-#         try:
-#             item = Item.objects.get(name=item_name)
-#             recipe = RecipeIngredient.objects.get(item=item)
-#             return recipe.ingredients
-#         except (Item.DoesNotExist, RecipeIngredient.DoesNotExist):
-#             return None
-
-#     def post(self, request):
-#         try:
-#             # Get event booking ID from request
-#             event_id = request.data.get('event_id')
-#             if not event_id:
-#                 return Response({
-#                     'status': False,
-#                     'message': 'Event ID is required'
-#                 }, status=status.HTTP_400_BAD_REQUEST)
-
-#             # Get event booking
-#             try:
-#                 event = EventBooking.objects.get(id=event_id)
-#             except EventBooking.DoesNotExist:
-#                 return Response({
-#                     'status': False,
-#                     'message': 'Event not found'
-#                 }, status=status.HTTP_404_NOT_FOUND)
-
-#             # Extract all selected items
-#             selected_dishes = []
-#             for category_items in event.selected_items.values():
-#                 for item in category_items:
-#                     selected_dishes.append(item['name'])
-
-#             # Get recipes for all selected items
-#             recipes_data = {}
-#             missing_recipes = []
-#             for dish_name in selected_dishes:
-#                 ingredients = self.get_recipe_for_item(dish_name)
-#                 if ingredients:
-#                     recipes_data[dish_name] = ingredients
-#                 else:
-#                     missing_recipes.append(dish_name)
-
-#             # Find common ingredients
-#             ingredient_to_dishes = defaultdict(list)
-#             for dish, ingredients in recipes_data.items():
-#                 if isinstance(ingredients, list):  # If ingredients stored as list
-#                     for ingredient in ingredients:
-#                         ingredient_to_dishes[ingredient].append(dish)
-#                 elif isinstance(ingredients, dict):  # If ingredients stored as dict
-#                     for ingredient in ingredients.keys():
-#                         ingredient_to_dishes[ingredient].append(dish)
-
-#             # Filter for common ingredients (used in multiple dishes)
-#             common_ingredients = {
-#                 ingredient: dishes 
-#                 for ingredient, dishes in ingredient_to_dishes.items() 
-#                 if len(dishes) > 1
-#             }
-
-#             # Group dishes by shared ingredients
-#             shared_ingredients = {}
-#             for ingredient, dishes in common_ingredients.items():
-#                 dishes_key = ", ".join(sorted(dishes))
-#                 if dishes_key not in shared_ingredients:
-#                     shared_ingredients[dishes_key] = []
-#                 shared_ingredients[dishes_key].append(ingredient)
-
-#             return Response({
-#                 'status': True,
-#                 'message': 'Common ingredients analysis completed',
-#                 'data': {
-#                     'common_ingredients': {
-#                         ingredient: {
-#                             'used_in_dishes': dishes,
-#                             'count': len(dishes)
-#                         }
-#                         for ingredient, dishes in common_ingredients.items()
-#                     },
-#                     'dishes_sharing_ingredients': {
-#                         dishes: {
-#                             'shared_ingredients': ingredients,
-#                             'count': len(ingredients)
-#                         }
-#                         for dishes, ingredients in shared_ingredients.items()
-#                     },
-#                     'missing_recipes': missing_recipes
-#                 }
-#             }, status=status.HTTP_200_OK)
-
-#         except Exception as e:
-#             return Response({
-#                 'status': False,
-#                 'message': str(e)
-#             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
