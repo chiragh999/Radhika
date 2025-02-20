@@ -294,7 +294,7 @@ class CommonIngredientsView(generics.GenericAPIView):
                 return Response({
                     'status': False,
                     'message': 'Event ID is required'
-                }, status=status.HTTP_400_BAD_REQUEST)
+                }, status=status.HTTP_200_OK)
 
             # Get event booking
             try:
@@ -303,7 +303,7 @@ class CommonIngredientsView(generics.GenericAPIView):
                 return Response({
                     'status': False,
                     'message': 'Event not found'
-                }, status=status.HTTP_404_NOT_FOUND)
+                }, status=status.HTTP_200_OK)
 
             # Get all selected items from the event
             selected_dishes = []
@@ -357,7 +357,7 @@ class CommonIngredientsView(generics.GenericAPIView):
             return Response({
                 'status': False,
                 'message': str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            }, status=status.HTTP_200_OK)
 
 # class CommonIngredientsView(generics.GenericAPIView):
 #     permission_classes = [IsAdminUserOrReadOnly]
