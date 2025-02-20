@@ -313,9 +313,8 @@ class CommonIngredientsView(generics.GenericAPIView):
 
             # Get recipes and organize ingredients
             ingredient_to_dishes = defaultdict(list)
-            ingredient_frequency = defaultdict(int)
             
-            # First pass: collect all ingredients and count their frequency
+            # First pass: collect all ingredients and their using dishes
             for dish_name in selected_dishes:
                 ingredients = self.get_recipe_for_item(dish_name)
                 if ingredients:
@@ -324,43 +323,30 @@ class CommonIngredientsView(generics.GenericAPIView):
                         for ingredient in ingredients:
                             ingredient_to_dishes[ingredient].append({
                                 'item_name': dish_name,
-                                'quantity': ''
+                                'quantity': ''  # You can add quantity logic here if needed
                             })
-                            ingredient_frequency[ingredient] += 1
                     elif isinstance(ingredients, dict):
                         for ingredient in ingredients.keys():
                             ingredient_to_dishes[ingredient].append({
                                 'item_name': dish_name,
                                 'quantity': ingredients.get(ingredient, '')
                             })
-                            ingredient_frequency[ingredient] += 1
 
-            # Format response and sort by frequency
+            # Format response
             response_data = []
-            sorted_ingredients = sorted(
-                ingredient_to_dishes.items(),
-                key=lambda x: (-ingredient_frequency[x[0]], x[0])  # Sort by frequency desc, then name asc
-            )
-
-            for ingredient, using_dishes in sorted_ingredients:
+            for ingredient, using_dishes in ingredient_to_dishes.items():
                 ingredient_data = {
                     'item': ingredient,
-                    'frequency': ingredient_frequency[ingredient],  # Added frequency count
-                    'quantity_type': '',
+                    'quantity_type': '',  # You can add quantity type logic here
                     'use_item': using_dishes,
-                    'total_quantity': '0',
-                    'is_common': ingredient_frequency[ingredient] > 1  # Flag for common ingredients
+                    'total_quantity': '0'  # You can add total quantity calculation logic here
                 }
                 response_data.append(ingredient_data)
 
             return Response({
                 'status': True,
                 'message': 'Ingredients analysis completed',
-                'data': response_data,
-                'summary': {
-                    'total_ingredients': len(response_data),
-                    'common_ingredients': sum(1 for item in response_data if item['is_common'])
-                }
+                'data': response_data
             }, status=status.HTTP_200_OK)
 
         except Exception as e:
