@@ -161,7 +161,7 @@ class RecipeIngredientViewSet(generics.GenericAPIView):
             return Response(
                 {
                     "status": True,
-                    "message": "Category created successfully",
+                    "message": "Recipe Ingredient created successfully",
                     "data": serializer.data,
                 },
                 status=status.HTTP_200_OK,
@@ -184,7 +184,7 @@ class RecipeIngredientViewSet(generics.GenericAPIView):
         return Response(
             {
                 "status": True,
-                "message": "Category created successfully",
+                "message": "Recipe Ingredient List",
                 "data": serializer.data,
             },
             status=status.HTTP_200_OK,
@@ -204,7 +204,7 @@ class EditRecipeIngredientViewSet(generics.GenericAPIView):
                 return Response(
                     {
                         "status": True,
-                        "message": "Item updated successfully",
+                        "message": "Recipe Ingredient updated successfully",
                         "data": serializer.data,
                     },
                     status=status.HTTP_200_OK,
@@ -221,7 +221,7 @@ class EditRecipeIngredientViewSet(generics.GenericAPIView):
             return Response(
                 {
                     "status": False,
-                    "message": "Item not found",
+                    "message": "Recipe Ingredient not found",
                     "data": {},
                 },
                 status=status.HTTP_200_OK,
@@ -234,7 +234,7 @@ class EditRecipeIngredientViewSet(generics.GenericAPIView):
             return Response(
                 {
                     "status": True,
-                    "message": "Item retrieved successfully",
+                    "message": "Recipe Ingredient retrieved successfully",
                     "data": serializer.data,
                 },
                 status=status.HTTP_200_OK,
@@ -243,7 +243,7 @@ class EditRecipeIngredientViewSet(generics.GenericAPIView):
             return Response(
                 {
                     "status": False,
-                    "message": "Item not found",
+                    "message": "Recipe Ingredient not found",
                     "data": {},
                 },
                 status=status.HTTP_200_OK,
@@ -256,7 +256,7 @@ class EditRecipeIngredientViewSet(generics.GenericAPIView):
             return Response(
                 {
                     "status": True,
-                    "message": "Item deleted successfully",
+                    "message": "Recipe Ingredient deleted successfully",
                     "data": {},
                 },
                 status=status.HTTP_200_OK,
@@ -265,7 +265,7 @@ class EditRecipeIngredientViewSet(generics.GenericAPIView):
             return Response(
                 {
                     "status": False,
-                    "message": "Item not found",
+                    "message": "Recipe Ingredient not found",
                     "data": {},
                 },
                 status=status.HTTP_200_OK,
