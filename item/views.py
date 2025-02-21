@@ -283,7 +283,8 @@ class CommonIngredientsView(generics.GenericAPIView):
             item = Item.objects.get(name=item_name)
             recipe = RecipeIngredient.objects.get(item=item)
             return recipe.ingredients
-        except (Item.DoesNotExist, RecipeIngredient.DoesNotExist):
+        except (Item.DoesNotExist, RecipeIngredient.DoesNotExist) as e:
+            print(f" error : {e}")
             return None
 
     def post(self, request):
@@ -313,7 +314,7 @@ class CommonIngredientsView(generics.GenericAPIView):
 
             # Get recipes and organize ingredients
             ingredient_to_dishes = defaultdict(list)
-            
+            print(selected_dishes,'selected_dishes')
             # First pass: collect all ingredients and their using dishes
             for dish_name in selected_dishes:
                 ingredients = self.get_recipe_for_item(dish_name)

@@ -9,4 +9,5 @@ urlpatterns = [
         StatusChangeEventBookingViewSet.as_view(),
     ),
     path("pending-event-bookings/", PendingEventBookingViewSet.as_view()),
+    path("get-all/",GetAllEvent.as_view())
 ]
