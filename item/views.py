@@ -284,7 +284,6 @@ class CommonIngredientsView(generics.GenericAPIView):
             recipe = RecipeIngredient.objects.get(item=item)
             return recipe.ingredients
         except (Item.DoesNotExist, RecipeIngredient.DoesNotExist) as e:
-            print(f" error : {e}")
             return None
 
     def post(self, request):
@@ -308,28 +307,29 @@ class CommonIngredientsView(generics.GenericAPIView):
 
             # Get all selected items from the event
             selected_dishes = []
-            for category_items in event.selected_items.values():
+            for key, category_items in event.selected_items.items():
                 for item in category_items:
-                    selected_dishes.append(item['name'])
+                    selected_dishes.append({"item":item['name'],"item_category" : key})
 
             # Get recipes and organize ingredients
             ingredient_to_dishes = defaultdict(list)
-            print(selected_dishes,'selected_dishes')
             # First pass: collect all ingredients and their using dishes
             for dish_name in selected_dishes:
-                ingredients = self.get_recipe_for_item(dish_name)
+                ingredients = self.get_recipe_for_item(dish_name.get("item"))
                 if ingredients:
                     # Handle both list and dict type ingredients
                     if isinstance(ingredients, list):
                         for ingredient in ingredients:
                             ingredient_to_dishes[ingredient].append({
-                                'item_name': dish_name,
+                                'item_name': dish_name.get('item'),
+                                'item_category' : dish_name.get('item_category'),
                                 'quantity': ''  # You can add quantity logic here if needed
                             })
                     elif isinstance(ingredients, dict):
                         for ingredient in ingredients.keys():
                             ingredient_to_dishes[ingredient].append({
-                                'item_name': dish_name,
+                                'item_name': dish_name.get('item'),
+                                'item_category' : dish_name.get('item_category'),
                                 'quantity': ingredients.get(ingredient, '')
                             })
 
