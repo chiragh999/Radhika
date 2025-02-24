@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "69d1a8fa-db96-4f55-a376-76d8bcc009c1",
+		"_postman_id": "8a223725-de49-4f6f-94ab-bb5043c38535",
 		"name": "Radhika",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "40162854"
+		"_exporter_id": "29031745"
 	},
 	"item": [
 		{
@@ -341,14 +341,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"ભોપો\",\n    \"mobile_no\": \"9998433013\",\n    \"date\": \"06-02-2025\",\n    \"reference\": \"મીની ભોપો\",\n    \"event_date\": \"15-02-2025\",\n    \"event_time\": \"સાંજે\",\n    \"status\": \"confirm\",\n    \"event_address\": \"રાજકોટ\",\n    \"advance_amount\": \"50000\",\n    \"advance_payment_mode\": \"CASH\",\n    \"per_dish_amount\": \"550\",\n    \"estimated_persons\": \"1500\",\n    \"selected_items\": {\n        \"સૂપ\": [\n            \"બ્રોકલી\",\n            \"સરગવા\"\n        ],\n        \"પાણી\": [\n            \"200 મિલી\",\n            \"500 મિલી\",\n            \"1 લિટર\"\n        ],\n        \"સલાડ\": [\n            \"લીલા ચના\",\n            \"ગાજર અને કાચી-કેરી\",\n            \"પંચરંગી\"\n        ],\n        \"મીઠાઈ\": [\n            \"ગાજર નો હલવો\",\n            \"ત્રિરંગી બરફી\",\n            \"બરફી\",\n            \"ગુલાબ જાંબુ\"\n        ],\n        \"વેલકમ ડ્રિંક્સ\": [\n            \"મિન્ટ લેમન\",\n            \"સ્ટ્રોબેરી શોટ\"\n        ],\n        \"ફરસાણ\": [\n            \"ખમણ\",\n            \"ખાંડવી/ પાટુડી\",\n            \"સમોસા\"\n        ],\n        \"શાક\": [\n            \"ગ્રીન ઊંધ્યું\",\n            \"કાજુ કરી\"\n        ],\n        \"તંદૂર\": [\n            \"સાધુ રોટલી\",\n            \"પુરી\",\n            \"સાદા પરાઠા\"\n        ],\n        \"રાઈસ\": [\n            \"જીરા રાઈસ\",\n            \"હાંડી બિરયાની\",\n            \"દાળ ખીચડી\"\n        ],\n        \"દાળ-કઢી\": [\n            \"દાળ ફ્રાય\",\n            \"કઢી\"\n        ]\n    },\n    \"extra_service\": [\n        {\n            \"extra\": \"xxxx\",\n            \"amount\": \"100\"\n        },\n        {\n            \"extra\": \"aaaa\",\n            \"amount\": \"200\"\n        },\n        {\n            \"extra\": \"bbbb\",\n            \"amount\": \"300\"\n        }\n    ],\n    \"description\": \"લેટર ૫\"\n}",
+							"raw": "{\n    \"name\": \"ભોપો\",\n    \"mobile_no\": \"9998433013\",\n    \"date\": \"06-02-2025\",\n    \"reference\": \"મીની ભોપો\",\n    \"event_date\": \"15-02-2025\",\n    \"event_time\": \"સાંજે\",\n    \"status\": \"confirm\",\n    \"event_address\": \"રાજકોટ\",\n    \"advance_amount\": \"50000\",\n    \"advance_payment_mode\": \"CASH\",\n    \"per_dish_amount\": \"550\",\n    \"estimated_persons\": \"1500\",\n    \"selected_items\": {\n        \"Welcome Drink\": [\n            \"1 લિટર પાણીની બોટલ\"\n        ],\n        \"Soup\": [\n            \"આલમેડ બ્રોકોલી\"\n        ],\n        \"Chat\": [\n            \"પાનપટ્ટા ચાર્ટ\"\n        ],\n        \"Liquid\": [\n            \"રબડી\"\n        ],\n        \"Sweet\": [\n            \"કાજુ તલોજા\"\n        ],\n        \"Rotli\": [\n            \"પુરી\"\n        ],\n        \"Sabji\": [\n            \"લીલું ઊંધ્યું\"\n        ],\n        \"Bhajiya\": [\n            \"મેથી,ભરેલા,બટાટા પુરી\"\n        ],\n        \"Dal-Rice\": [\n            {\n                \"name\": \"મટકા ચોખા\"\n            }\n        ]\n    },\n    \"extra_service\": [\n        {\n            \"extra\": \"xxxx\",\n            \"amount\": \"100\"\n        },\n        {\n            \"extra\": \"aaaa\",\n            \"amount\": \"200\"\n        },\n        {\n            \"extra\": \"bbbb\",\n            \"amount\": \"300\"\n        }\n    ],\n    \"description\": \"લેટર ૫\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{baseurl}}/event-bookings/2/"
+						"url": "{{baseurl}}/event-bookings/16/"
 					},
 					"response": []
 				},

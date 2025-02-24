@@ -73,14 +73,16 @@ class EventBookingGetViewSet(generics.GenericAPIView):
         try:
             eventbooking = EventBooking.objects.get(pk=pk)
             selected_items = request.data.get("selected_items", {})
-            converted_payload = {
-                key: [{"name": item} for item in value]
-                for key, value in selected_items.items()
-            }
-            request.data["selected_items"] = converted_payload
-            # converted_payload = {key: {"name": value[0]} for key, value in request.data.get("selected_items").items()}
-            # request.data['selected_items'] = converted_payload
-            serializer = EventBookingSerializer(eventbooking, data=request.data)
+            if selected_items:
+                converted_payload = {
+                    key: [{"name": item} for item in value]
+                    for key, value in selected_items.items()
+                }
+                request.data["selected_items"] = converted_payload
+            else:
+                request.data["selected_items"] = eventbooking.selected_items
+            # Partially update the instance with only provided fields
+            serializer = EventBookingSerializer(eventbooking, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(
