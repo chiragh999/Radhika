@@ -73,7 +73,7 @@ class ItemGetViewSet(generics.GenericAPIView):
     def put(self, request, pk=None):
         try:
             item = Item.objects.get(pk=pk)
-            serializer = ItemSerializer(item, data=request.data)
+            serializer = ItemSerializer(item, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(
@@ -198,7 +198,7 @@ class EditRecipeIngredientViewSet(generics.GenericAPIView):
     def put(self, request, pk=None):
         try:
             item = RecipeIngredient.objects.get(pk=pk)
-            serializer = EditRecipeIngredientSerializer(item, data=request.data)
+            serializer = EditRecipeIngredientSerializer(item, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(

@@ -195,7 +195,7 @@ class EditPaymentViewSet(generics.GenericAPIView):
                 int(request.data.get("transaction_amount")) + payment.advance_amount
             )
             # request.data["transaction_amount"] = str(int(request.data.get("transaction_amount")) + payment.transaction_amount)
-            serializer = PaymentSerializer(payment, data=request.data)
+            serializer = PaymentSerializer(payment, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(

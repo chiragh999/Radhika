@@ -61,7 +61,7 @@ class EditeStokeCategoryViewSet(generics.GenericAPIView):
     def put(self, request, pk=None):
         try:
             category = StokeCategory.objects.get(pk=pk)
-            serializer = StokeCategorySerializer(category, data=request.data)
+            serializer = StokeCategorySerializer(category, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(
@@ -224,7 +224,7 @@ class EditStokeItemViewSet(generics.GenericAPIView):
             request.data["nte_price"] = str(
                 int(int(request.data["total_price"]) / int(request.data["quantity"]))
             )
-            serializer = StokeItemSerializer(stokeitem, data=request.data)
+            serializer = StokeItemSerializer(stokeitem, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(

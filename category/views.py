@@ -67,7 +67,7 @@ class CategoryGetViewSet(generics.GenericAPIView):
     def put(self, request, pk=None):
         try:
             category = Category.objects.get(pk=pk)
-            serializer = CategorySerializer(category, data=request.data)
+            serializer = CategorySerializer(category, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(
