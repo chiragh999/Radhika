@@ -275,6 +275,21 @@
 					"response": []
 				},
 				{
+					"name": "all-event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseurl}}/get-all/"
+					},
+					"response": []
+				},
+				{
 					"name": "add-event-bookings",
 					"request": {
 						"auth": {
@@ -669,7 +684,10 @@
 					"name": "get-all-recipes",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
@@ -709,6 +727,231 @@
 						"url": "{{baseurl}}/recipes/4/"
 					},
 					"response": []
+				},
+				{
+					"name": "common-ingredients",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"event_id\" : \"19\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/common-ingredients/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ListOfIngridients",
+			"item": [
+				{
+					"name": "catagories",
+					"item": [
+						{
+							"name": "all-categories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{baseurl}}/ingridients-categories/"
+							},
+							"response": []
+						},
+						{
+							"name": "add-categories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"વાસણ\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseurl}}/ingridients-categories/"
+							},
+							"response": []
+						},
+						{
+							"name": "categories-by-ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{baseurl}}/ingridients-categories/2/"
+							},
+							"response": []
+						},
+						{
+							"name": "delete-categories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": "{{baseurl}}/ingridients-categories/31/"
+							},
+							"response": []
+						},
+						{
+							"name": "update-categories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseurl}}/ingridients-categories/2/"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Items",
+					"item": [
+						{
+							"name": "all-items",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{baseurl}}/ingridients-item/"
+							},
+							"response": []
+						},
+						{
+							"name": "add-items",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"દાળ ખીચડી\",\n    \"category\": \"9\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseurl}}/ingridients-item/"
+							},
+							"response": []
+						},
+						{
+							"name": "update-items",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"કઢી\",\n    \"category\": 10\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseurl}}/ingridients-item/62/"
+							},
+							"response": []
+						},
+						{
+							"name": "items-by-ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{baseurl}}/ingridients-item/1/"
+							},
+							"response": []
+						},
+						{
+							"name": "delete-items",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": "{{baseurl}}/ingridients-item/1/"
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}

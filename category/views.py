@@ -11,7 +11,7 @@ from django.shortcuts import get_object_or_404
 
 class CategoryViewSet(generics.GenericAPIView):
     serializer_class = CategorySerializer
-    permission_classes = [IsAdminUserOrReadOnly]
+    # permission_classes = [IsAdminUserOrReadOnly]
 
     def post(self, request):
         if Category.objects.filter(name=request.data.get("name")).exists():

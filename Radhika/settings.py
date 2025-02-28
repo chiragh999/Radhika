@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "category",
     "eventbooking",
     "item",
+    "ListOfIngridients",
     "payments",
     "stockmanagement",
     "user",
@@ -152,7 +153,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    'EXCEPTION_HANDLER': 'Radhika.Utils.custom_exception.custom_exception_handler'
+    "EXCEPTION_HANDLER": "Radhika.Utils.custom_exception.custom_exception_handler",
 }
 
 SIMPLE_JWT = {
