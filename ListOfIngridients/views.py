@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework import status, generics
+from Radhika.Utils.permissions import *
 from .models import *
 from .serializers import *
 
@@ -7,6 +8,7 @@ from .serializers import *
 # Create your views here.
 class IngridientsCategoryViewset(generics.GenericAPIView):
     serializer_class = IngridientsCategorySerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -63,6 +65,7 @@ class IngridientsCategoryViewset(generics.GenericAPIView):
 
 class IngridientsItemViewset(generics.GenericAPIView):
     serializer_class = IngridientsItemSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
