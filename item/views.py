@@ -415,7 +415,7 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                 {
                     "status": True,
                     "message": "Ingredients analysis completed",
-                    "data": response_data,
+                    "data": [response_data],
                 },
                 status=status.HTTP_200_OK,
             )
