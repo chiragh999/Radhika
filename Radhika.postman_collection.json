@@ -681,6 +681,30 @@
 					"response": []
 				},
 				{
+					"name": "common-ingredients",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"event_id\" : \"19\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseurl}}/common-ingredients/"
+					},
+					"response": []
+				},
+				{
 					"name": "get-all-recipes",
 					"request": {
 						"auth": {
@@ -727,30 +751,6 @@
 						"url": "{{baseurl}}/recipes/4/"
 					},
 					"response": []
-				},
-				{
-					"name": "common-ingredients",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"event_id\" : \"19\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{baseurl}}/common-ingredients/"
-					},
-					"response": []
 				}
 			]
 		},
@@ -788,7 +788,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"વાસણ\"\n}",
+									"raw": "{\n    \"name\": \"શાકભાજી\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -886,7 +886,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"દાળ ખીચડી\",\n    \"category\": \"9\"\n}",
+									"raw": "{\n    \"name\": \"ચાટ મસાલો\",\n    \"category\": \"2\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -947,7 +947,7 @@
 								},
 								"method": "DELETE",
 								"header": [],
-								"url": "{{baseurl}}/ingridients-item/1/"
+								"url": "{{baseurl}}/ingridients-item/16/"
 							},
 							"response": []
 						}

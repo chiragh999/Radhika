@@ -48,7 +48,7 @@ class IngridientsCategoryViewset(generics.GenericAPIView):
 
     def delete(self, request, pk=None, *args, **kwargs):
         try:
-            instance = IngridientsCategory.objects.get(pk=kwargs.get("pk"))
+            instance = IngridientsCategory.objects.get(pk=pk)
         except IngridientsCategory.DoesNotExist:
             return Response(
                 {"status": False, "message": "Ingridients Categories not found"},
@@ -88,7 +88,7 @@ class IngridientsItemViewset(generics.GenericAPIView):
 
     def put(self, request, pk=None, *args, **kwargs):
         try:
-            instance = IngridientsItem.objects.get(pk=kwargs.get("pk"))
+            instance = IngridientsItem.objects.get(pk=pk)
         except IngridientsItem.DoesNotExist:
             return Response(
                 {"status": False, "message": "Ingridients Item not found"},
@@ -102,7 +102,7 @@ class IngridientsItemViewset(generics.GenericAPIView):
 
     def delete(self, request, pk=None, *args, **kwargs):
         try:
-            instance = IngridientsItem.objects.get(pk=kwargs.get("pk"))
+            instance = IngridientsItem.objects.get(pk=pk)
         except IngridientsItem.DoesNotExist:
             return Response(
                 {"status": False, "message": "Ingridients Item not found"},
