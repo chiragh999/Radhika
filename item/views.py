@@ -388,7 +388,13 @@ class CommonIngredientsView(generics.GenericAPIView):
                     'item': ingredient,
                     'ingredients_category': ingredient_categories.get(ingredient, ''),
                     'quantity_type': '',
-                    'use_item': [],
+                    'use_item': [
+                        {
+                            "item_name": ingredient,
+                            "item_category": ingredient_categories.get(ingredient, ''),
+                            "quantity": ""
+                        }
+                    ],
                     'total_quantity': '0'
                 }
                 for ingredient in uncategorized
