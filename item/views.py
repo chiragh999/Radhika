@@ -9,8 +9,6 @@ from .models import Item
 from .serializers import *
 
 
-
-
 # --------------------    ItemViewSet    --------------------
 
 
@@ -50,7 +48,7 @@ class ItemViewSet(generics.GenericAPIView):
 
     def get(self, request):
         # Get all item IDs that are already used in RecipeIngredient
-        used_item_ids = set(RecipeIngredient.objects.values_list('item__pk', flat=True))
+        used_item_ids = set(RecipeIngredient.objects.values_list("item__pk", flat=True))
 
         # Exclude those items from the queryset
         available_items = Item.objects.exclude(id__in=used_item_ids)
@@ -179,10 +177,10 @@ class RecipeIngredientViewSet(generics.GenericAPIView):
 
     def get(self, request):
         recipe_ingredient = RecipeIngredient.objects.all()
-        serializer = RecipeIngredientSerializer(recipe_ingredient,many=True)
+        serializer = RecipeIngredientSerializer(recipe_ingredient, many=True)
         for data in serializer.data:
-            item = Item.objects.filter(pk = data.get("item")).values("name").first()
-            data['item'] = item
+            item = Item.objects.filter(pk=data.get("item")).values("name").first()
+            data["item"] = item
         return Response(
             {
                 "status": True,
@@ -200,7 +198,9 @@ class EditRecipeIngredientViewSet(generics.GenericAPIView):
     def put(self, request, pk=None):
         try:
             item = RecipeIngredient.objects.get(pk=pk)
-            serializer = EditRecipeIngredientSerializer(item, data=request.data, partial=True)
+            serializer = EditRecipeIngredientSerializer(
+                item, data=request.data, partial=True
+            )
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(
@@ -274,140 +274,153 @@ class EditRecipeIngredientViewSet(generics.GenericAPIView):
             )
 
 
-# --------------------    CommonIngredientsView    --------------------
+# --------------------    CommonIngredientsViewSet    --------------------
 
 
-class CommonIngredientsView(generics.GenericAPIView):
+class CommonIngredientsViewSet(generics.GenericAPIView):
     permission_classes = [IsAdminUserOrReadOnly]
 
     def get_recipe_for_item(self, item_name):
         """
         Efficiently retrieve recipe ingredients for a given item.
-        
+
         Args:
             item_name (str): Name of the item to find recipe for.
-        
+
         Returns:
             dict/list/None: Ingredients for the item or None if not found.
         """
         try:
-            return RecipeIngredient.objects.select_related('item') \
-                .get(item__name=item_name).ingredients
+            return (
+                RecipeIngredient.objects.select_related("item")
+                .get(item__name=item_name)
+                .ingredients
+            )
         except RecipeIngredient.DoesNotExist:
             return None
 
     def post(self, request):
         """
         Process event ingredients analysis.
-        
+
         Args:
             request: HTTP request object.
-        
+
         Returns:
             Response: JSON response with ingredient analysis.
         """
         # Validate event ID
-        event_id = request.data.get('event_id')
+        event_id = request.data.get("event_id")
         if not event_id:
-            return Response({
-                'status': False,
-                'message': 'Event ID is required'
-            }, status=status.HTTP_200_OK)
+            return Response(
+                {"status": False, "message": "Event ID is required"},
+                status=status.HTTP_200_OK,
+            )
 
-        # Fetch event 
+        # Fetch event
         try:
             event = EventBooking.objects.get(id=event_id)
         except EventBooking.DoesNotExist:
-            return Response({
-                'status': False,
-                'message': 'Event not found'
-            }, status=status.HTTP_200_OK)
+            return Response(
+                {"status": False, "message": "Event not found"},
+                status=status.HTTP_200_OK,
+            )
 
         try:
             # Collect selected dishes directly from the JSONField
             selected_dishes = [
-                {"item": item['name'], "item_category": category}
+                {"item": item["name"], "item_category": category}
                 for category, category_items in event.selected_items.items()
                 for item in category_items
             ]
 
             # Optimize recipe ingredient retrieval
-            item_names = [dish['item'] for dish in selected_dishes]
+            item_names = [dish["item"] for dish in selected_dishes]
             recipe_ingredients = {
-                ri.item.name: ri.ingredients 
-                for ri in RecipeIngredient.objects.select_related('item')
-                .filter(item__name__in=item_names)
+                ri.item.name: ri.ingredients
+                for ri in RecipeIngredient.objects.select_related("item").filter(
+                    item__name__in=item_names
+                )
             }
 
             # Process ingredients more efficiently
             ingredient_to_dishes = defaultdict(list)
             for dish in selected_dishes:
-                ingredients = recipe_ingredients.get(dish['item'])
+                ingredients = recipe_ingredients.get(dish["item"])
                 if ingredients:
                     if isinstance(ingredients, list):
                         for ingredient in ingredients:
-                            ingredient_to_dishes[ingredient].append({
-                                'item_name': dish['item'],
-                                'item_category': dish['item_category'],
-                                'quantity': ''
-                            })
+                            ingredient_to_dishes[ingredient].append(
+                                {
+                                    "item_name": dish["item"],
+                                    "item_category": dish["item_category"],
+                                    "quantity": "",
+                                }
+                            )
                     elif isinstance(ingredients, dict):
                         for ingredient, quantity in ingredients.items():
-                            ingredient_to_dishes[ingredient].append({
-                                'item_name': dish['item'],
-                                'item_category': dish['item_category'],
-                                'quantity': quantity
-                            })
+                            ingredient_to_dishes[ingredient].append(
+                                {
+                                    "item_name": dish["item"],
+                                    "item_category": dish["item_category"],
+                                    "quantity": quantity,
+                                }
+                            )
 
             # Bulk fetch ingredient categories
             ingredient_categories = {
-                item['name']: data['name']
+                item["name"]: data["name"]
                 for data in IngridientsCategorySerializer(
-                    IngridientsCategory.objects.all(), 
-                    many=True
+                    IngridientsCategory.objects.all(), many=True
                 ).data
                 for item in data.get("items", [])
             }
 
             # Prepare response data with efficient category mapping
-            response_data = [
-                {
-                    'item': ingredient,
-                    'ingredients_category': ingredient_categories.get(ingredient, ''),
-                    'quantity_type': '',
-                    'use_item': dishes,
-                    'total_quantity': '0'
-                }
-                for ingredient, dishes in ingredient_to_dishes.items()
-            ]
+            response_data = defaultdict(list)
+
+            for ingredient, dishes in ingredient_to_dishes.items():
+                response_data[ingredient_categories.get(ingredient, "Other")].append(
+                    {
+                        "item": ingredient,
+                        "quantity_type": "",
+                        "use_item": dishes,
+                        "total_quantity": "0",
+                    }
+                )
 
             # Add remaining uncategorized ingredients
-            uncategorized = set(ingredient_categories.keys()) - {item['item'] for item in response_data}
-            response_data.extend([
-                {
-                    'item': ingredient,
-                    'ingredients_category': ingredient_categories.get(ingredient, ''),
-                    'quantity_type': '',
-                    'use_item': [
-                        {
-                            "item_name": ingredient,
-                            "item_category": ingredient_categories.get(ingredient, ''),
-                            "quantity": ""
-                        }
-                    ],
-                    'total_quantity': '0'
-                }
-                for ingredient in uncategorized
-            ])
+            uncategorized = set(ingredient_categories.keys()) - set(
+                ingredient_to_dishes.keys()
+            )
+            for ingredient in uncategorized:
+                response_data[ingredient_categories.get(ingredient, "Other")].append(
+                    {
+                        "item": ingredient,
+                        "quantity_type": "",
+                        "use_item": [
+                            {
+                                "item_name": ingredient,
+                                "item_category": ingredient_categories.get(
+                                    ingredient, ""
+                                ),
+                                "quantity": "",
+                            }
+                        ],
+                        "total_quantity": "0",
+                    }
+                )
 
-            return Response({
-                'status': True,
-                'message': 'Ingredients analysis completed',
-                'data': response_data
-            }, status=status.HTTP_200_OK)
+            return Response(
+                {
+                    "status": True,
+                    "message": "Ingredients analysis completed",
+                    "data": response_data,
+                },
+                status=status.HTTP_200_OK,
+            )
 
         except Exception as e:
-            return Response({
-                'status': False,
-                'message': str(e)
-            }, status=status.HTTP_200_OK)
+            return Response(
+                {"status": False, "message": str(e)}, status=status.HTTP_200_OK
+            )

@@ -5,7 +5,9 @@ from .models import *
 from .serializers import *
 
 
-# Create your views here.
+# --------------------    IngridientsCategoryViewset    --------------------
+
+
 class IngridientsCategoryViewset(generics.GenericAPIView):
     serializer_class = IngridientsCategorySerializer
     permission_classes = [IsAdminUserOrReadOnly]
@@ -61,6 +63,9 @@ class IngridientsCategoryViewset(generics.GenericAPIView):
             {"status": True, "message": "Ingridients Categories deleted"},
             status=status.HTTP_200_OK,
         )
+
+
+# --------------------    IngridientsItemViewset    --------------------
 
 
 class IngridientsItemViewset(generics.GenericAPIView):
