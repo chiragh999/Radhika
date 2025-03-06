@@ -17,3 +17,7 @@ class IngridientsItem(models.Model):
 
     def __str__(self):
         return self.name
+    
+class EventIngridientList(models.Model):
+    event_id = models.CharField(max_length=100, unique=True)
+    ingridient_list_data = models.JSONField(default=dict)

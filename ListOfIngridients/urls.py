@@ -6,4 +6,5 @@ urlpatterns = [
     path("ingridients-categories/<int:pk>/", IngridientsCategoryViewset.as_view()),
     path("ingridients-item/", IngridientsItemViewset.as_view()),
     path("ingridients-item/<int:pk>/", IngridientsItemViewset.as_view()),
+    path("event-ingridient-list/",EventIngridientListViewSet.as_view())
 ]

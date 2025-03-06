@@ -121,3 +121,22 @@ class IngridientsItemViewset(generics.GenericAPIView):
             {"status": True, "message": "Ingridients Item deleted"},
             status=status.HTTP_200_OK,
         )
+
+
+class EventIngridientListViewSet(generics.GenericAPIView):
+    # queryset = EventIngridientList.objects.all()
+    serializer_class = EventIngridientListSerializer
+
+    def post(self, request, *args, **kwargs):
+        event_id = request.data.get('event_id')
+        if not event_id:
+            return Response({'error': 'event_id is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        instance, created = EventIngridientList.objects.update_or_create(
+            event_id=event_id,
+            defaults={'ingridient_list_data': request.data.get('ingridient_list_data', {})}
+        )
+        
+        serializer = self.get_serializer(instance)
+        status_code = status.HTTP_201_CREATED if created else status.HTTP_200_OK
+        return Response(serializer.data, status=status_code)

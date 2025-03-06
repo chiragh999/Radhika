@@ -17,3 +17,8 @@ class IngridientsCategorySerializer(serializers.ModelSerializer):
             "name",
             "items",
         ]
+
+class EventIngridientListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventIngridientList
+        fields = ['event_id', 'ingridient_list_data']
