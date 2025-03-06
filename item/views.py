@@ -410,12 +410,15 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                         "total_quantity": "0",
                     }
                 )
-
+            formatted_response = [
+                {"name": category, "data": items}
+                for category, items in response_data.items()
+            ]
             return Response(
                 {
                     "status": True,
                     "message": "Ingredients analysis completed",
-                    "data": [response_data],
+                    "data": formatted_response,
                 },
                 status=status.HTTP_200_OK,
             )
