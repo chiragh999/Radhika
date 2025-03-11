@@ -52,7 +52,7 @@ class EventBookingViewSet(generics.GenericAPIView):
         queryset = (
             EventBooking.objects.all()
             .filter(status__in=["confirm", "completed"])
-            .order_by("-event_date")
+            .order_by("event_date")
         )
         serializer = EventBookingSerializer(queryset, many=True)
         return Response(
