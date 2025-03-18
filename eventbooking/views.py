@@ -54,6 +54,11 @@ class EventBookingViewSet(generics.GenericAPIView):
             .filter(status__in=["confirm", "completed"])
             .order_by("event_date")
         )
+        for event_booking in queryset:
+            if event_booking.extra_service_amount == "0" and all(service.get("extra") for service in event_booking.extra_service):
+                event_booking.extra_service_amount = str(sum(int(service.get("amount", 0)) for service in event_booking.extra_service))
+                event_booking.save()
+                
         serializer = EventBookingSerializer(queryset, many=True)
         return Response(
             {
@@ -73,6 +78,10 @@ class EventBookingGetViewSet(generics.GenericAPIView):
         try:
             eventbooking = EventBooking.objects.get(pk=pk)
             selected_items = request.data.get("selected_items", {})
+            extra_service = request.data.get("extra_service", [])
+            if all(service.get("extra") for service in extra_service):
+                request.data["extra_service_amount"] = (str(sum(int(service.get("amount", 0)) for service in extra_service)))
+            request.data["extra_service_amount"]
             if selected_items:
                 converted_payload = {
                     key: [{"name": item} for item in value]

@@ -69,6 +69,10 @@ class PaymentSerializer(serializers.ModelSerializer):
 
         # Fetch event booking details for all billed IDs
         event_bookings = EventBooking.objects.filter(id__in=billed_ids)
+        for event_booking in event_bookings:
+            if event_booking.extra_service_amount == "0" and all(service.get("extra") for service in event_booking.extra_service):
+                event_booking.extra_service_amount = str(sum(int(service.get("amount", 0)) for service in event_booking.extra_service))
+                event_booking.save()
         detailed_bookings = [
             {
                 "id": booking.id,
