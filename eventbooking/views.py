@@ -81,7 +81,6 @@ class EventBookingGetViewSet(generics.GenericAPIView):
             extra_service = request.data.get("extra_service", [])
             if all(service.get("extra") for service in extra_service):
                 request.data["extra_service_amount"] = (str(sum(int(service.get("amount", 0)) for service in extra_service)))
-            request.data["extra_service_amount"]
             if selected_items:
                 converted_payload = {
                     key: [{"name": item} for item in value]
