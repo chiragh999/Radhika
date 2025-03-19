@@ -182,7 +182,7 @@ class StatusChangeEventBookingViewSet(generics.GenericAPIView):
             print('estimated_persons')
             queryset.estimated_persons = estimated_persons
         queryset.status = request.data.get("status")
-        # queryset.save()
+        queryset.save()
         return Response(
             {
                 "status": True,
