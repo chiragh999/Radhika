@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator
 from django.utils import timezone
 
+
 class EventBooking(models.Model):
     ADVANCE_PAYMENT_MODE_CHOICES = [
         ("CASH", "CASH"),
@@ -13,8 +14,8 @@ class EventBooking(models.Model):
 
     # Phone number validation
     phone_regex = RegexValidator(
-        regex=r"^\+?1?\d{9,15}$",
-        message="Mobile number must be entered in the format: '+999999999'. Up to 15 digits allowed.",
+        regex=r"^\+\d{2}\s\d{10}$",
+        message="Mobile number must be entered in the format: '+91 9999999999'.",
     )
     # Status choices
     STATUS_CHOICES = [
@@ -55,7 +56,7 @@ class EventBooking(models.Model):
     # Status field
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
     # extraservice
-    extra_service_amount = models.CharField(max_length=250,blank=True, null= True)
+    extra_service_amount = models.CharField(max_length=250, blank=True, null=True)
     extra_service = models.JSONField(default=dict)
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
