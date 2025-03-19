@@ -173,8 +173,16 @@ class StatusChangeEventBookingViewSet(generics.GenericAPIView):
 
     def post(self, request, pk=None):
         queryset = EventBooking.objects.get(pk=pk)
+        per_dish_amount = request.data.get("per_dish_amount")
+        if per_dish_amount:
+            print("per_dish_amount")
+            queryset.per_dish_amount = per_dish_amount
+        estimated_persons = request.data.get("estimated_persons")
+        if estimated_persons:
+            print('estimated_persons')
+            queryset.estimated_persons = estimated_persons
         queryset.status = request.data.get("status")
-        queryset.save()
+        # queryset.save()
         return Response(
             {
                 "status": True,
