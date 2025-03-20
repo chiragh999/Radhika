@@ -214,7 +214,7 @@ class PendingEventBookingViewSet(generics.GenericAPIView):
 
 class GetAllEvent(generics.GenericAPIView):
     def get(self,request):
-        queryset = EventBooking.objects.all()
+        queryset = EventBooking.objects.all().order_by("-event_date")
         serializer = EventBookingSerializer(queryset, many=True)
         return Response(
             {
