@@ -11,12 +11,6 @@ class EventBooking(models.Model):
         ("ONLINE", "ONLINE"),
         ("OTHER", "OTHER"),
     ]
-
-    # Phone number validation
-    phone_regex = RegexValidator(
-        regex=r"^\+\d{2}\s\d{10}$",
-        message="Mobile number must be entered in the format: '+91 9999999999'.",
-    )
     # Status choices
     STATUS_CHOICES = [
         ("pending", "Pending"),
@@ -29,7 +23,7 @@ class EventBooking(models.Model):
     selected_items = models.JSONField(default=dict)
     # Basic information
     name = models.CharField(max_length=100)
-    mobile_no = models.CharField(validators=[phone_regex], max_length=17)
+    mobile_no = models.CharField(max_length=17)
     date = models.DateField(default=timezone.now)  # Booking creation date
     reference = models.CharField(max_length=50, unique=False)
     # Event details
