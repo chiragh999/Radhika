@@ -5,6 +5,7 @@ from ListOfIngridients.models import EventIngridientList, IngridientsCategory
 from ListOfIngridients.serializers import IngridientsCategorySerializer
 from Radhika.Utils.permissions import *
 from eventbooking.models import EventBooking
+from stockmanagement.models import StokeItem
 from .models import Item
 from .serializers import *
 
@@ -390,10 +391,13 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                 response_data = defaultdict(list)
 
                 for ingredient, dishes in ingredient_to_dishes.items():
+                    stoke_item = StokeItem.objects.filter(name=ingredient).first()
+                    stoke_item_quantity = str(stoke_item.quantity) if stoke_item else ""
                     response_data[ingredient_categories.get(ingredient, "Other")].append(
                         {
                             "item": ingredient,
                             "quantity_type": "",
+                            "godown_quantity" :stoke_item_quantity,
                             "use_item": dishes,
                             "total_quantity": "0",
                         }
@@ -404,10 +408,13 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                     ingredient_to_dishes.keys()
                 )
                 for ingredient in uncategorized:
+                    stoke_item = StokeItem.objects.filter(name=ingredient).first()
+                    stoke_item_quantity = str(stoke_item.quantity) if stoke_item else ""
                     response_data[ingredient_categories.get(ingredient, "Other")].append(
                         {
                             "item": ingredient,
                             "quantity_type": "",
+                            "godown_quantity" :stoke_item_quantity,
                             "use_item": [
                                 {
                                     "item_name": ingredient,
