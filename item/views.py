@@ -319,6 +319,20 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
             )
         if EventIngridientList.objects.filter(event_id=event_id).exists():
             event_ingridient_list = EventIngridientList.objects.filter(event_id=event_id).values("ingridient_list_data").first()
+            for event_ingridient in event_ingridient_list.values():
+                for ingridient in event_ingridient:
+                    for ingridient_data in  ingridient.get("data"):
+                        if not ingridient_data.get('godown_quantity'):
+                            print(ingridient_data.get('item'),"okay")
+                            stoke_item = StokeItem.objects.filter(name=ingridient_data.get('item')).first()
+                            stoke_item_quantity = str(stoke_item.quantity) if stoke_item else ""
+                            ingridient_data['godown_quantity'] = stoke_item_quantity
+                            __, ____ = EventIngridientList.objects.update_or_create(
+                                    event_id=event_id,
+                                    defaults={
+                                        "ingridient_list_data": event_ingridient_list.get("ingridient_list_data")
+                                    },
+                                )
             return Response(
                     {
                         "status": True,
