@@ -323,10 +323,10 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                 for ingridient in event_ingridient:
                     for ingridient_data in  ingridient.get("data"):
                         if not ingridient_data.get('godown_quantity'):
-                            print(ingridient_data.get('item'),"okay")
                             stoke_item = StokeItem.objects.filter(name=ingridient_data.get('item')).first()
                             stoke_item_quantity = str(stoke_item.quantity) if stoke_item else ""
                             ingridient_data['godown_quantity'] = stoke_item_quantity
+                            ingridient_data['godown_quantity_type'] = stoke_item.type if stoke_item else ""
                             __, ____ = EventIngridientList.objects.update_or_create(
                                     event_id=event_id,
                                     defaults={
@@ -407,11 +407,13 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                 for ingredient, dishes in ingredient_to_dishes.items():
                     stoke_item = StokeItem.objects.filter(name=ingredient).first()
                     stoke_item_quantity = str(stoke_item.quantity) if stoke_item else ""
+                    stoke_item_quantity_type = stoke_item.type if stoke_item else ""
                     response_data[ingredient_categories.get(ingredient, "Other")].append(
                         {
                             "item": ingredient,
                             "quantity_type": "",
                             "godown_quantity" :stoke_item_quantity,
+                            "godown_quantity_type" :stoke_item_quantity_type,
                             "use_item": dishes,
                             "total_quantity": "0",
                         }
@@ -424,11 +426,13 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                 for ingredient in uncategorized:
                     stoke_item = StokeItem.objects.filter(name=ingredient).first()
                     stoke_item_quantity = str(stoke_item.quantity) if stoke_item else ""
+                    stoke_item_quantity_type = stoke_item.type if stoke_item else ""
                     response_data[ingredient_categories.get(ingredient, "Other")].append(
                         {
                             "item": ingredient,
                             "quantity_type": "",
                             "godown_quantity" :stoke_item_quantity,
+                            "godown_quantity_type" :stoke_item_quantity_type,
                             "use_item": [
                                 {
                                     "item_name": ingredient,
