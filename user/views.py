@@ -43,3 +43,77 @@ class LoginViewSet(generics.GenericAPIView):
                 },
                 status=status.HTTP_200_OK,
             )
+
+class NoteViewSet(generics.GenericAPIView):
+    serializer_class = NoteSerializer
+
+    def post(self, request):
+        
+        serializer = NoteSerializer(data = request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
+            return Response(
+                {
+                    "status": True,
+                    "message": "Note Store successfully",
+                    "data": {}
+                },
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {
+                "status": False,
+                "message": "Something went wrong",
+                "data": {},
+            },
+            status=status.HTTP_200_OK,
+        )
+
+    def put(self, request,pk):
+
+        get_note = Note.objects.filter(id=pk).first()
+        if not get_note:
+            return Response(
+                {
+                    "status": False,
+                    "message": "Note not found",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+        
+        serializer = NoteSerializer(get_note, data=request.data, partial=True)
+
+        if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(
+                    {
+                        "status": True,
+                        "message": "Note updated successfully",
+                        "data": serializer.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+
+        return Response(
+                {
+                    "status": False,
+                    "message": "Something went wrong",
+                    "data": {},
+                },
+                status=status.HTTP_200_OK,
+            )
+    
+    def get(self, request):
+        queryset = Note.objects.all()
+        serializer = NoteSerializer(queryset, many=True)
+        return Response(
+            {
+                "status": True,
+                "message": "Note list",
+                "data": serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
