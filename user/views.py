@@ -47,29 +47,29 @@ class LoginViewSet(generics.GenericAPIView):
 class NoteViewSet(generics.GenericAPIView):
     serializer_class = NoteSerializer
 
-    def post(self, request):
+    # def post(self, request):
         
-        serializer = NoteSerializer(data = request.data)
+    #     serializer = NoteSerializer(data = request.data)
 
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
+    #     if serializer.is_valid(raise_exception=True):
+    #         serializer.save()
 
-            return Response(
-                {
-                    "status": True,
-                    "message": "Note Store successfully",
-                    "data": {}
-                },
-                status=status.HTTP_200_OK,
-            )
-        return Response(
-            {
-                "status": False,
-                "message": "Something went wrong",
-                "data": {},
-            },
-            status=status.HTTP_200_OK,
-        )
+    #         return Response(
+    #             {
+    #                 "status": True,
+    #                 "message": "Note Store successfully",
+    #                 "data": {}
+    #             },
+    #             status=status.HTTP_200_OK,
+    #         )
+    #     return Response(
+    #         {
+    #             "status": False,
+    #             "message": "Something went wrong",
+    #             "data": {},
+    #         },
+    #         status=status.HTTP_200_OK,
+    #     )
 
     def put(self, request,pk):
 
