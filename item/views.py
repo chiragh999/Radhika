@@ -1,4 +1,5 @@
 from collections import defaultdict
+import json
 from rest_framework.response import Response
 from rest_framework import status, generics
 from ListOfIngridients.models import EventIngridientList, IngridientsCategory
@@ -300,6 +301,18 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
         except RecipeIngredient.DoesNotExist:
             return None
 
+    def remove_duplicates(self,data):
+        seen = set()
+        unique_list = []
+        
+        for entry in data:
+            entry_str = json.dumps(entry, sort_keys=True)  # Convert dictionary to a JSON string
+            if entry_str not in seen:
+                seen.add(entry_str)
+                unique_list.append(entry)
+        
+        return unique_list
+
     def post(self, request):
         """
         Process event ingredients analysis.
@@ -318,30 +331,105 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                 status=status.HTTP_200_OK,
             )
         if EventIngridientList.objects.filter(event_id=event_id).exists():
-            event_ingridient_list = EventIngridientList.objects.filter(event_id=event_id).values("ingridient_list_data").first()
-            for event_ingridient in event_ingridient_list.values():
-                for ingridient in event_ingridient:
-                    for ingridient_data in  ingridient.get("data"):
-                        if not ingridient_data.get('godown_quantity'):
-                            stoke_item = StokeItem.objects.filter(name=ingridient_data.get('item')).first()
-                            stoke_item_quantity = str(stoke_item.quantity) if stoke_item else ""
-                            ingridient_data['godown_quantity'] = stoke_item_quantity
-                            ingridient_data['godown_quantity_type'] = stoke_item.type if stoke_item else ""
-                            __, ____ = EventIngridientList.objects.update_or_create(
-                                    event_id=event_id,
-                                    defaults={
-                                        "ingridient_list_data": event_ingridient_list.get("ingridient_list_data")
-                                    },
-                                )
-            return Response(
-                    {
-                        "status": True,
-                        "message": "Ingredients analysis completed",
-                        "data": event_ingridient_list.get("ingridient_list_data"),
-                    },
+            print("if")
+            event_ingridient_list = EventIngridientList.objects.get(event_id=event_id)
+            try:
+                event = EventBooking.objects.get(id=event_id)
+            except EventBooking.DoesNotExist:
+                return Response(
+                    {"status": False, "message": "Event not found"},
                     status=status.HTTP_200_OK,
                 )
+
+            try:
+                # Collect selected dishes directly from the JSONField
+                selected_dishes = [
+                    {"item": item["name"], "item_category": category}
+                    for category, category_items in event.selected_items.items()
+                    for item in category_items
+                ]
+                item_names = [dish["item"] for dish in selected_dishes]
+                recipe_ingredients = {
+                    ri.item.name: ri.ingredients
+                    for ri in RecipeIngredient.objects.select_related("item").filter(
+                        item__name__in=item_names
+                    )
+                }
+
+                # Process ingredients more efficiently
+                ingredient_to_dishes = defaultdict(list)
+                for dish in selected_dishes:
+                    ingredients = recipe_ingredients.get(dish["item"])
+                    if ingredients:
+                        if isinstance(ingredients, list):
+                            for ingredient in ingredients:
+                                ingredient_to_dishes[ingredient].append(
+                                    {
+                                        "item_name": dish["item"],
+                                        "item_category": dish["item_category"],
+                                        "quantity": "",
+                                    }
+                                )
+                        elif isinstance(ingredients, dict):
+                            for ingredient, quantity in ingredients.items():
+                                ingredient_to_dishes[ingredient].append(
+                                    {
+                                        "item_name": dish["item"],
+                                        "item_category": dish["item_category"],
+                                        "quantity": quantity,
+                                    }
+                                )
+
+                # Bulk fetch ingredient categories
+                ingredient_categories = {
+                    item["name"]: data["name"]
+                    for data in IngridientsCategorySerializer(
+                        IngridientsCategory.objects.all(), many=True
+                    ).data
+                    for item in data.get("items", [])
+                }
+                response_data = defaultdict(list)
+
+                for ingredient, dishes in ingredient_to_dishes.items():
+                    stoke_item = StokeItem.objects.filter(name=ingredient).first()
+                    stoke_item_quantity = str(stoke_item.quantity) if stoke_item else ""
+                    stoke_item_quantity_type = stoke_item.type if stoke_item else ""
+                    response_data[ingredient_categories.get(ingredient, "Other")].append(
+                        {
+                            "item": ingredient,
+                            "quantity_type": "",
+                            "godown_quantity" :stoke_item_quantity,
+                            "godown_quantity_type" :stoke_item_quantity_type,
+                            "use_item": dishes,
+                            "total_quantity": "0",
+                        }
+                    )
+
+                formatted_response = [
+                    {"name": category, "data": items}
+                    for category, items in response_data.items()
+                ]
+                new_list = event_ingridient_list.ingridient_list_data + formatted_response
+                unique_list = self.remove_duplicates(new_list)
+                ___, ____ = EventIngridientList.objects.update_or_create(
+                    event_id=event_id,
+                    defaults={"ingridient_list_data": unique_list}
+                )
+                return Response(
+                        {
+                            "status": True,
+                            "message": "Ingredients analysis completed",
+                            "data": unique_list,
+                        },
+                        status=status.HTTP_200_OK,
+                    )
+            except Exception as e:
+                return Response(
+                    {"status": False, "message": str(e)}, status=status.HTTP_200_OK
+                )
+
         else:
+            print("else")
             # Fetch event
             try:
                 event = EventBooking.objects.get(id=event_id)
@@ -419,32 +507,6 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                         }
                     )
 
-                # Add remaining uncategorized ingredients
-                uncategorized = set(ingredient_categories.keys()) - set(
-                    ingredient_to_dishes.keys()
-                )
-                for ingredient in uncategorized:
-                    stoke_item = StokeItem.objects.filter(name=ingredient).first()
-                    stoke_item_quantity = str(stoke_item.quantity) if stoke_item else ""
-                    stoke_item_quantity_type = stoke_item.type if stoke_item else ""
-                    response_data[ingredient_categories.get(ingredient, "Other")].append(
-                        {
-                            "item": ingredient,
-                            "quantity_type": "",
-                            "godown_quantity" :stoke_item_quantity,
-                            "godown_quantity_type" :stoke_item_quantity_type,
-                            "use_item": [
-                                {
-                                    "item_name": ingredient,
-                                    "item_category": ingredient_categories.get(
-                                        ingredient, ""
-                                    ),
-                                    "quantity": "",
-                                }
-                            ],
-                            "total_quantity": "0",
-                        }
-                    )
                 formatted_response = [
                     {"name": category, "data": items}
                     for category, items in response_data.items()
