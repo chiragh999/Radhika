@@ -301,17 +301,56 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
         except RecipeIngredient.DoesNotExist:
             return None
 
-    def remove_duplicates(self,data):
-        seen = set()
-        unique_list = []
-        
-        for entry in data:
-            entry_str = json.dumps(entry, sort_keys=True)  # Convert dictionary to a JSON string
-            if entry_str not in seen:
-                seen.add(entry_str)
-                unique_list.append(entry)
-        
-        return unique_list
+    def consolidate_categories(self, data):
+        # Create a dictionary to store merged categories
+        consolidated = {}
+
+        # Process each category
+        for category in data:
+            name = category["name"]
+
+            # If this category name already exists in our consolidated dict
+            if name in consolidated:
+                # Extend the existing data with new items
+                consolidated[name]["data"].extend(category["data"])
+            else:
+                # Create a new entry
+                consolidated[name] = {"name": name, "data": category["data"].copy()}
+
+        # Remove duplicate items within each category
+        for name, category in consolidated.items():
+            # Use a set to track unique items by their 'item' value
+            unique_items = {}
+            unique_data = []
+
+            for item in category["data"]:
+                item_name = item["item"]
+
+                if item_name not in unique_items:
+                    unique_items[item_name] = item
+                    unique_data.append(item)
+                else:
+                    # If we encounter a duplicate item, merge the 'use_item' lists
+                    existing = unique_items[item_name]
+
+                    # Get unique use_items from both
+                    existing_use_items = {
+                        tuple(sorted(ui.items())) for ui in existing["use_item"]
+                    }
+
+                    for ui in item["use_item"]:
+                        ui_tuple = tuple(sorted(ui.items()))
+                        if ui_tuple not in existing_use_items:
+                            existing["use_item"].append(ui)
+                            existing_use_items.add(ui_tuple)
+
+            # Update the category with deduplicated items
+            category["data"] = unique_data
+
+        # Convert back to list format
+        result = list(consolidated.values())
+
+        return result
 
     def post(self, request):
         """
@@ -394,12 +433,14 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                     stoke_item = StokeItem.objects.filter(name=ingredient).first()
                     stoke_item_quantity = str(stoke_item.quantity) if stoke_item else ""
                     stoke_item_quantity_type = stoke_item.type if stoke_item else ""
-                    response_data[ingredient_categories.get(ingredient, "Other")].append(
+                    response_data[
+                        ingredient_categories.get(ingredient, "Other")
+                    ].append(
                         {
                             "item": ingredient,
                             "quantity_type": "",
-                            "godown_quantity" :stoke_item_quantity,
-                            "godown_quantity_type" :stoke_item_quantity_type,
+                            "godown_quantity": stoke_item_quantity,
+                            "godown_quantity_type": stoke_item_quantity_type,
                             "use_item": dishes,
                             "total_quantity": "0",
                         }
@@ -409,20 +450,22 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                     {"name": category, "data": items}
                     for category, items in response_data.items()
                 ]
-                new_list = event_ingridient_list.ingridient_list_data + formatted_response
-                unique_list = self.remove_duplicates(new_list)
+                new_list = (
+                    event_ingridient_list.ingridient_list_data + formatted_response
+                )
+                
+                unique_list = self.consolidate_categories(new_list)
                 ___, ____ = EventIngridientList.objects.update_or_create(
-                    event_id=event_id,
-                    defaults={"ingridient_list_data": unique_list}
+                    event_id=event_id, defaults={"ingridient_list_data": unique_list}
                 )
                 return Response(
-                        {
-                            "status": True,
-                            "message": "Ingredients analysis completed",
-                            "data": unique_list,
-                        },
-                        status=status.HTTP_200_OK,
-                    )
+                    {
+                        "status": True,
+                        "message": "Ingredients analysis completed",
+                        "data": unique_list,
+                    },
+                    status=status.HTTP_200_OK,
+                )
             except Exception as e:
                 return Response(
                     {"status": False, "message": str(e)}, status=status.HTTP_200_OK
@@ -496,12 +539,14 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                     stoke_item = StokeItem.objects.filter(name=ingredient).first()
                     stoke_item_quantity = str(stoke_item.quantity) if stoke_item else ""
                     stoke_item_quantity_type = stoke_item.type if stoke_item else ""
-                    response_data[ingredient_categories.get(ingredient, "Other")].append(
+                    response_data[
+                        ingredient_categories.get(ingredient, "Other")
+                    ].append(
                         {
                             "item": ingredient,
                             "quantity_type": "",
-                            "godown_quantity" :stoke_item_quantity,
-                            "godown_quantity_type" :stoke_item_quantity_type,
+                            "godown_quantity": stoke_item_quantity,
+                            "godown_quantity_type": stoke_item_quantity_type,
                             "use_item": dishes,
                             "total_quantity": "0",
                         }
@@ -511,12 +556,12 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                     {"name": category, "data": items}
                     for category, items in response_data.items()
                 ]
-                
-                event_ingridient_list, ____ = EventIngridientList.objects.update_or_create(
-                    event_id=event_id,
-                    defaults={
-                        "ingridient_list_data": formatted_response
-                    },
+
+                event_ingridient_list, ____ = (
+                    EventIngridientList.objects.update_or_create(
+                        event_id=event_id,
+                        defaults={"ingridient_list_data": formatted_response},
+                    )
                 )
                 return Response(
                     {
