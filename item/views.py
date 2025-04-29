@@ -388,6 +388,7 @@ class CommonIngredientsViewSet(generics.GenericAPIView):
                     for item in category_items
                 ]
                 item_names = [dish["item"] for dish in selected_dishes]
+                print(item_names,"item_names")
                 recipe_ingredients = {
                     ri.item.name: ri.ingredients
                     for ri in RecipeIngredient.objects.select_related("item").filter(

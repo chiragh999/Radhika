@@ -26,6 +26,7 @@ class PaymentSerializer(serializers.ModelSerializer):
             "note",
             "formatted_event_date",
             "billed_to_ids",
+            "rule"
         ]
         read_only_fields = ["bill_no", "created_at", "updated_at"]
 

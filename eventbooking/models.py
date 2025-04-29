@@ -55,7 +55,7 @@ class EventBooking(models.Model):
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    note_status = models.BooleanField(default=False)
+    rule = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-event_date", "-event_time"]
