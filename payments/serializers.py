@@ -26,7 +26,6 @@ class PaymentSerializer(serializers.ModelSerializer):
             "note",
             "formatted_event_date",
             "billed_to_ids",
-            "rule"
         ]
         read_only_fields = ["bill_no", "created_at", "updated_at"]
 
@@ -93,6 +92,7 @@ class PaymentSerializer(serializers.ModelSerializer):
                 "extra_service": booking.extra_service,
                 "selected_items": booking.selected_items,
                 "description": booking.description,
+                "rule" : booking.rule
             }
             for booking in event_bookings
         ]
