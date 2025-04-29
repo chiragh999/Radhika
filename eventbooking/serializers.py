@@ -36,4 +36,5 @@ class EventBookingSerializer(serializers.ModelSerializer):
             "extra_service",
             "selected_items",
             "description",
+            "note_status"
         ]
