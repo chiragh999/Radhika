@@ -129,25 +129,29 @@ class UserCreateAPIView(generics.GenericAPIView):
         if serializer.is_valid():
             user = serializer.save()
             return Response({
+                "status": True,
                 "message": "User created successfully",
-                "user": {
-                    "id": user.id,
-                    "username": user.username,
-                    "email": user.email,
-                    "tokens": user.tokens
+                "data": {
+                    # "id": user.id,
+                    # "username": user.username,
+                    # "email": user.email,
+                    # "tokens": user.tokens
                 }
-            }, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_200_OK)
+            }, status=status.HTTP_200_OK)
+        error_messages = []
+        for field, errors in serializer.errors.items():
+            error_messages.extend(errors)
+        return Response({"status": False,"message": error_messages[0]}, status=status.HTTP_200_OK)
 
     def get(self, request):
         users = self.get_queryset()
         serializer = self.get_serializer(users, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"status": False,"message": "User List Fatch successfully.","data":serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request, id):
         user = get_object_or_404(UserModel, id=id)
         user.delete()
-        return Response({"message": "User deleted successfully."}, status=status.HTTP_200_OK)
+        return Response({"status": True,"message": "User deleted successfully."}, status=status.HTTP_200_OK)
 
 
 
@@ -160,13 +164,13 @@ class ChangePasswordAPIView(generics.GenericAPIView):
             try:
                 user = UserModel.objects.get(id=id)
             except UserModel.DoesNotExist:
-                return Response({"message": "User not found."}, status=status.HTTP_200_OK)
+                return Response({"status": False,"message": "User not found."}, status=status.HTTP_200_OK)
 
             new_password = serializer.validated_data['new_password']
             user.set_password(new_password)
             user.save()
 
-            return Response({"message": "Password changed successfully."}, status=status.HTTP_200_OK)
+            return Response({"status": True,"message": "Password changed successfully."}, status=status.HTTP_200_OK)
 
         # Custom error format
         error_messages = []
@@ -174,7 +178,7 @@ class ChangePasswordAPIView(generics.GenericAPIView):
             print("serializer.errors.items()")
             error_messages.extend(errors)
         
-        return Response({"message": error_messages[0]}, status=status.HTTP_200_OK)
+        return Response({"status": False,"message": error_messages[0]}, status=status.HTTP_200_OK)
 
 
 # python manage.py runserver 192.168.1.83:8001
