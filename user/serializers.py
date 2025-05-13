@@ -10,3 +10,18 @@ class NoteSerializer(serializers.ModelSerializer):
      class Meta:
         model = Note
         fields = ['id','title','content']
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = UserModel
+        fields = ['id', 'username', 'email', 'password']
+
+    def create(self, validated_data):
+        user = UserModel.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data.get('email', ''),
+            password=validated_data['password']
+        )
+        return user

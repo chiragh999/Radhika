@@ -117,3 +117,30 @@ class NoteViewSet(generics.GenericAPIView):
             },
             status=status.HTTP_200_OK,
         )
+
+class UserCreateAPIView(generics.GenericAPIView):
+    serializer_class = UserCreateSerializer
+    queryset = UserModel.objects.all()
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({
+                "message": "User created successfully",
+                "user": {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                    "tokens": user.tokens
+                }
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request):
+        users = self.get_queryset()
+        serializer = self.get_serializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# python manage.py runserver 192.168.1.83:8001
