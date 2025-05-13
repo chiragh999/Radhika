@@ -32,5 +32,5 @@ class ChangePasswordSerializer(serializers.Serializer):
     def validate_new_password(self, value):
         # Add password strength validation if needed
         if len(value) < 4:
-            raise serializers.ValidationError("Password must be at least 8 characters long.")
+            raise serializers.ValidationError("Password must be at least 4 characters long.")
         return value
