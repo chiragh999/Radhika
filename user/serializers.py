@@ -25,3 +25,13 @@ class UserCreateSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    def validate_new_password(self, value):
+        # Add password strength validation if needed
+        if len(value) < 4:
+            raise serializers.ValidationError("Password must be at least 8 characters long.")
+        return value
