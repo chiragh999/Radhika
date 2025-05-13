@@ -27,8 +27,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         return user
 
 class ChangePasswordSerializer(serializers.Serializer):
-    old_password = serializers.CharField(required=True)
-    new_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(write_only=True, required=True)
 
     def validate_new_password(self, value):
         # Add password strength validation if needed

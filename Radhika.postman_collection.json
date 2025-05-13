@@ -115,7 +115,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"old_password\": \"strongpassword123\",\r\n    \"new_password\": \"1234\"\r\n}",
+							"raw": "{\r\n    // \"old_password\": \"strongpassword123\",\r\n    \"new_password\": \"1234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -123,13 +123,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseurl}}/change-password/c59febf1-199d-47ad-9326-4abe75c585dc/",
+							"raw": "{{baseurl}}/change-password/cb959b17-4249-4e05-b78d-91346bb7280d/",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"change-password",
-								"c59febf1-199d-47ad-9326-4abe75c585dc",
+								"cb959b17-4249-4e05-b78d-91346bb7280d",
 								""
 							]
 						}

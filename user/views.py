@@ -154,21 +154,21 @@ class UserCreateAPIView(generics.GenericAPIView):
 class ChangePasswordAPIView(generics.GenericAPIView):
     # permission_classes = [IsAuthenticated]
 
-    def post(self, request,id):
+    def post(self, request, id):
         serializer = ChangePasswordSerializer(data=request.data)
         if serializer.is_valid():
-            user = UserModel.objects.get(id=id)
-            # user = request.user
-            old_password = serializer.validated_data['old_password']
-            new_password = serializer.validated_data['new_password']
+            try:
+                user = UserModel.objects.get(id=id)
+            except UserModel.DoesNotExist:
+                return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
-            if not check_password(old_password, user.password):
-                return Response({"error": "Old password is incorrect."}, status=status.HTTP_200_OK)
+            new_password = serializer.validated_data['new_password']
 
             user.set_password(new_password)
             user.save()
+
             return Response({"message": "Password changed successfully."}, status=status.HTTP_200_OK)
 
-        return Response(serializer.errors, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # python manage.py runserver 192.168.1.83:8001
