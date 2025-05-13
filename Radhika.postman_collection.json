@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "27974f6b-b972-4555-b0e7-a55b7498379e",
+		"_postman_id": "d019a2bd-72d1-47ab-b733-4d105e853d7d",
 		"name": "Radhika",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "40162854"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33163402",
+		"_collection_link": "https://develop-7967.postman.co/workspace/My-Workspace~6ab690bf-a9dd-4aae-8ab5-1b3214de0215/collection/33163402-d019a2bd-72d1-47ab-b733-4d105e853d7d?action=share&source=collection_link&creator=33163402"
 	},
 	"item": [
 		{
@@ -36,7 +37,20 @@
 								}
 							}
 						},
-						"url": "{{baseurl}}/login/"
+						"url": {
+							"raw": "https://yashsanghanig10x.pythonanywhere.com/api/login/",
+							"protocol": "https",
+							"host": [
+								"yashsanghanig10x",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"api",
+								"login",
+								""
+							]
+						}
 					},
 					"response": []
 				}
@@ -50,13 +64,26 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{baseurl}}/categories/"
+						"url": {
+							"raw": "{{baseurl}}/categories/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"categories",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -65,9 +92,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -80,7 +111,16 @@
 								}
 							}
 						},
-						"url": "{{baseurl}}/categories/"
+						"url": {
+							"raw": "{{baseurl}}/categories/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"categories",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -89,13 +129,27 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{baseurl}}/categories/2/"
+						"url": {
+							"raw": "{{baseurl}}/categories/2/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"categories",
+								"2",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -104,13 +158,27 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "{{baseurl}}/categories/31/"
+						"url": {
+							"raw": "{{baseurl}}/categories/31/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"categories",
+								"31",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -119,9 +187,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
@@ -134,7 +206,17 @@
 								}
 							}
 						},
-						"url": "{{baseurl}}/categories/2/"
+						"url": {
+							"raw": "{{baseurl}}/categories/2/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"categories",
+								"2",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -152,7 +234,17 @@
 								}
 							}
 						},
-						"url": "{{baseurl}}/category-positions-changes/21/"
+						"url": {
+							"raw": "{{baseurl}}/category-positions-changes/21/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"category-positions-changes",
+								"21",
+								""
+							]
+						}
 					},
 					"response": []
 				}
@@ -166,13 +258,26 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{baseurl}}/items/"
+						"url": {
+							"raw": "{{baseurl}}/items/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"items",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -181,9 +286,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -196,7 +305,16 @@
 								}
 							}
 						},
-						"url": "{{baseurl}}/items/"
+						"url": {
+							"raw": "{{baseurl}}/items/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"items",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -205,9 +323,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
@@ -220,7 +342,17 @@
 								}
 							}
 						},
-						"url": "{{baseurl}}/items/62/"
+						"url": {
+							"raw": "{{baseurl}}/items/62/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"items",
+								"62",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -229,13 +361,27 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{baseurl}}/items/1/"
+						"url": {
+							"raw": "{{baseurl}}/items/1/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"items",
+								"1",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -244,13 +390,27 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "{{baseurl}}/items/1/"
+						"url": {
+							"raw": "{{baseurl}}/items/1/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"items",
+								"1",
+								""
+							]
+						}
 					},
 					"response": []
 				}
@@ -264,13 +424,26 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{baseurl}}/event-bookings/"
+						"url": {
+							"raw": "{{baseurl}}/event-bookings/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"event-bookings",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -279,13 +452,26 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{baseurl}}/get-all/"
+						"url": {
+							"raw": "{{baseurl}}/get-all/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"get-all",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -294,9 +480,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -309,7 +499,16 @@
 								}
 							}
 						},
-						"url": "{{baseurl}}/event-bookings/"
+						"url": {
+							"raw": "{{baseurl}}/event-bookings/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"event-bookings",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -318,13 +517,27 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{baseurl}}/event-bookings/32/"
+						"url": {
+							"raw": "{{baseurl}}/event-bookings/32/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"event-bookings",
+								"32",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -333,13 +546,27 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "{{baseurl}}/event-bookings/13/"
+						"url": {
+							"raw": "{{baseurl}}/event-bookings/13/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"event-bookings",
+								"13",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -348,9 +575,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
@@ -363,7 +594,17 @@
 								}
 							}
 						},
-						"url": "{{baseurl}}/event-bookings/20/"
+						"url": {
+							"raw": "{{baseurl}}/event-bookings/20/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"event-bookings",
+								"20",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -372,9 +613,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -387,7 +632,17 @@
 								}
 							}
 						},
-						"url": "{{baseurl}}/status-change-event-bookings/20/"
+						"url": {
+							"raw": "{{baseurl}}/status-change-event-bookings/20/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"status-change-event-bookings",
+								"20",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -396,7 +651,16 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{baseurl}}/pending-event-bookings/"
+						"url": {
+							"raw": "{{baseurl}}/pending-event-bookings/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"pending-event-bookings",
+								""
+							]
+						}
 					},
 					"response": []
 				}
@@ -413,13 +677,26 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "GET",
 								"header": [],
-								"url": "{{baseurl}}/stoke-items/"
+								"url": {
+									"raw": "{{baseurl}}/stoke-items/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"stoke-items",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -428,9 +705,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
 								"header": [],
@@ -443,7 +724,16 @@
 										}
 									}
 								},
-								"url": "{{baseurl}}/stoke-items/"
+								"url": {
+									"raw": "{{baseurl}}/stoke-items/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"stoke-items",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -461,7 +751,17 @@
 										}
 									}
 								},
-								"url": "{{baseurl}}/stoke-items/3/"
+								"url": {
+									"raw": "{{baseurl}}/stoke-items/3/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"stoke-items",
+										"3",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -470,7 +770,17 @@
 							"request": {
 								"method": "DELETE",
 								"header": [],
-								"url": "{{baseurl}}/stoke-items/2/"
+								"url": {
+									"raw": "{{baseurl}}/stoke-items/2/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"stoke-items",
+										"2",
+										""
+									]
+								}
 							},
 							"response": []
 						}
@@ -493,7 +803,16 @@
 										}
 									}
 								},
-								"url": "{{baseurl}}/add-stoke-item/"
+								"url": {
+									"raw": "{{baseurl}}/add-stoke-item/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"add-stoke-item",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -511,7 +830,16 @@
 										}
 									}
 								},
-								"url": "{{baseurl}}/add-stoke-item/"
+								"url": {
+									"raw": "{{baseurl}}/add-stoke-item/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"add-stoke-item",
+										""
+									]
+								}
 							},
 							"response": []
 						}
@@ -525,7 +853,16 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "{{baseurl}}/alert-stoke-item/"
+								"url": {
+									"raw": "{{baseurl}}/alert-stoke-item/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"alert-stoke-item",
+										""
+									]
+								}
 							},
 							"response": []
 						}
@@ -539,13 +876,26 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "GET",
 								"header": [],
-								"url": "{{baseurl}}/stoke-categories/"
+								"url": {
+									"raw": "{{baseurl}}/stoke-categories/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"stoke-categories",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -563,7 +913,16 @@
 										}
 									}
 								},
-								"url": "{{baseurl}}/stoke-categories/"
+								"url": {
+									"raw": "{{baseurl}}/stoke-categories/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"stoke-categories",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -581,7 +940,17 @@
 										}
 									}
 								},
-								"url": "{{baseurl}}/stoke-categories/3/"
+								"url": {
+									"raw": "{{baseurl}}/stoke-categories/3/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"stoke-categories",
+										"3",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -590,7 +959,17 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "{{baseurl}}/stoke-categories/1/"
+								"url": {
+									"raw": "{{baseurl}}/stoke-categories/1/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"stoke-categories",
+										"1",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -599,7 +978,17 @@
 							"request": {
 								"method": "DELETE",
 								"header": [],
-								"url": "{{baseurl}}/stoke-categories/1/"
+								"url": {
+									"raw": "{{baseurl}}/stoke-categories/1/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"stoke-categories",
+										"1",
+										""
+									]
+								}
 							},
 							"response": []
 						}
@@ -615,13 +1004,26 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{baseurl}}/payments/"
+						"url": {
+							"raw": "{{baseurl}}/payments/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"payments",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -639,25 +1041,54 @@
 								}
 							}
 						},
-						"url": "{{baseurl}}/payments/"
+						"url": {
+							"raw": "{{baseurl}}/payments/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"payments",
+								""
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "update-payments",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// {\n//     \"billed_to\": [],\n//     \"total_amount\": \"5000\",\n//     \"pending_amount\": \"0\",\n//     \"payment_date\": \"31-01-2025\",\n//     \"transaction_amount\": \"0\",\n//     \"settlement_amount\" : \"\",\n//     \"payment_status\": \"PAID\",\n//     \"payment_mode\": \"CASH\"\n// }\n\n{\n    \"billed_to\": [24,25],\n    \"total_amount\": 344000,\n    \"pending_amount\": 300000,\n    \"payment_date\": \"11-02-2025\",\n    \"transaction_amount\": 14000,\n    \"settlement_amount\": 0,\n    \"payment_mode\": \"CASH\",\n    \"payment_status\": \"PAID\",\n    \"total_extra_amount\": 13400\n}",
+							"raw": "// {\n//     \"billed_to\": [],\n//     \"total_amount\": \"5000\",\n//     \"pending_amount\": \"0\",\n//     \"payment_date\": \"31-01-2025\",\n//     \"transaction_amount\": \"0\",\n//     \"settlement_amount\" : \"\",\n//     \"payment_status\": \"PAID\",\n//     \"payment_mode\": \"CASH\"\n// }\n\n{\n    \"billed_to\": [24,25],\n    \"total_amount\": 344000,\n    \"pending_amount\": 300000,\n    \"payment_date\": \"11-02-2025\",\n    \"transaction_amount\": 14000,\n    \"settlement_amount\": 0,\n    \"payment_mode\": \"CASH\",\n    \"payment_status\": \"PAID\",\n    \"total_extra_amount\": 13400,\n    \"rule\":true\n    \n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{baseurl}}/payments/15/"
+						"url": {
+							"raw": "{{baseurl}}/payments/15/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"payments",
+								"15",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -666,7 +1097,17 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "{{baseurl}}/payments/11/"
+						"url": {
+							"raw": "{{baseurl}}/payments/11/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"payments",
+								"11",
+								""
+							]
+						}
 					},
 					"response": []
 				}
@@ -680,13 +1121,26 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{baseurl}}/all-transaction/"
+						"url": {
+							"raw": "{{baseurl}}/all-transaction/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"all-transaction",
+								""
+							]
+						}
 					},
 					"response": []
 				}
@@ -712,7 +1166,16 @@
 								}
 							}
 						},
-						"url": "{{baseurl}}/recipes/"
+						"url": {
+							"raw": "{{baseurl}}/recipes/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"recipes",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -721,22 +1184,35 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"event_id\" : \"50\"\r\n}",
+							"raw": "{\r\n    \"event_id\" : \"91\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{baseurl}}/common-ingredients/"
+						"url": {
+							"raw": "{{baseurl}}/common-ingredients/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"common-ingredients",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -745,13 +1221,26 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{baseurl}}/recipes/"
+						"url": {
+							"raw": "{{baseurl}}/recipes/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"recipes",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -760,9 +1249,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
@@ -775,7 +1268,17 @@
 								}
 							}
 						},
-						"url": "{{baseurl}}/recipes/35/"
+						"url": {
+							"raw": "{{baseurl}}/recipes/35/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"recipes",
+								"35",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -787,7 +1290,17 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "{{baseurl}}/recipes/4/"
+						"url": {
+							"raw": "{{baseurl}}/recipes/4/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"recipes",
+								"4",
+								""
+							]
+						}
 					},
 					"response": []
 				}
@@ -804,13 +1317,26 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "GET",
 								"header": [],
-								"url": "{{baseurl}}/ingridients-categories/"
+								"url": {
+									"raw": "{{baseurl}}/ingridients-categories/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"ingridients-categories",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -819,9 +1345,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
 								"header": [],
@@ -834,7 +1364,16 @@
 										}
 									}
 								},
-								"url": "{{baseurl}}/ingridients-categories/"
+								"url": {
+									"raw": "{{baseurl}}/ingridients-categories/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"ingridients-categories",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -843,13 +1382,27 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "GET",
 								"header": [],
-								"url": "{{baseurl}}/ingridients-categories/2/"
+								"url": {
+									"raw": "{{baseurl}}/ingridients-categories/2/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"ingridients-categories",
+										"2",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -858,13 +1411,27 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "DELETE",
 								"header": [],
-								"url": "{{baseurl}}/ingridients-categories/6/"
+								"url": {
+									"raw": "{{baseurl}}/ingridients-categories/6/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"ingridients-categories",
+										"6",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -873,9 +1440,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "PUT",
 								"header": [],
@@ -888,7 +1459,17 @@
 										}
 									}
 								},
-								"url": "{{baseurl}}/ingridients-categories/2/"
+								"url": {
+									"raw": "{{baseurl}}/ingridients-categories/2/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"ingridients-categories",
+										"2",
+										""
+									]
+								}
 							},
 							"response": []
 						}
@@ -902,13 +1483,26 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "GET",
 								"header": [],
-								"url": "{{baseurl}}/ingridients-item/"
+								"url": {
+									"raw": "{{baseurl}}/ingridients-item/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"ingridients-item",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -917,9 +1511,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
 								"header": [],
@@ -932,7 +1530,16 @@
 										}
 									}
 								},
-								"url": "{{baseurl}}/ingridients-item/"
+								"url": {
+									"raw": "{{baseurl}}/ingridients-item/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"ingridients-item",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -941,9 +1548,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "PUT",
 								"header": [],
@@ -956,7 +1567,17 @@
 										}
 									}
 								},
-								"url": "{{baseurl}}/ingridients-item/62/"
+								"url": {
+									"raw": "{{baseurl}}/ingridients-item/62/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"ingridients-item",
+										"62",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -965,13 +1586,27 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "GET",
 								"header": [],
-								"url": "{{baseurl}}/ingridients-item/1/"
+								"url": {
+									"raw": "{{baseurl}}/ingridients-item/1/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"ingridients-item",
+										"1",
+										""
+									]
+								}
 							},
 							"response": []
 						},
@@ -980,13 +1615,27 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "DELETE",
 								"header": [],
-								"url": "{{baseurl}}/ingridients-item/16/"
+								"url": {
+									"raw": "{{baseurl}}/ingridients-item/16/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"ingridients-item",
+										"16",
+										""
+									]
+								}
 							},
 							"response": []
 						}
@@ -1009,7 +1658,16 @@
 								}
 							}
 						},
-						"url": "{{baseurl}}/event-ingridient-list/"
+						"url": {
+							"raw": "{{baseurl}}/event-ingridient-list/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"event-ingridient-list",
+								""
+							]
+						}
 					},
 					"response": []
 				}
@@ -1023,7 +1681,16 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "{{baseurl}}/get-note/"
+				"url": {
+					"raw": "{{baseurl}}/get-note/",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"get-note",
+						""
+					]
+				}
 			},
 			"response": []
 		},
@@ -1037,14 +1704,23 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"ખાસ નોંધ\",\n    \"content\": [\n        \"•રસોઈ બનાવવા માટે ની જગ્યા ની વ્યવસ્થા પાર્ટીએ સમયસર કરાવવી આપવી\",\n        \"•પાર્ટીએ રસોડાની 10 દિવસ અગાઉ મેનુ અને િડસની સંખ્યા કન્ફોર્મ કરાવવાની રહેશે\\nપાછળથી કોઈ ફેરફાર થશે નહીં\",\n        \"•વાસણ માટે પાણી તેમજ કચરાના નિકાલ ની વ્યવસ્થા પાર્ટીએ કરવાની રહેશે\",\n        \"•કાઉન્ટર માટે ટેબલ તથા અન્ય મંડપ સર્વિસ ના સામાન ની વ્યવસ્થા\\nપાર્ટીએ કરવાની રહેશે\",\n        \"•ફાર્મ અથવા વાડીનું વાસણભાડુ અને લાઈટબિલ પાર્ટીએ આપવાનું રહેશે\",\n        \"•ફાર્મમાં ઈવેન્ટ તેમજ બીજી એજન્સી ના સફાઈ ની જવાબદારી કેટરર્સ ની રહેશે નહીં\",\n        \"•કોઈપણ સમયે ઓર્ડરમાં તાત્કાલિક વધારો કે ઘટાડો થસે નહીં\",\n        \"•ઓર્ડર આપ્યા બાદ પાર્ટી એ 30% પેમેન્ટ આપવાનું રહેશે\\nરસોડાના દિવસે પાર્ટીએ 50% પેમેન્ટ આપવાનું રહેશે\\nરસોડુ પૂરૂ થયા બાદ 2 દિવસ ની અંદર બાકીનું 20% પેમેન્ટ આપવાનું રહેશે\",\n        \"• િડસમાં વધારો થશે તો તેનો ચાર્જ અલગથી લેવામાં આવશે\",\n        \"•ઓર્ડર કેન્સલ કરાવવા માટે 5 દિવસ પહેલાં થી જાણ કરવાની રહેશે\"\n    ]\n}",
+					"raw": "{\n    \"title\": \"ખાસ નોંધ\",\n    \"content\": [\n        \"•રસોઈ બનાવવા માટે ની જગ્યા ની વ્યવસ્થા પાર્ટીએ સમયસર કરાવવી આપવી\",\n        \"•પાર્ટીએ રસોડાની 10 દિવસ અગાઉ મેનુ અને ડીશની સંખ્યા કન્ફોર્મ કરાવવાની રહેશે\\nપાછળથી કોઈ ફેરફાર થશે નહીં\",\n        \"•વાસણ માટે પાણી તેમજ કચરાના નિકાલ ની વ્યવસ્થા પાર્ટીએ કરવાની રહેશે\",\n        \"•કાઉન્ટર માટે ટેબલ તથા અન્ય મંડપ સર્વિસ ના સામાન ની વ્યવસ્થા\\nપાર્ટીએ કરવાની રહેશે\",\n        \"•ફાર્મ અથવા વાડીનું વાસણભાડુ અને લાઈટબિલ પાર્ટીએ આપવાનું રહેશે\",\n        \"•ફાર્મમાં ઈવેન્ટ તેમજ બીજી એજન્સી ના સફાઈ ની જવાબદારી કેટરર્સ ની રહેશે નહીં\",\n        \"•કોઈપણ સમયે ઓર્ડરમાં તાત્કાલિક વધારો કે ઘટાડો થસે નહીં\",\n        \"•ઓર્ડર આપ્યા બાદ પાર્ટી એ 30% પેમેન્ટ આપવાનું રહેશે\\nરસોડાના દિવસે પાર્ટીએ 50% પેમેન્ટ આપવાનું રહેશે\\nરસોડુ પૂરૂ થયા બાદ 2 દિવસ ની અંદર બાકીનું 20% પેમેન્ટ આપવાનું રહેશે\",\n        \"•ડીશમાં વધારો થશે તો તેનો ચાર્જ અલગથી લેવામાં આવશે\",\n        \"•ઓર્ડર કેન્સલ કરાવવા માટે 5 દિવસ પહેલાં થી જાણ કરવાની રહેશે\"\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "{{baseurl}}update-note/1"
+				"url": {
+					"raw": "{{baseurl}}/update-note/1",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"update-note",
+						"1"
+					]
+				}
 			},
 			"response": []
 		}
