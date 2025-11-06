@@ -1658,7 +1658,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\" : \"Admin\",\n    \"password\" : \"Admin@123\"\n}\n\n\n// {\n//     \"username\" : \"Admin\",\n//     \"password\" : \"Admin@123\"\n// }",
+							"raw": "{\n    \"username\" : \"\",\n    \"password\" : \"\"\n}\n\n\n// {\n//     \"username\" : \"\",\n//     \"password\" : \"\"\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
